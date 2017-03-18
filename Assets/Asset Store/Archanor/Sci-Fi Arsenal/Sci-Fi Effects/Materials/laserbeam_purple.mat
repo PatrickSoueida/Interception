@@ -19,8 +19,8 @@ Material:
         name: _MainTex
       second:
         m_Texture: {fileID: 2800000, guid: b3a6f7b30b85ce448b42ce216af42499, type: 3}
-        m_Scale: {x: 3.126107, y: 1}
-        m_Offset: {x: -53.09238, y: 0}
+        m_Scale: {x: 11.320394, y: 1}
+        m_Offset: {x: -74.717865, y: 0}
     m_Floats:
     - first:
         name: _InvFade
