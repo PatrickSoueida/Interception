@@ -181,7 +181,7 @@ Material:
       second: {r: 0, g: 0, b: 0, a: 1}
     - first:
         name: _TintColor
-      second: {r: 0.46997958, g: 1, b: 0.42647052, a: 1}
+      second: {r: 0.732622, g: 0.08839748, b: 0.8014706, a: 1}
     - first:
         name: _detailcolor
       second: {r: 0.99264705, g: 0.9322426, b: 0.4452314, a: 1}
