@@ -190,4 +190,4 @@ Material:
       second: {r: 0.516, g: 0.28531766, b: 0.07588236, a: 1}
     - first:
         name: _detailcolor
-      second: {r: 1, g: 0.60436106, b: 0.3897059, a: 1}
+      second: {r: 0.94482756, g: 0, b: 1, a: 1}
