@@ -18,7 +18,7 @@ public class BulletEmitter : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetMouseButtonDown(0))
         {
             GameObject shot = Instantiate(bulletRef, transform.position, transform.rotation);
             GunBolt bolt = shot.GetComponent<GunBolt>();
