@@ -6,6 +6,8 @@ TagManager:
   tags:
   - AimCameraPosition
   - Ground
+  - Waypoint Set 1
+  - AI
   layers:
   - Default
   - TransparentFX
