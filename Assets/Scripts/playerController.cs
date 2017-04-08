@@ -17,6 +17,7 @@ public class playerController : MonoBehaviour
     public Material red;
     public Material green;
     public Material blue;
+    public Material black;
 
     Animator myAnimator;
 
@@ -38,8 +39,6 @@ public class playerController : MonoBehaviour
     float verticalLookRotation;
     bool mouseYEnabled;
     float initCamAngle;
-
-    float customGravity;
 
 	void Start () 
     {
@@ -119,19 +118,10 @@ public class playerController : MonoBehaviour
         //UP
         if(Input.GetKey(KeyCode.W))
         {
-            //if(isGrounded == true)
-            //{   
-                //myRigidbody.transform.Translate(0,0, speed * Time.deltaTime);
-                myRigidbody.AddForce(transform.forward * speed);
-                isWalking = true;
-                isForward = true;
-           // }
-            /*else
-            {
-                myRigidbody.AddForce((transform.forward).x * speed, customGravity, (transform.forward).z * speed);
-                isWalking = true;
-                isForward = true;
-            }*/
+            //myRigidbody.transform.Translate(0,0, speed * Time.deltaTime);
+            myRigidbody.AddForce(transform.forward * speed);
+            isWalking = true;
+            isForward = true;
         }
         //DOWN
         if(Input.GetKey(KeyCode.S))
@@ -233,6 +223,12 @@ public class playerController : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Alpha3))
         {
             GetComponentInChildren<Renderer>().material = blue;
+        }
+
+        //RESET
+        if(Input.GetKeyDown(KeyCode.Tab))
+        {
+            GetComponentInChildren<Renderer>().material = black;
         }
 
 	}
