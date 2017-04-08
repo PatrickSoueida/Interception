@@ -6,6 +6,8 @@ public class playerController : MonoBehaviour
 {
     Rigidbody myRigidbody;
 
+    
+
     public Transform cameraTransform;
 
     float movementSpeed;
