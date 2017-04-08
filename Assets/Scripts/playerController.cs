@@ -197,7 +197,7 @@ public class playerController : MonoBehaviour
         //SHOOT
         if(Input.GetMouseButtonDown(0))
         {
-            isShooting = true;
+            //isShooting = true;
         }
             
         //JUMP
