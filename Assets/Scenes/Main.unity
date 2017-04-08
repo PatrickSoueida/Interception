@@ -6887,7 +6887,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0adff438d9b36004497edeb7ab0127bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy: {fileID: 0}
+  enemy: {fileID: 752233362}
   agent: {fileID: 0}
   character: {fileID: 0}
   state: 0
