@@ -8,6 +8,7 @@ TagManager:
   - Ground
   - Waypoint Set 1
   - AI
+  - Camo Pad
   layers:
   - Default
   - TransparentFX
