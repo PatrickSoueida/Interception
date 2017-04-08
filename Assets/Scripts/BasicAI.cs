@@ -103,14 +103,18 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
         {
             Vector3 targetDir = enemy.position - transform.position;
             float angle = Vector3.Angle(targetDir, transform.forward);
-            if (angle < 5.0f)
+            if (angle < 15.0f)
             {
                 print("close");
                 sawPlayer = true;
             }
 
             if (sawPlayer == true)
+            {
+                GetComponent<AlarmSystem>().alarm = true; 
                 Chase();
+            }
+            // add running animation
 		
 		}
 	}
