@@ -111,7 +111,6 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 
             if (sawPlayer == true)
             {
-                GetComponent<AlarmSystem>().alarm = true; 
                 Chase();
             }
             // add running animation
