@@ -5588,6 +5588,7 @@ MonoBehaviour:
   red: {fileID: 2100000, guid: 401f33940403df74283cea951d23a8c7, type: 2}
   green: {fileID: 2100000, guid: 03cc58feeae1f194aaabd0d8aa6f9f6f, type: 2}
   blue: {fileID: 2100000, guid: 73baf827bdeb38a4aaa259e0bd679709, type: 2}
+  black: {fileID: 2100000, guid: f81ccc5ad8a4f472cb09c18753179864, type: 2}
 --- !u!1 &759846427
 GameObject:
   m_ObjectHideFlags: 0
