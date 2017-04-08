@@ -7,6 +7,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 
 	public class BasicAI : MonoBehaviour {
 
+        public Transform enemy; 
 		public NavMeshAgent agent;
 		public ThirdPersonCharacter character;
 
@@ -18,6 +19,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 
 		public State state;
 		private bool alive;
+
+        public bool sawPlayer;
 
 		//Variables for Wandering
 		public GameObject[] waypoints;
@@ -69,7 +72,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 		
 		}
 
-		void Patrol(){
+		void Patrol()
+        {
 			agent.speed = patrolSpeed;
 			if (Vector3.Distance (this.transform.position, waypoints [waypointIndex].transform.position) >= 2) {
 				agent.SetDestination (waypoints [waypointIndex].transform.position);
@@ -81,7 +85,13 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 			}
 		}
 
-		void Chase(){
+		void Chase()
+        {
+            Vector3 direction = (enemy.position - transform.position).normalized;
+            Quaternion targetRotation = Quaternion.LookRotation(enemy.position - transform.position);
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, 20f * Time.deltaTime);
+            float realSpeed = 20f;
+            transform.Translate(direction * realSpeed * Time.deltaTime, Space.World);
 			
 		}
 
@@ -89,7 +99,18 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 			
 		}
 			
-		void Update () {
+		void Update ()
+        {
+            Vector3 targetDir = enemy.position - transform.position;
+            float angle = Vector3.Angle(targetDir, transform.forward);
+            if (angle < 5.0f)
+            {
+                print("close");
+                sawPlayer = true;
+            }
+
+            if (sawPlayer == true)
+                Chase();
 		
 		}
 	}
