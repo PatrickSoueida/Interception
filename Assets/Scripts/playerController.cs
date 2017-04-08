@@ -42,8 +42,12 @@ public class playerController : MonoBehaviour
     bool mouseYEnabled;
     float initCamAngle;
 
+    float customGravity;
+
 	void Start () 
     {
+        customGravity = -141f;
+
         isGrounded = true;
         speed = 0;
         isLeft = false;
@@ -87,6 +91,8 @@ public class playerController : MonoBehaviour
         myAnimator.SetBool("isRight", isRight);
         myAnimator.SetBool("isForward", isForward);
         myAnimator.SetBool("isBackward", isBackward);
+
+        myRigidbody.AddForce(0,customGravity,0);
 
         if(isRunning == true)
         {
