@@ -7,6 +7,7 @@ public class playerController : MonoBehaviour
     Rigidbody myRigidbody;
 
     public Transform cameraTransform;
+    public LayerMask groundedMask;
 
     float movementSpeed;
     float crouchSpeed;
@@ -25,6 +26,8 @@ public class playerController : MonoBehaviour
     bool isShooting;
     bool isJumping;
 
+    bool isGrounded;
+
     bool isLeft;
     bool isRight;
     bool isForward;
@@ -36,8 +39,11 @@ public class playerController : MonoBehaviour
     bool mouseYEnabled;
     float initCamAngle;
 
+    float customGravity;
+
 	void Start () 
     {
+        isGrounded = true;
         speed = 0;
         isLeft = false;
         isRight = false;
@@ -45,8 +51,8 @@ public class playerController : MonoBehaviour
         isBackward = false;
 
         mouseYEnabled = false;
-        mouseSensitivityX = 1.25f;
-        mouseSensitivityY = 1.25f;
+        mouseSensitivityX = 1.5f;
+        mouseSensitivityY = 1.5f;
         initCamAngle = -cameraTransform.localEulerAngles.x;
 
         isWalking = false;
@@ -56,14 +62,20 @@ public class playerController : MonoBehaviour
         isJumping = false;
 
         myRigidbody = GetComponent<Rigidbody>();
-        sprintSpeed = 60f;
-        movementSpeed = 30f;
-        crouchSpeed = 15f;
+        //sprintSpeed = 60f;
+        //movementSpeed = 30f;
+        //crouchSpeed = 15f;
+        sprintSpeed = 3000f;
+        movementSpeed = 1500f;
+        crouchSpeed = 750f;
         myAnimator = GetComponent<Animator>();
+        Screen.lockCursor = true;
 	}
 	
 	void Update () 
     {
+        CheckGrounded();
+
         myAnimator.SetBool("isWalking", isWalking);
         myAnimator.SetBool("isRunning", isRunning);
         myAnimator.SetBool("isCrouching", isCrouching);
@@ -107,28 +119,41 @@ public class playerController : MonoBehaviour
         //UP
         if(Input.GetKey(KeyCode.W))
         {
-            myRigidbody.transform.Translate(0,0, speed * Time.deltaTime);
-            isWalking = true;
-            isForward = true;
+            //if(isGrounded == true)
+            //{   
+                //myRigidbody.transform.Translate(0,0, speed * Time.deltaTime);
+                myRigidbody.AddForce(transform.forward * speed);
+                isWalking = true;
+                isForward = true;
+           // }
+            /*else
+            {
+                myRigidbody.AddForce((transform.forward).x * speed, customGravity, (transform.forward).z * speed);
+                isWalking = true;
+                isForward = true;
+            }*/
         }
         //DOWN
         if(Input.GetKey(KeyCode.S))
         {
-            myRigidbody.transform.Translate(0,0, -speed * Time.deltaTime);
+            //myRigidbody.transform.Translate(0,0, -speed * Time.deltaTime);
+            myRigidbody.AddForce(transform.forward * -speed);
             isWalking = true;
             isBackward = true;
         }
         //LEFT
         if(Input.GetKey(KeyCode.A))
         {
-            myRigidbody.transform.Translate(-speed * Time.deltaTime,0,0);
+            //myRigidbody.transform.Translate(-speed * Time.deltaTime,0,0);
+            myRigidbody.AddForce(transform.right * -speed);
             isWalking = true;
             isLeft = true;
         }
         //RIGHT
         if(Input.GetKey(KeyCode.D))
         {
-            myRigidbody.transform.Translate(speed * Time.deltaTime,0,0);
+            //myRigidbody.transform.Translate(speed * Time.deltaTime,0,0);
+            myRigidbody.AddForce(transform.right * speed);
             isWalking = true;
             isRight = true;
         }
@@ -172,7 +197,7 @@ public class playerController : MonoBehaviour
                 isRunning = true;
             }
         }
-        if(Input.GetKeyUp(KeyCode.LeftShift))
+        if(Input.GetKeyUp(KeyCode.LeftShift) || isWalking == false || isCrouching == true)
         {
             isRunning = false;
         }
@@ -184,9 +209,12 @@ public class playerController : MonoBehaviour
         }
             
         //JUMP
-        if(Input.GetKeyDown(KeyCode.Space))
+        if(isGrounded == true)
         {
-            myRigidbody.AddForce(0,4000,0);
+            if(Input.GetKeyDown(KeyCode.Space))
+            {
+                myRigidbody.AddForce(0,4000,0);
+            }
         }
 
         //RED
@@ -208,4 +236,19 @@ public class playerController : MonoBehaviour
         }
 
 	}
+
+    void CheckGrounded()
+    {
+       Ray ray = new Ray(transform.position, -transform.up);
+        RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit, 1 + .1f, groundedMask))
+            {
+                isGrounded = true;
+            }
+            else
+            {
+                isGrounded = false;
+            }
+    }
 }
