@@ -6,6 +6,9 @@ public class playerController : MonoBehaviour
 {
     Rigidbody myRigidbody;
 
+    public AudioSource shootSound;
+    AudioSource myShootSound;
+
     public Transform cameraTransform;
     public LayerMask groundedMask;
 
@@ -42,8 +45,21 @@ public class playerController : MonoBehaviour
     bool mouseYEnabled;
     float initCamAngle;
 
+    public GameObject bulletRef;
+    public GameObject gunRef;
+
+    bool alreadyFired;
+    bool fireRecovery;
+    float currentTime;
+
 	void Start () 
     {
+        myShootSound = shootSound.GetComponent<AudioSource>();
+
+        currentTime = 0f;
+        alreadyFired = false;
+        fireRecovery = false;
+
         isGrounded = true;
         speed = 0;
         isLeft = false;
@@ -92,6 +108,37 @@ public class playerController : MonoBehaviour
         myAnimator.SetBool("isForward", isForward);
         myAnimator.SetBool("isBackward", isBackward);
 
+        if(isShooting == true)
+        {
+            isShooting = false;
+        }
+
+        if(Time.time > currentTime && alreadyFired == true && fireRecovery == false)
+        {
+            GameObject shot = Instantiate(bulletRef, gunRef.transform.position, gunRef.transform.rotation);
+            GunBolt bolt = shot.GetComponent<GunBolt>();
+            bolt.setDir(transform.forward);
+            currentTime = Time.time + 1f;
+            fireRecovery = true;
+        }   
+
+        if(fireRecovery == true && Time.time > currentTime)
+        {
+            fireRecovery = false;
+            alreadyFired = false;
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            if(alreadyFired == false)
+            {
+                Instantiate(myShootSound);
+                isShooting = true;
+                alreadyFired = true;
+                currentTime = Time.time + 1f;
+            }
+        }
+
         if(isRunning == true)
         {
             speed =  sprintSpeed;
@@ -103,11 +150,6 @@ public class playerController : MonoBehaviour
         else
         {
             speed = movementSpeed;
-        }
-
-        if(isShooting == true)
-        {
-            isShooting = false;
         }
 
         if (!mouseYEnabled)
@@ -199,10 +241,12 @@ public class playerController : MonoBehaviour
         }
 
         //SHOOT
-        if(Input.GetMouseButtonDown(0))
+        /*if(Input.GetMouseButtonDown(0))
         {
             isShooting = true;
-        }
+
+
+        }*/
             
         //JUMP
         if(isGrounded == true)
