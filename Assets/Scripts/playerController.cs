@@ -204,7 +204,7 @@ public class playerController : MonoBehaviour
         //SHOOT
         if(Input.GetMouseButtonDown(0))
         {
-            //isShooting = true;
+            isShooting = true;
         }
             
         //JUMP
@@ -248,7 +248,7 @@ public class playerController : MonoBehaviour
 
     void CheckGrounded()
     {
-       Ray ray = new Ray(transform.position, -transform.up);
+       /*Ray ray = new Ray(transform.position, -transform.up);
         RaycastHit hit;
 
             if (Physics.Raycast(ray, out hit, 1 + .1f, groundedMask))
@@ -258,7 +258,18 @@ public class playerController : MonoBehaviour
             else
             {
                 isGrounded = false;
+            }*/
+
+        Collider[] colliders = Physics.OverlapSphere(transform.position, 5f, groundedMask);
+        foreach(Collider col in colliders)
+        {
+            if(col.gameObject != gameObject)
+            {
+                isGrounded = true;
+                return;
             }
+        }
+        isGrounded = false;
     }
 
 	public string GetColor(){
