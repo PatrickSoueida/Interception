@@ -6,8 +6,6 @@ public class playerController : MonoBehaviour
 {
     Rigidbody myRigidbody;
 
-    
-
     public Transform cameraTransform;
     public LayerMask groundedMask;
 
@@ -71,7 +69,7 @@ public class playerController : MonoBehaviour
         //sprintSpeed = 60f;
         //movementSpeed = 30f;
         //crouchSpeed = 15f;
-        sprintSpeed = 3000f;
+        sprintSpeed = 2250f;
         movementSpeed = 1500f;
         crouchSpeed = 750f;
         myAnimator = GetComponent<Animator>();
@@ -211,7 +209,7 @@ public class playerController : MonoBehaviour
         {
             if(Input.GetKeyDown(KeyCode.Space))
             {
-                myRigidbody.AddForce(0,4000,0);
+                myRigidbody.AddForce(0,2500,0);
             }
         }
 
