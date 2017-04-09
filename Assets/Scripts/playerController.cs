@@ -20,6 +20,9 @@ public class playerController : MonoBehaviour
     public Material green;
     public Material blue;
     public Material black;
+	public string currentColor;
+
+	public bool camouflaged;
 
     Animator myAnimator;
 
@@ -51,10 +54,14 @@ public class playerController : MonoBehaviour
         isForward = false;
         isBackward = false;
 
+		camouflaged = false;
+
         mouseYEnabled = false;
         mouseSensitivityX = 1.5f;
         mouseSensitivityY = 1.5f;
         initCamAngle = -cameraTransform.localEulerAngles.x;
+
+		currentColor = "BLACK";
 
         isWalking = false;
         isRunning = false;
@@ -213,31 +220,35 @@ public class playerController : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Alpha1))
         {
             GetComponentInChildren<Renderer>().material = red;
+			currentColor = "RED";
         }
 
         //GREEN
         if(Input.GetKeyDown(KeyCode.Alpha2))
         {
             GetComponentInChildren<Renderer>().material = green;
+			currentColor = "GREEN";
         }
 
         //BLUE
         if(Input.GetKeyDown(KeyCode.Alpha3))
         {
             GetComponentInChildren<Renderer>().material = blue;
+			currentColor = "BLUE";
         }
 
         //RESET
         if(Input.GetKeyDown(KeyCode.Tab))
         {
             GetComponentInChildren<Renderer>().material = black;
+			currentColor = "BLACK";
         }
 
 	}
 
     void CheckGrounded()
     {
-       Ray ray = new Ray(transform.position, -transform.up);
+       /*Ray ray = new Ray(transform.position, -transform.up);
         RaycastHit hit;
 
             if (Physics.Raycast(ray, out hit, 1 + .1f, groundedMask))
@@ -247,6 +258,29 @@ public class playerController : MonoBehaviour
             else
             {
                 isGrounded = false;
+            }*/
+
+        Collider[] colliders = Physics.OverlapSphere(transform.position, 5f, groundedMask);
+        foreach(Collider col in colliders)
+        {
+            if(col.gameObject != gameObject)
+            {
+                isGrounded = true;
+                return;
             }
+        }
+        isGrounded = false;
     }
+
+	public string GetColor(){
+		return currentColor;
+	}
+
+	public bool GetCamo(){
+		return camouflaged;
+	}
+
+	public void SetCamo(bool value){
+		camouflaged = value;
+	}
 }
