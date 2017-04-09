@@ -257,7 +257,7 @@ public class playerController : MonoBehaviour
                 isGrounded = false;
             }*/
 
-        Collider[] colliders = Physics.OverlapSphere(transform.position, 1f, groundedMask);
+        Collider[] colliders = Physics.OverlapSphere(transform.position, 5f, groundedMask);
         foreach(Collider col in colliders)
         {
             if(col.gameObject != gameObject)
