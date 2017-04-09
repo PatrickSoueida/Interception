@@ -64,7 +64,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 			state = AISight.State.PATROL;
 			alive = true;
 
-			heightMultiplier = 8.5f;
+			heightMultiplier = 9.5f;
 
 			StartCoroutine ("FSM");
 
