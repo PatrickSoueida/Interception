@@ -8,6 +8,7 @@ TagManager:
   - Ground
   - Waypoint Set 1
   - AI
+  - Wall
   layers:
   - Default
   - TransparentFX
