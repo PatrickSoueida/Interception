@@ -159,7 +159,7 @@ public class playerController : MonoBehaviour
         }
         transform.Rotate(Vector3.up * Input.GetAxis ("Mouse X") * mouseSensitivityX);
         verticalLookRotation += Input.GetAxis("Mouse Y") * mouseSensitivityY;
-        verticalLookRotation = Mathf.Clamp(verticalLookRotation, -40, 5);
+        verticalLookRotation = Mathf.Clamp(verticalLookRotation, -20, 5);
         cameraTransform.localEulerAngles = Vector3.left * verticalLookRotation;
 
 
@@ -218,14 +218,21 @@ public class playerController : MonoBehaviour
         }
 
         //CROUCH
-        if(Input.GetKey(KeyCode.LeftControl))
+        if(Input.GetKeyDown(KeyCode.LeftControl))
         {
-            isCrouching = true;
+            if(isCrouching == true)
+            {
+                isCrouching = false;
+            }
+            else if(isCrouching == false)
+            {
+                isCrouching = true;
+            }
         }
-        if(Input.GetKeyUp(KeyCode.LeftControl))
+        /*if(Input.GetKeyUp(KeyCode.LeftControl))
         {
             isCrouching = false;
-        }
+        }*/
 
         //RUN
         if(isWalking == true && isCrouching == false && isForward == true && isLeft == false && isRight == false && isBackward == false)
