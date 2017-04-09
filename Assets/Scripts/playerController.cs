@@ -1,13 +1,28 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class playerController : MonoBehaviour 
 {
+    public GameObject energyBar;
+
     Rigidbody myRigidbody;
 
     public AudioSource shootSound;
     AudioSource myShootSound;
+
+    public AudioSource emptySound;
+    AudioSource myEmptySound;
+
+    public AudioSource camoSound;
+    AudioSource myCamoSound;
+
+    public AudioSource camoOffSound;
+    AudioSource myCamoOffSound;
+
+    public AudioSource rechargeSound;
+    AudioSource myRechargeSound;
 
     public Transform cameraTransform;
     public LayerMask groundedMask;
@@ -52,8 +67,31 @@ public class playerController : MonoBehaviour
     bool fireRecovery;
     float currentTime;
 
+    float rechargeDelayTime;
+
+    bool waitingToRefill;
+
+    float energy;
+
+    bool camoEnabled;
+
+    float camoDrainTime;
+
 	void Start () 
     {
+        camoDrainTime = 0f;
+        camoEnabled = false;
+
+        myRechargeSound = rechargeSound.GetComponent<AudioSource>();
+        myCamoOffSound = camoOffSound.GetComponent<AudioSource>();
+        myCamoSound = camoSound.GetComponent<AudioSource>();
+
+        waitingToRefill = false;
+        rechargeDelayTime = 0f;
+
+        UpdateEnergy(100);
+
+        myEmptySound = emptySound.GetComponent<AudioSource>();
         myShootSound = shootSound.GetComponent<AudioSource>();
 
         currentTime = 0f;
@@ -113,6 +151,42 @@ public class playerController : MonoBehaviour
             isShooting = false;
         }
 
+        if(camoEnabled == true)
+        {
+            if(Time.time > camoDrainTime)
+            {
+                if(energy >= 20)
+                {
+                    UpdateEnergy(energy - 20);
+                    rechargeDelayTime = Time.time + 7f;
+                    camoDrainTime = Time.time + 1f;
+                }
+                else
+                {
+                    camoEnabled = false;
+                    Instantiate(myCamoOffSound);
+                    GetComponentInChildren<Renderer>().material = black;
+                    currentColor = "BLACK";
+                }
+            } 
+        }
+
+        /*if(energy != 100)
+        {
+            if(waitingToRefill == false)
+            {
+                waitingToRefill = true;
+                rechargeDelayTime = Time.time + 7f;
+            }
+        }*/
+
+        if(Time.time > rechargeDelayTime && energy != 100)
+        {
+            Instantiate(myRechargeSound);
+            UpdateEnergy(100);
+            waitingToRefill = false;
+        }
+
         if(Time.time > currentTime && alreadyFired == true && fireRecovery == false)
         {
             GameObject shot = Instantiate(bulletRef, gunRef.transform.position, gunRef.transform.rotation);
@@ -130,12 +204,22 @@ public class playerController : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            if(alreadyFired == false)
+            if(energy == 100)
             {
-                Instantiate(myShootSound);
-                isShooting = true;
-                alreadyFired = true;
-                currentTime = Time.time + 1f;
+                if(alreadyFired == false)
+                {
+                    UpdateEnergy(0);
+                    rechargeDelayTime = Time.time + 7f;
+
+                    Instantiate(myShootSound);
+                    isShooting = true;
+                    alreadyFired = true;
+                    currentTime = Time.time + 1f;
+                }
+            }
+            else
+            {
+                Instantiate(myEmptySound);
             }
         }
 
@@ -246,14 +330,6 @@ public class playerController : MonoBehaviour
         {
             isRunning = false;
         }
-
-        //SHOOT
-        /*if(Input.GetMouseButtonDown(0))
-        {
-            isShooting = true;
-
-
-        }*/
             
         //JUMP
         if(isGrounded == true)
@@ -267,29 +343,85 @@ public class playerController : MonoBehaviour
         //RED
         if(Input.GetKeyDown(KeyCode.Alpha1))
         {
-            GetComponentInChildren<Renderer>().material = red;
-			currentColor = "RED";
+            if(!currentColor.Equals("RED"))
+            {
+                if(energy >= 20)
+                {
+                    camoEnabled = true;
+
+                    UpdateEnergy(energy - 20);
+                    rechargeDelayTime = Time.time + 7f;
+                    camoDrainTime = Time.time + 1f;
+
+                    Instantiate(myCamoSound);
+                    GetComponentInChildren<Renderer>().material = red;
+    			    currentColor = "RED";
+                }
+                else
+                {
+                    Instantiate(myEmptySound);
+                }
+            }
         }
 
         //GREEN
         if(Input.GetKeyDown(KeyCode.Alpha2))
         {
-            GetComponentInChildren<Renderer>().material = green;
-			currentColor = "GREEN";
+            if(!currentColor.Equals("GREEN"))
+            {
+                if(energy >= 20)
+                {
+                    camoEnabled = true;
+
+                    UpdateEnergy(energy - 20);
+                    rechargeDelayTime = Time.time + 7f;
+                    camoDrainTime = Time.time + 1f;
+
+                    Instantiate(myCamoSound);
+                    GetComponentInChildren<Renderer>().material = green;
+    			    currentColor = "GREEN";
+                }
+                else
+                {
+                    Instantiate(myEmptySound);
+                }
+            }
         }
 
         //BLUE
         if(Input.GetKeyDown(KeyCode.Alpha3))
         {
-            GetComponentInChildren<Renderer>().material = blue;
-			currentColor = "BLUE";
+            if(!currentColor.Equals("BLUE"))
+            {
+                if(energy >= 20)
+                {
+                    camoEnabled = true;
+
+                    UpdateEnergy(energy - 20);
+                    rechargeDelayTime = Time.time + 7f;
+                    camoDrainTime = Time.time + 1f;
+
+                    Instantiate(myCamoSound);
+                    GetComponentInChildren<Renderer>().material = blue;
+    			    currentColor = "BLUE";
+                }
+                else
+                {
+                    Instantiate(myEmptySound);
+                }
+            }
         }
 
         //RESET
         if(Input.GetKeyDown(KeyCode.Tab))
         {
-            GetComponentInChildren<Renderer>().material = black;
-			currentColor = "BLACK";
+            if(!currentColor.Equals("BLACK"))
+            {
+                camoEnabled = false;
+                Instantiate(myCamoOffSound);
+                GetComponentInChildren<Renderer>().material = black;
+			    currentColor = "BLACK";
+            }
         }
 
 	}
@@ -331,4 +463,10 @@ public class playerController : MonoBehaviour
 	public void SetCamo(bool value){
 		camouflaged = value;
 	}
+
+    public void UpdateEnergy(float newEnergy)
+    {
+        energy = newEnergy;
+        energyBar.GetComponent<Text>().text = "Energy: "  + energy.ToString();
+    }
 }
