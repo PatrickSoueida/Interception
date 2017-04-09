@@ -209,7 +209,7 @@ public class playerController : MonoBehaviour
         {
             if(Input.GetKeyDown(KeyCode.Space))
             {
-                myRigidbody.AddForce(0,2500,0);
+                myRigidbody.AddForce(0,2750,0);
             }
         }
 
