@@ -30,7 +30,6 @@ public class playerController : MonoBehaviour
     bool isRunning;
     bool isCrouching;
     bool isShooting;
-    bool isJumping;
 
     bool isGrounded;
 
@@ -67,7 +66,6 @@ public class playerController : MonoBehaviour
         isRunning = false;
         isCrouching = false;
         isShooting = false;
-        isJumping = false;
 
         myRigidbody = GetComponent<Rigidbody>();
         //sprintSpeed = 60f;
@@ -84,11 +82,12 @@ public class playerController : MonoBehaviour
     {
         CheckGrounded();
 
+        myAnimator.SetBool("isGrounded", isGrounded);
+
         myAnimator.SetBool("isWalking", isWalking);
         myAnimator.SetBool("isRunning", isRunning);
         myAnimator.SetBool("isCrouching", isCrouching);
         myAnimator.SetBool("isShooting", isShooting);
-        myAnimator.SetBool("isJumping", isJumping);
 
         myAnimator.SetBool("isLeft", isLeft);
         myAnimator.SetBool("isRight", isRight);
@@ -204,7 +203,7 @@ public class playerController : MonoBehaviour
         //SHOOT
         if(Input.GetMouseButtonDown(0))
         {
-            //isShooting = true;
+            isShooting = true;
         }
             
         //JUMP
@@ -248,7 +247,7 @@ public class playerController : MonoBehaviour
 
     void CheckGrounded()
     {
-       Ray ray = new Ray(transform.position, -transform.up);
+       /*Ray ray = new Ray(transform.position, -transform.up);
         RaycastHit hit;
 
             if (Physics.Raycast(ray, out hit, 1 + .1f, groundedMask))
@@ -258,7 +257,18 @@ public class playerController : MonoBehaviour
             else
             {
                 isGrounded = false;
+            }*/
+
+        Collider[] colliders = Physics.OverlapSphere(transform.position, 5f, groundedMask);
+        foreach(Collider col in colliders)
+        {
+            if(col.gameObject != gameObject)
+            {
+                isGrounded = true;
+                return;
             }
+        }
+        isGrounded = false;
     }
 
 	public string GetColor(){
