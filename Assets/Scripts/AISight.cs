@@ -46,6 +46,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 
 			agent = GetComponent<NavMeshAgent> ();
 			character = GetComponent<ThirdPersonCharacter> ();
+			GetComponent<Rigidbody> ().freezeRotation = true;
 
 			agent.updatePosition = true;
 			agent.updateRotation = false;
@@ -96,6 +97,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 		void Patrol()
 		{
 			agent.speed = patrolSpeed;
+			float tempY = transform.rotation.y;
+			transform.Rotate (0, tempY, 0);
 			if (Vector3.Distance (this.transform.position, waypoints [waypointIndex].transform.position) >= 2) {
 				agent.SetDestination (waypoints [waypointIndex].transform.position);
 				character.Move (agent.desiredVelocity, false, false);
@@ -112,6 +115,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 			//Display Exclamation Mark Above Head?
 
 			//Matt's Code
+			float tempY = transform.rotation.y;
+			transform.Rotate (0, tempY, 0);
 			agent.speed = chaseSpeed;
 			agent.SetDestination (target.transform.position);
 			character.Move (agent.desiredVelocity, false, false);
@@ -134,7 +139,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 			character.Move (Vector3.zero, false, false);
 			transform.LookAt (investigateSpot);
 			if (timer >= investigateWait) {
-				state = AISight.State.RETURN;
+				state = AISight.State.PATROL;
 				timer = 0;
 			}
 		}
