@@ -30,7 +30,6 @@ public class playerController : MonoBehaviour
     bool isRunning;
     bool isCrouching;
     bool isShooting;
-    bool isJumping;
 
     bool isGrounded;
 
@@ -67,7 +66,6 @@ public class playerController : MonoBehaviour
         isRunning = false;
         isCrouching = false;
         isShooting = false;
-        isJumping = false;
 
         myRigidbody = GetComponent<Rigidbody>();
         //sprintSpeed = 60f;
@@ -84,11 +82,12 @@ public class playerController : MonoBehaviour
     {
         CheckGrounded();
 
+        myAnimator.SetBool("isGrounded", isGrounded);
+
         myAnimator.SetBool("isWalking", isWalking);
         myAnimator.SetBool("isRunning", isRunning);
         myAnimator.SetBool("isCrouching", isCrouching);
         myAnimator.SetBool("isShooting", isShooting);
-        myAnimator.SetBool("isJumping", isJumping);
 
         myAnimator.SetBool("isLeft", isLeft);
         myAnimator.SetBool("isRight", isRight);
