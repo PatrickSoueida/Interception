@@ -66,16 +66,6 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 				}
 			}
 
-			/*if(gameObject.tag == "AI"){
-				waypoints = GameObject.FindGameObjectsWithTag ("Waypoint Set 1");
-				waypointIndex = Random.Range (0, waypoints.Length);
-			}
-
-			if(gameObject.tag == "AI 2"){
-				waypoints = GameObject.FindGameObjectsWithTag ("Waypoint Set 2");
-				waypointIndex = Random.Range (0, waypoints.Length);
-			}*/
-
 			state = AISight.State.PATROL;
 			alive = true;
 
@@ -196,9 +186,11 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 		}
 
 		void FixedUpdate(){
-			//Debug.DrawRay (transform.position + Vector3.up * heightMultiplier, transform.forward * sightDist, Color.yellow);
-			//Debug.DrawRay (transform.position + Vector3.up * heightMultiplier, (transform.forward + transform.right).normalized * sightDist, Color.yellow);
-			//Debug.DrawRay (transform.position + Vector3.up * heightMultiplier, (transform.forward - transform.right).normalized * sightDist, Color.yellow);
+			if (GetState () != 1) {
+				Debug.DrawRay (transform.position + Vector3.up * heightMultiplier, transform.forward * sightDist, Color.yellow);
+				Debug.DrawRay (transform.position + Vector3.up * heightMultiplier, (transform.forward + transform.right).normalized * sightDist, Color.yellow);
+				Debug.DrawRay (transform.position + Vector3.up * heightMultiplier, (transform.forward - transform.right).normalized * sightDist, Color.yellow);
+			}
 			RaycastHit hit;
 			if (Physics.Raycast (transform.position + Vector3.up * heightMultiplier, transform.forward, out hit, sightDist)) {
 				if (hit.collider.gameObject.tag == "Player") {
