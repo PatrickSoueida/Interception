@@ -7989,6 +7989,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 0.15
       objectReference: {fileID: 0}
+    - target: {fileID: 1581043974448618, guid: 2879ecebe7801fc4a9b3160d61290aab, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2879ecebe7801fc4a9b3160d61290aab, type: 2}
   m_IsPrefabParent: 0
@@ -9803,6 +9807,11 @@ MonoBehaviour:
     type: 2}
   rechargeSound: {fileID: 82880223265729716, guid: 39db05f3abac241c89717b4d5dc69705,
     type: 2}
+  crouchSound: {fileID: 82520944634991640, guid: f4a46c57c8faa4b09bf2fa925cf21a0d,
+    type: 2}
+  deathSound: {fileID: 82259782120643956, guid: d786eea0acf2248bab210384f003b59a,
+    type: 2}
+  jumpSound: {fileID: 82382251438145380, guid: 20f58054afb094d66bbe3c9d2771adb3, type: 2}
   cameraTransform: {fileID: 1792009679}
   groundedMask:
     serializedVersion: 2
@@ -19394,6 +19403,11 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1456238107}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1456828378 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1581043974448618, guid: 2879ecebe7801fc4a9b3160d61290aab,
+    type: 2}
+  m_PrefabInternal: {fileID: 597760604}
 --- !u!1 &1457632080
 GameObject:
   m_ObjectHideFlags: 0
@@ -24161,6 +24175,9 @@ MonoBehaviour:
   initialPosition: {fileID: 1065718085}
   initialRotation: {fileID: 1065718085}
   smoothFactor: 2
+  aimingSound: {fileID: 82577891449476560, guid: b202ff5a3681b469f87d998e0a55ba6a,
+    type: 2}
+  crossHair: {fileID: 1456828378}
 --- !u!1 &1805315049
 GameObject:
   m_ObjectHideFlags: 0
