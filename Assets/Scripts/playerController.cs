@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class playerController : MonoBehaviour 
 {
+    public GameObject switchController;
+    switchScript mySwitchController;
+
     public GameObject pauseScreen;
 
     public GameObject energyBar;
@@ -87,6 +90,8 @@ public class playerController : MonoBehaviour
 
 	void Start () 
     {
+        mySwitchController = switchController.GetComponent<switchScript>();
+
         startedRecharge = false;
 
         rechargeDelay = 5f;
@@ -473,6 +478,41 @@ public class playerController : MonoBehaviour
         isGrounded = false;
     }
 
+    void OnCollisionEnter(Collision col)
+    {
+        GameObject obj = col.gameObject;
+
+        if(obj.tag == "Switch1")
+        {
+            mySwitchController.ActivateSwitch1();
+            //Instantiate(mySwitchSound);
+        }
+
+        if(obj.tag == "Switch2")
+        {
+            mySwitchController.ActivateSwitch2();
+            //Instantiate(mySwitchSound);
+        }
+
+        if(obj.tag == "Switch3")
+        {
+            mySwitchController.ActivateSwitch3();
+            //Instantiate(mySwitchSound);
+        }
+
+        if(obj.tag == "Switch4")
+        {
+            mySwitchController.ActivateSwitch4();
+            //Instantiate(mySwitchSound);
+        }
+
+        if(obj.tag == "Switch5")
+        {
+            mySwitchController.ActivateSwitch5();
+            //Instantiate(mySwitchSound);
+        }
+    }
+
 	public string GetColor(){
 		return currentColor;
 	}
@@ -495,4 +535,10 @@ public class playerController : MonoBehaviour
 	public bool GetGrounded(){
 		return isGrounded;
 	}
+
+    public void Respawn()
+    {
+        transform.position = new Vector3(166f, 67.2f, -128f);
+        transform.rotation = new Quaternion(0f, -0.7f, 0f, 0.7f);
+    }
 }
