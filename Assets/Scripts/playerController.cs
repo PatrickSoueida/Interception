@@ -68,6 +68,8 @@ public class playerController : MonoBehaviour
 
     bool isGrounded;
 
+    bool isPunching;
+
     bool isLeft;
     bool isRight;
     bool isForward;
@@ -107,6 +109,7 @@ public class playerController : MonoBehaviour
         //Debug.Log(transform.position);
         //Debug.Log(transform.rotation);
 
+        isPunching = false;
         myOpenCloseMenuSound = openCloseMenuSound.GetComponent<AudioSource>();
         jumpDelay = 0f;
         myJumpSound = jumpSound.GetComponent<AudioSource>();
@@ -188,9 +191,16 @@ public class playerController : MonoBehaviour
         myAnimator.SetBool("isForward", isForward);
         myAnimator.SetBool("isBackward", isBackward);
 
+        myAnimator.SetBool("isPunching", isPunching);
+
         if(isShooting == true)
         {
             isShooting = false;
+        }
+
+        if(isPunching == true)
+        {
+            isPunching = false;
         }
 
         if(camoEnabled == true)
@@ -416,6 +426,11 @@ public class playerController : MonoBehaviour
             }
         }
 
+        if(Input.GetKeyDown(KeyCode.E))
+        {
+            isPunching = true;
+        }
+
         //RED
         if(Input.GetKeyDown(KeyCode.Alpha1) && pauseScreen.activeSelf == false)
         {
@@ -526,6 +541,11 @@ public class playerController : MonoBehaviour
             Cursor.visible = true;
             SceneManager.LoadScene("MainMenu");
             //Destroy(GameObject.Find("menuOpenCloseSound(Clone)"));
+        }
+
+        if(obj.tag == "Enemy")
+        {
+            Respawn();
         }
 
         if(obj.tag == "Switch1")

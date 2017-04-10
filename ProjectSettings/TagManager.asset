@@ -16,6 +16,7 @@ TagManager:
   - Waypoint Set 3
   - Portal
   - Switch1
+  - Enemy
   layers:
   - Default
   - TransparentFX
