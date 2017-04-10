@@ -12,13 +12,15 @@ public class Camouflage : MonoBehaviour {
 	}
 
 	void Update () {
-		
+		if (!player.GetGrounded ()) {
+			player.SetCamo (false);
+		}
 	}
 
 	void OnTriggerStay(Collider coll){
 		if(coll.CompareTag("Player")){
-			if (player.GetColor () == color) {
-				player.SetCamo (true);
+			if (player.GetColor () == color && player.GetGrounded()) {
+					player.SetCamo (true);
 			} 
 			else {
 				player.SetCamo (false);

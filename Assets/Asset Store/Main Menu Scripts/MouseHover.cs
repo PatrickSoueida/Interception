@@ -1,31 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class MouseHover : MonoBehaviour {
-    public Color colorStart;
-    public Color colorEnd = Color.green;
-    public Renderer rend; 
+public class MouseHover : MonoBehaviour 
+{
+    Color colorStart;
+    Color colorEnd;
 
-	// Use this for initialization
     void Start()
     {
-        rend = GetComponent<Renderer>();
-        colorStart = rend.material.color;
+        colorStart = Color.green;
+        colorEnd = Color.red;
     }
 
     void OnMouseEnter()
     {
-        rend.material.color = colorEnd;
+        GetComponent<TextMesh>().color = colorEnd;
     }
 
     void OnMouseExit()
     {
-        rend.material.color = colorStart;
+        GetComponent<TextMesh>().color = colorStart;
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
 }
