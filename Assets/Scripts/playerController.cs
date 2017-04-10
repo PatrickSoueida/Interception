@@ -463,4 +463,8 @@ public class playerController : MonoBehaviour
         energyBar.GetComponent<Text>().text = "Energy: "  + energy.ToString();
         energyGauge.sizeDelta = new Vector2(energy * 2, energyGauge.sizeDelta.y);
     }
+
+	public bool GetGrounded(){
+		return isGrounded;
+	}
 }
