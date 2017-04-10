@@ -39,6 +39,9 @@ public class playerController : MonoBehaviour
     public AudioSource jumpSound;
     AudioSource myJumpSound;
 
+    public AudioSource openCloseMenuSound;
+    AudioSource myOpenCloseMenuSound;
+
     public Transform cameraTransform;
     public LayerMask groundedMask;
 
@@ -103,6 +106,7 @@ public class playerController : MonoBehaviour
         //Debug.Log(transform.position);
         //Debug.Log(transform.rotation);
 
+        myOpenCloseMenuSound = openCloseMenuSound.GetComponent<AudioSource>();
         jumpDelay = 0f;
         myJumpSound = jumpSound.GetComponent<AudioSource>();
         myDeathSound = deathSound.GetComponent<AudioSource>();
@@ -383,7 +387,7 @@ public class playerController : MonoBehaviour
                 isCrouching = false;
                 myRigidbody.AddForce(0,2750,0);
                 Instantiate(myJumpSound);
-                jumpDelay = Time.time + 0.75f;
+                jumpDelay = Time.time + 1f;
             }
         }
 
@@ -391,6 +395,7 @@ public class playerController : MonoBehaviour
         {
             if(pauseScreen.activeSelf == false)
             {
+                Instantiate(myOpenCloseMenuSound);
                 pauseScreen.SetActive(true);
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
@@ -399,6 +404,7 @@ public class playerController : MonoBehaviour
             }
             else if(pauseScreen.activeSelf == true)
             {
+                Instantiate(myOpenCloseMenuSound);
                 pauseScreen.SetActive(false);
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;

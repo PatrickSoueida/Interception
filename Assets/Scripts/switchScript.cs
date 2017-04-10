@@ -6,11 +6,11 @@ public class switchScript : MonoBehaviour
 {
     public GameObject portal;
 
-    bool switch1;
-    bool switch2;
-    bool switch3;
-    bool switch4;
-    bool switch5;
+    public bool switch1;
+    public bool switch2;
+    public bool switch3;
+    public bool switch4;
+    public bool switch5;
 
 	void Start () 
     {

@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4194394399412090}
   - component: {fileID: 82880223265729716}
-  - component: {fileID: 114372759441697362}
+  - component: {fileID: 114876014081122728}
   m_Layer: 0
   m_Name: rechargeSound
   m_TagString: Untagged
@@ -50,7 +50,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 2a9e8cd31fbb04cea933893ef8b50468, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 6fecf912a8bef4f35a11e3d96e860aea, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -121,7 +121,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
---- !u!114 &114372759441697362
+--- !u!114 &114876014081122728
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}

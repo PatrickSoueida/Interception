@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4123857256502868}
   - component: {fileID: 82382251438145380}
-  - component: {fileID: 114481200782876094}
+  - component: {fileID: 114684797060361754}
   m_Layer: 0
   m_Name: jumpSound
   m_TagString: Untagged
@@ -50,9 +50,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: ca7100c99e7804763bc1a57b3b7519fc, type: 3}
+  m_audioClip: {fileID: 8300000, guid: d9b759929b06a422794106e43ba50e8d, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -121,7 +121,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
---- !u!114 &114481200782876094
+--- !u!114 &114684797060361754
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
