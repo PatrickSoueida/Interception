@@ -12,6 +12,7 @@ TagManager:
   - Camo Pad
   - AI 2
   - Waypoint Set 2
+  - CutsceneCamera
   layers:
   - Default
   - TransparentFX
