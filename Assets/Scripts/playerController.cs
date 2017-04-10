@@ -30,6 +30,15 @@ public class playerController : MonoBehaviour
     public AudioSource rechargeSound;
     AudioSource myRechargeSound;
 
+    public AudioSource crouchSound;
+    AudioSource myCrouchSound;
+
+    public AudioSource deathSound;
+    AudioSource myDeathSound;
+
+    public AudioSource jumpSound;
+    AudioSource myJumpSound;
+
     public Transform cameraTransform;
     public LayerMask groundedMask;
 
@@ -85,11 +94,19 @@ public class playerController : MonoBehaviour
     float rechargePerSecond;
     float drainPerSecond;
     float rechargeDelay;
+    float jumpDelay;
 
     bool startedRecharge;
 
 	void Start () 
     {
+        //Debug.Log(transform.position);
+        //Debug.Log(transform.rotation);
+
+        jumpDelay = 0f;
+        myJumpSound = jumpSound.GetComponent<AudioSource>();
+        myDeathSound = deathSound.GetComponent<AudioSource>();
+        myCrouchSound = crouchSound.GetComponent<AudioSource>();
         mySwitchController = switchController.GetComponent<switchScript>();
 
         startedRecharge = false;
@@ -324,10 +341,18 @@ public class playerController : MonoBehaviour
         {
             if(isCrouching == true)
             {
+                if(isRunning == false && isGrounded == true)
+                {
+                    Instantiate(myCrouchSound);
+                }
                 isCrouching = false;
             }
-            else if(isCrouching == false)
+            else if(isCrouching == false && isGrounded == true)
             {
+                if(isRunning == false)
+                {
+                    Instantiate(myCrouchSound);
+                }
                 isCrouching = true;
             }
         }
@@ -337,10 +362,11 @@ public class playerController : MonoBehaviour
         }*/
 
         //RUN
-        if(isWalking == true && isCrouching == false && isForward == true && isLeft == false && isRight == false && isBackward == false)
+        if(isWalking == true && isForward == true && isLeft == false && isRight == false && isBackward == false)
         {
             if(Input.GetKey(KeyCode.LeftShift) && pauseScreen.activeSelf == false)
             {
+                isCrouching = false;
                 isRunning = true;
             }
         }
@@ -350,11 +376,14 @@ public class playerController : MonoBehaviour
         }
             
         //JUMP
-        if(isGrounded == true && isCrouching == false)
+        if(isGrounded == true)
         {
-            if(Input.GetKeyDown(KeyCode.Space) && pauseScreen.activeSelf == false)
+            if(Input.GetKeyDown(KeyCode.Space) && pauseScreen.activeSelf == false && Time.time > jumpDelay)
             {
+                isCrouching = false;
                 myRigidbody.AddForce(0,2750,0);
+                Instantiate(myJumpSound);
+                jumpDelay = Time.time + 0.75f;
             }
         }
 
@@ -538,7 +567,9 @@ public class playerController : MonoBehaviour
 
     public void Respawn()
     {
-        transform.position = new Vector3(166f, 67.2f, -128f);
-        transform.rotation = new Quaternion(0f, -0.7f, 0f, 0.7f);
+        Instantiate(myDeathSound);
+
+        transform.position = new Vector3(186.2f, 67.2f, -179f);
+        transform.rotation = new Quaternion(0f, -0.4f, 0f, 0.9f);
     }
 }
