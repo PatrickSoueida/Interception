@@ -5,6 +5,13 @@ using UnityEngine.UI;
 
 public class playerController : MonoBehaviour 
 {
+    Camera camera;
+
+    public Image crosshair;
+
+
+    public GameObject aimDirection;
+
     public GameObject switchController;
     switchScript mySwitchController;
 
@@ -99,6 +106,7 @@ public class playerController : MonoBehaviour
 
 	void Start () 
     {
+        camera = GetComponent<Camera>();
         myJumpSound = jumpSound.GetComponent<AudioSource>();
         myDeathSound = deathSound.GetComponent<AudioSource>();
         myCrouchSound = crouchSound.GetComponent<AudioSource>();
@@ -162,6 +170,8 @@ public class playerController : MonoBehaviour
 	
 	void Update () 
     {
+       
+
         CheckGrounded();
 
         myAnimator.SetBool("isGrounded", isGrounded);
@@ -218,9 +228,12 @@ public class playerController : MonoBehaviour
 
         if(Time.time > currentTime && alreadyFired == true && fireRecovery == false)
         {
+            //Ray ray = camera.ScreenPointToRay(transform.forward);
+            //Vector3 aimPos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
+
             GameObject shot = Instantiate(bulletRef, gunRef.transform.position, gunRef.transform.rotation);
             GunBolt bolt = shot.GetComponent<GunBolt>();
-            bolt.setDir(transform.forward);
+            bolt.setDir(aimDirection.transform.forward);
             currentTime = Time.time + 1f;
             fireRecovery = true;
         }   

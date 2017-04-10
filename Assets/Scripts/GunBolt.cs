@@ -8,7 +8,7 @@ public class GunBolt : MonoBehaviour {
     Rigidbody rbRef;
     public float speed;
     Vector3 dir;
-    float lifeTime = 5f;
+    float lifeTime = 3f;
     float flyTime = 0f;
 
 	// Use this for initialization
