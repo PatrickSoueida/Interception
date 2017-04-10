@@ -298,7 +298,7 @@ public class playerController : MonoBehaviour
         {
             transform.Rotate(Vector3.up * Input.GetAxis ("Mouse X") * mouseSensitivityX);
             verticalLookRotation += Input.GetAxis("Mouse Y") * mouseSensitivityY;
-            verticalLookRotation = Mathf.Clamp(verticalLookRotation, -20, 15);
+            verticalLookRotation = Mathf.Clamp(verticalLookRotation, -20, 6);
             cameraTransform.localEulerAngles = Vector3.left * verticalLookRotation;
         }
 
