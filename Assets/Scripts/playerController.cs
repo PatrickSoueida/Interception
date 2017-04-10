@@ -241,7 +241,8 @@ public class playerController : MonoBehaviour
             //crosshair.
             GameObject shot = Instantiate(bulletRef, gunRef.transform.position, gunRef.transform.rotation);
             GunBolt bolt = shot.GetComponent<GunBolt>();
-            bolt.setDir(aimDirection.transform.forward); // alec's cue. crosshair.transform.forward is the transform for the image in canvas coordinates. you want to get the world coordinates themselves instead.
+            //bolt.setDir(aimDirection.transform.forward); // alec's cue. crosshair.transform.forward is the transform for the image in canvas coordinates. you want to get the world coordinates themselves instead.
+            bolt.setDir(cameraTransform.forward);
             currentTime = Time.time + 1f;
             fireRecovery = true;
         }   
@@ -297,7 +298,7 @@ public class playerController : MonoBehaviour
         {
             transform.Rotate(Vector3.up * Input.GetAxis ("Mouse X") * mouseSensitivityX);
             verticalLookRotation += Input.GetAxis("Mouse Y") * mouseSensitivityY;
-            verticalLookRotation = Mathf.Clamp(verticalLookRotation, -20, 5);
+            verticalLookRotation = Mathf.Clamp(verticalLookRotation, -20, 15);
             cameraTransform.localEulerAngles = Vector3.left * verticalLookRotation;
         }
 
