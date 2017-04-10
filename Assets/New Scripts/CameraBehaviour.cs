@@ -23,10 +23,10 @@ public class CameraBehaviour : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1) || (Input.GetKeyDown(KeyCode.JoystickButton4)))
+        if (Input.GetMouseButtonDown(1))
             buttonPressed = true;
 
-        else if (Input.GetKeyUp(KeyCode.Alpha1) || (Input.GetKeyUp(KeyCode.JoystickButton4)))
+        else if (Input.GetMouseButtonUp(1))
             buttonPressed = false;
 
         if (buttonPressed == true) 
