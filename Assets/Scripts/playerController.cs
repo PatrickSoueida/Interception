@@ -30,6 +30,15 @@ public class playerController : MonoBehaviour
     public AudioSource rechargeSound;
     AudioSource myRechargeSound;
 
+    public AudioSource crouchSound;
+    AudioSource myCrouchSound;
+
+    public AudioSource deathSound;
+    AudioSource myDeathSound;
+
+    public AudioSource jumpSound;
+    AudioSource myJumpSound;
+
     public Transform cameraTransform;
     public LayerMask groundedMask;
 
@@ -90,6 +99,9 @@ public class playerController : MonoBehaviour
 
 	void Start () 
     {
+        myJumpSound = jumpSound.GetComponent<AudioSource>();
+        myDeathSound = deathSound.GetComponent<AudioSource>();
+        myCrouchSound = crouchSound.GetComponent<AudioSource>();
         mySwitchController = switchController.GetComponent<switchScript>();
 
         startedRecharge = false;
@@ -324,10 +336,18 @@ public class playerController : MonoBehaviour
         {
             if(isCrouching == true)
             {
+                if(isRunning == false && isGrounded == true)
+                {
+                    Instantiate(myCrouchSound);
+                }
                 isCrouching = false;
             }
-            else if(isCrouching == false)
+            else if(isCrouching == false && isGrounded == true)
             {
+                if(isRunning == false)
+                {
+                    Instantiate(myCrouchSound);
+                }
                 isCrouching = true;
             }
         }
@@ -337,10 +357,11 @@ public class playerController : MonoBehaviour
         }*/
 
         //RUN
-        if(isWalking == true && isCrouching == false && isForward == true && isLeft == false && isRight == false && isBackward == false)
+        if(isWalking == true && isForward == true && isLeft == false && isRight == false && isBackward == false)
         {
             if(Input.GetKey(KeyCode.LeftShift) && pauseScreen.activeSelf == false)
             {
+                isCrouching = false;
                 isRunning = true;
             }
         }
@@ -350,11 +371,13 @@ public class playerController : MonoBehaviour
         }
             
         //JUMP
-        if(isGrounded == true && isCrouching == false)
+        if(isGrounded == true)
         {
             if(Input.GetKeyDown(KeyCode.Space) && pauseScreen.activeSelf == false)
             {
+                isCrouching = false;
                 myRigidbody.AddForce(0,2750,0);
+                Instantiate(myJumpSound);
             }
         }
 
@@ -538,6 +561,8 @@ public class playerController : MonoBehaviour
 
     public void Respawn()
     {
+        Instantiate(myDeathSound);
+
         transform.position = new Vector3(166f, 67.2f, -128f);
         transform.rotation = new Quaternion(0f, -0.7f, 0f, 0.7f);
     }
