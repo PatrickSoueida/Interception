@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class playerController : MonoBehaviour 
 {
+    public GameObject pauseScreen;
+
     public GameObject energyBar;
     public RectTransform energyGauge;
 
@@ -136,7 +138,9 @@ public class playerController : MonoBehaviour
         movementSpeed = 1500f;
         crouchSpeed = 750f;
         myAnimator = GetComponent<Animator>();
-        Screen.lockCursor = true;
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
 	}
 	
 	void Update () 
@@ -210,7 +214,7 @@ public class playerController : MonoBehaviour
             alreadyFired = false;
         }
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && pauseScreen.activeSelf == false)
         {
             if(energy == 100)
             {
@@ -342,6 +346,24 @@ public class playerController : MonoBehaviour
             if(Input.GetKeyDown(KeyCode.Space))
             {
                 myRigidbody.AddForce(0,2750,0);
+            }
+        }
+
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            if(pauseScreen.activeSelf == false)
+            {
+                pauseScreen.SetActive(true);
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+                //Instantiate(myOpenPause);
+            }
+            else if(pauseScreen.activeSelf == true)
+            {
+                pauseScreen.SetActive(false);
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+                //Instantiate(myClosePause);
             }
         }
 
