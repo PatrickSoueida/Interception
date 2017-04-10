@@ -5,6 +5,13 @@ using UnityEngine.UI;
 
 public class playerController : MonoBehaviour 
 {
+    Camera camera;
+
+    public Image crosshair;
+
+
+    public GameObject aimDirection;
+
     public GameObject switchController;
     switchScript mySwitchController;
 
@@ -38,6 +45,9 @@ public class playerController : MonoBehaviour
 
     public AudioSource jumpSound;
     AudioSource myJumpSound;
+
+    public AudioSource openCloseMenuSound;
+    AudioSource myOpenCloseMenuSound;
 
     public Transform cameraTransform;
     public LayerMask groundedMask;
@@ -103,6 +113,7 @@ public class playerController : MonoBehaviour
         //Debug.Log(transform.position);
         //Debug.Log(transform.rotation);
 
+        myOpenCloseMenuSound = openCloseMenuSound.GetComponent<AudioSource>();
         jumpDelay = 0f;
         myJumpSound = jumpSound.GetComponent<AudioSource>();
         myDeathSound = deathSound.GetComponent<AudioSource>();
@@ -167,6 +178,8 @@ public class playerController : MonoBehaviour
 	
 	void Update () 
     {
+       
+
         CheckGrounded();
 
         myAnimator.SetBool("isGrounded", isGrounded);
@@ -223,9 +236,12 @@ public class playerController : MonoBehaviour
 
         if(Time.time > currentTime && alreadyFired == true && fireRecovery == false)
         {
+            //Ray ray = camera.ScreenPointToRay(transform.forward);
+            //Vector3 aimPos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
+            //crosshair.
             GameObject shot = Instantiate(bulletRef, gunRef.transform.position, gunRef.transform.rotation);
             GunBolt bolt = shot.GetComponent<GunBolt>();
-            bolt.setDir(transform.forward);
+            bolt.setDir(aimDirection.transform.forward); // alec's cue. crosshair.transform.forward is the transform for the image in canvas coordinates. you want to get the world coordinates themselves instead.
             currentTime = Time.time + 1f;
             fireRecovery = true;
         }   
@@ -383,7 +399,7 @@ public class playerController : MonoBehaviour
                 isCrouching = false;
                 myRigidbody.AddForce(0,2750,0);
                 Instantiate(myJumpSound);
-                jumpDelay = Time.time + 0.75f;
+                jumpDelay = Time.time + 1f;
             }
         }
 
@@ -391,6 +407,7 @@ public class playerController : MonoBehaviour
         {
             if(pauseScreen.activeSelf == false)
             {
+                Instantiate(myOpenCloseMenuSound);
                 pauseScreen.SetActive(true);
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
@@ -399,6 +416,7 @@ public class playerController : MonoBehaviour
             }
             else if(pauseScreen.activeSelf == true)
             {
+                Instantiate(myOpenCloseMenuSound);
                 pauseScreen.SetActive(false);
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;

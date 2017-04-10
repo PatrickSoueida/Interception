@@ -5,19 +5,24 @@ using UnityEngine.SceneManagement;
 public class quitScript : MonoBehaviour 
 {
     //public GameObject menuLoadScreen;
-   // public AudioSource puzzleStart;
-   // AudioSource myPuzzleStart;
+    public AudioSource menuSelectionSound;
+    AudioSource myMenuSelectionSound;
 
     void Start()
     {
-        //myPuzzleStart = puzzleStart.GetComponent<AudioSource>();
+        myMenuSelectionSound = menuSelectionSound.GetComponent<AudioSource>();
     }
 
     public void play()
     {
-        //Instantiate(myPuzzleStart);
+        Instantiate(myMenuSelectionSound);
         //menuLoadScreen.SetActive(true);
         Time.timeScale = 1;
+        Invoke("LoadMainMenu", 1.5f);
+    }
+
+    void LoadMainMenu()
+    {
         SceneManager.LoadScene("MainMenu");
     }
 }

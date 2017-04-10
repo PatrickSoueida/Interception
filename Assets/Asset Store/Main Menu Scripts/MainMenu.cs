@@ -8,15 +8,29 @@ public class MainMenu : MonoBehaviour
     public bool isStart;
     public bool isQuit;
 
+    public AudioSource menuSelectionSound;
+    AudioSource myMenuSelectionSound;
+
+    void Start()
+    {
+        myMenuSelectionSound = menuSelectionSound.GetComponent<AudioSource>();
+    }
+
     void OnMouseUp()
     {
         if (isStart)
         {
-            SceneManager.LoadScene("Main");
+            Instantiate(myMenuSelectionSound);
+            Invoke("LoadMain", 1.5f);
         }
         if (isQuit)
         {
             Application.Quit();
         }
     } 
+
+    void LoadMain()
+    {
+        SceneManager.LoadScene("Main");
+    }
 }
