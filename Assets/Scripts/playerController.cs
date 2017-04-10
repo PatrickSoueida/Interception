@@ -2,16 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class playerController : MonoBehaviour 
 {
-    Camera camera;
-
-    public Image crosshair;
-
-
-    public GameObject aimDirection;
-
     public GameObject switchController;
     switchScript mySwitchController;
 
@@ -236,12 +230,8 @@ public class playerController : MonoBehaviour
 
         if(Time.time > currentTime && alreadyFired == true && fireRecovery == false)
         {
-            //Ray ray = camera.ScreenPointToRay(transform.forward);
-            //Vector3 aimPos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
-            //crosshair.
             GameObject shot = Instantiate(bulletRef, gunRef.transform.position, gunRef.transform.rotation);
             GunBolt bolt = shot.GetComponent<GunBolt>();
-            //bolt.setDir(aimDirection.transform.forward); // alec's cue. crosshair.transform.forward is the transform for the image in canvas coordinates. you want to get the world coordinates themselves instead.
             bolt.setDir(cameraTransform.forward);
             currentTime = Time.time + 1f;
             fireRecovery = true;
@@ -530,34 +520,37 @@ public class playerController : MonoBehaviour
     {
         GameObject obj = col.gameObject;
 
+        if(obj.tag == "Portal")
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            SceneManager.LoadScene("MainMenu");
+            //Destroy(GameObject.Find("menuOpenCloseSound(Clone)"));
+        }
+
         if(obj.tag == "Switch1")
         {
             mySwitchController.ActivateSwitch1();
-            //Instantiate(mySwitchSound);
         }
 
         if(obj.tag == "Switch2")
         {
             mySwitchController.ActivateSwitch2();
-            //Instantiate(mySwitchSound);
         }
 
         if(obj.tag == "Switch3")
         {
             mySwitchController.ActivateSwitch3();
-            //Instantiate(mySwitchSound);
         }
 
         if(obj.tag == "Switch4")
         {
             mySwitchController.ActivateSwitch4();
-            //Instantiate(mySwitchSound);
         }
 
         if(obj.tag == "Switch5")
         {
             mySwitchController.ActivateSwitch5();
-            //Instantiate(mySwitchSound);
         }
     }
 

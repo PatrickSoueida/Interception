@@ -14,6 +14,8 @@ TagManager:
   - Waypoint Set 2
   - AI 3
   - Waypoint Set 3
+  - Portal
+  - Switch1
   layers:
   - Default
   - TransparentFX
