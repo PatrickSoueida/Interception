@@ -17,6 +17,7 @@ public class resumeScript : MonoBehaviour
         menu.SetActive(false);
 		Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        Time.timeScale = 1;
         //Instantiate(myClosePause);
     }
 }

@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class playerController : MonoBehaviour 
 {
+    public GameObject switchController;
+    switchScript mySwitchController;
+
     public GameObject pauseScreen;
 
     public GameObject energyBar;
@@ -87,6 +90,8 @@ public class playerController : MonoBehaviour
 
 	void Start () 
     {
+        mySwitchController = switchController.GetComponent<switchScript>();
+
         startedRecharge = false;
 
         rechargeDelay = 5f;
@@ -254,35 +259,39 @@ public class playerController : MonoBehaviour
             verticalLookRotation = initCamAngle;
             mouseYEnabled = true;
         }
-        transform.Rotate(Vector3.up * Input.GetAxis ("Mouse X") * mouseSensitivityX);
-        verticalLookRotation += Input.GetAxis("Mouse Y") * mouseSensitivityY;
-        verticalLookRotation = Mathf.Clamp(verticalLookRotation, -20, 5);
-        cameraTransform.localEulerAngles = Vector3.left * verticalLookRotation;
+
+        if(pauseScreen.activeSelf == false)
+        {
+            transform.Rotate(Vector3.up * Input.GetAxis ("Mouse X") * mouseSensitivityX);
+            verticalLookRotation += Input.GetAxis("Mouse Y") * mouseSensitivityY;
+            verticalLookRotation = Mathf.Clamp(verticalLookRotation, -20, 5);
+            cameraTransform.localEulerAngles = Vector3.left * verticalLookRotation;
+        }
 
 
         //UP
-        if(Input.GetKey(KeyCode.W))
+        if(Input.GetKey(KeyCode.W) && pauseScreen.activeSelf == false)
         {
             myRigidbody.AddForce(transform.forward * speed);
             isWalking = true;
             isForward = true;
         }
         //DOWN
-        if(Input.GetKey(KeyCode.S))
+        if(Input.GetKey(KeyCode.S) && pauseScreen.activeSelf == false)
         {
             myRigidbody.AddForce(transform.forward * -speed);
             isWalking = true;
             isBackward = true;
         }
         //LEFT
-        if(Input.GetKey(KeyCode.A))
+        if(Input.GetKey(KeyCode.A) && pauseScreen.activeSelf == false)
         {
             myRigidbody.AddForce(transform.right * -speed);
             isWalking = true;
             isLeft = true;
         }
         //RIGHT
-        if(Input.GetKey(KeyCode.D))
+        if(Input.GetKey(KeyCode.D) && pauseScreen.activeSelf == false)
         {
             myRigidbody.AddForce(transform.right * speed);
             isWalking = true;
@@ -311,7 +320,7 @@ public class playerController : MonoBehaviour
         }
 
         //CROUCH
-        if(Input.GetKeyDown(KeyCode.LeftControl))
+        if(Input.GetKeyDown(KeyCode.LeftControl) && pauseScreen.activeSelf == false)
         {
             if(isCrouching == true)
             {
@@ -330,7 +339,7 @@ public class playerController : MonoBehaviour
         //RUN
         if(isWalking == true && isCrouching == false && isForward == true && isLeft == false && isRight == false && isBackward == false)
         {
-            if(Input.GetKey(KeyCode.LeftShift))
+            if(Input.GetKey(KeyCode.LeftShift) && pauseScreen.activeSelf == false)
             {
                 isRunning = true;
             }
@@ -341,9 +350,9 @@ public class playerController : MonoBehaviour
         }
             
         //JUMP
-        if(isGrounded == true)
+        if(isGrounded == true && isCrouching == false)
         {
-            if(Input.GetKeyDown(KeyCode.Space))
+            if(Input.GetKeyDown(KeyCode.Space) && pauseScreen.activeSelf == false)
             {
                 myRigidbody.AddForce(0,2750,0);
             }
@@ -356,6 +365,7 @@ public class playerController : MonoBehaviour
                 pauseScreen.SetActive(true);
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
+                Time.timeScale = 0;
                 //Instantiate(myOpenPause);
             }
             else if(pauseScreen.activeSelf == true)
@@ -363,12 +373,13 @@ public class playerController : MonoBehaviour
                 pauseScreen.SetActive(false);
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
+                Time.timeScale = 1;
                 //Instantiate(myClosePause);
             }
         }
 
         //RED
-        if(Input.GetKeyDown(KeyCode.Alpha1))
+        if(Input.GetKeyDown(KeyCode.Alpha1) && pauseScreen.activeSelf == false)
         {
             if(!currentColor.Equals("RED"))
             {
@@ -392,7 +403,7 @@ public class playerController : MonoBehaviour
         }
 
         //GREEN
-        if(Input.GetKeyDown(KeyCode.Alpha2))
+        if(Input.GetKeyDown(KeyCode.Alpha2) && pauseScreen.activeSelf == false)
         {
             if(!currentColor.Equals("GREEN"))
             {
@@ -416,7 +427,7 @@ public class playerController : MonoBehaviour
         }
 
         //BLUE
-        if(Input.GetKeyDown(KeyCode.Alpha3))
+        if(Input.GetKeyDown(KeyCode.Alpha3) && pauseScreen.activeSelf == false)
         {
             if(!currentColor.Equals("BLUE"))
             {
@@ -440,7 +451,7 @@ public class playerController : MonoBehaviour
         }
 
         //RESET
-        if(Input.GetKeyDown(KeyCode.Tab))
+        if(Input.GetKeyDown(KeyCode.Tab) && pauseScreen.activeSelf == false)
         {
             if(!currentColor.Equals("BLACK"))
             {
@@ -467,6 +478,41 @@ public class playerController : MonoBehaviour
         isGrounded = false;
     }
 
+    void OnCollisionEnter(Collision col)
+    {
+        GameObject obj = col.gameObject;
+
+        if(obj.tag == "Switch1")
+        {
+            mySwitchController.ActivateSwitch1();
+            //Instantiate(mySwitchSound);
+        }
+
+        if(obj.tag == "Switch2")
+        {
+            mySwitchController.ActivateSwitch2();
+            //Instantiate(mySwitchSound);
+        }
+
+        if(obj.tag == "Switch3")
+        {
+            mySwitchController.ActivateSwitch3();
+            //Instantiate(mySwitchSound);
+        }
+
+        if(obj.tag == "Switch4")
+        {
+            mySwitchController.ActivateSwitch4();
+            //Instantiate(mySwitchSound);
+        }
+
+        if(obj.tag == "Switch5")
+        {
+            mySwitchController.ActivateSwitch5();
+            //Instantiate(mySwitchSound);
+        }
+    }
+
 	public string GetColor(){
 		return currentColor;
 	}
@@ -489,4 +535,10 @@ public class playerController : MonoBehaviour
 	public bool GetGrounded(){
 		return isGrounded;
 	}
+
+    public void Respawn()
+    {
+        transform.position = new Vector3(166f, 67.2f, -128f);
+        transform.rotation = new Quaternion(0f, -0.7f, 0f, 0.7f);
+    }
 }
