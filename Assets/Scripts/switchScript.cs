@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,14 +6,26 @@ public class switchScript : MonoBehaviour
 {
     public GameObject portal;
 
-    bool switch1;
-    bool switch2;
-    bool switch3;
-    bool switch4;
-    bool switch5;
+    public AudioSource exitSound;
+    AudioSource myExitSound;
+
+    public AudioSource switchSound;
+    AudioSource mySwitchSound;
+
+    public bool switch1;
+    public bool switch2;
+    public bool switch3;
+    public bool switch4;
+    public bool switch5;
+
+    bool portalActive;
 
 	void Start () 
     {
+        mySwitchSound = switchSound.GetComponent<AudioSource>();
+        portalActive = false;
+        myExitSound = exitSound.GetComponent<AudioSource>();
+
         switch1 = false;
         switch2 = false;
         switch3 = false;
@@ -21,53 +33,58 @@ public class switchScript : MonoBehaviour
         switch5 = false;
     }
 
+    void Update()
+    {
+        if(portalActive == false && switch1 == true && switch2 == true && switch3 == true && switch4 == true && switch5 == true)
+        {
+            portalActive = true;
+            Instantiate(myExitSound, portal.transform);
+            portal.SetActive(true);
+        }
+    }
+
     public void ActivateSwitch1()
     {
-        switch1 = true;
-
-        if(switch2 == true && switch3 == true && switch4 == true && switch5 == true)
+        if(switch1 == false)
         {
-            portal.SetActive(true);
+            switch1 = true;
+            Instantiate(mySwitchSound);
         }
     }
 
     public void ActivateSwitch2()
     {
-        switch2 = true;
-
-        if(switch1 == true && switch3 == true && switch4 == true && switch5 == true)
+        if(switch2 == false)
         {
-            portal.SetActive(true);
+            switch2 = true;
+            Instantiate(mySwitchSound);
         }
     }
 
     public void ActivateSwitch3()
     {
-        switch3 = true;
-
-        if(switch1 == true && switch2 == true && switch4 == true && switch5 == true)
+        if(switch3 == false)
         {
-            portal.SetActive(true);
+            switch3 = true;
+            Instantiate(mySwitchSound);
         }
     }
 
     public void ActivateSwitch4()
     {
-        switch4 = true;
-
-        if(switch1 == true && switch2 == true && switch3 == true && switch5 == true)
+        if(switch4 == false)
         {
-            portal.SetActive(true);
+            switch4 = true;
+            Instantiate(mySwitchSound);
         }
     }
 
     public void ActivateSwitch5()
     {
-        switch5 = true;
-
-        if(switch1 == true && switch2 == true && switch3 == true && switch4 == true)
+        if(switch5 == false)
         {
-            portal.SetActive(true);
+            switch5 = true;
+            Instantiate(mySwitchSound);
         }
     }
 }
