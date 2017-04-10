@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class playerController : MonoBehaviour 
 {
     public GameObject energyBar;
+    public RectTransform energyGauge;
 
     Rigidbody myRigidbody;
 
@@ -69,16 +70,28 @@ public class playerController : MonoBehaviour
 
     float rechargeDelayTime;
 
-    bool waitingToRefill;
-
     float energy;
 
     bool camoEnabled;
 
     float camoDrainTime;
+    float rechargeRateTime;
+
+    float rechargePerSecond;
+    float drainPerSecond;
+    float rechargeDelay;
+
+    bool startedRecharge;
 
 	void Start () 
     {
+        startedRecharge = false;
+
+        rechargeDelay = 5f;
+        rechargePerSecond = 20f;
+        drainPerSecond = 20f;
+
+        rechargeRateTime = 0f;
         camoDrainTime = 0f;
         camoEnabled = false;
 
@@ -86,7 +99,6 @@ public class playerController : MonoBehaviour
         myCamoOffSound = camoOffSound.GetComponent<AudioSource>();
         myCamoSound = camoSound.GetComponent<AudioSource>();
 
-        waitingToRefill = false;
         rechargeDelayTime = 0f;
 
         UpdateEnergy(100);
@@ -120,9 +132,6 @@ public class playerController : MonoBehaviour
         isShooting = false;
 
         myRigidbody = GetComponent<Rigidbody>();
-        //sprintSpeed = 60f;
-        //movementSpeed = 30f;
-        //crouchSpeed = 15f;
         sprintSpeed = 2250f;
         movementSpeed = 1500f;
         crouchSpeed = 750f;
@@ -157,8 +166,9 @@ public class playerController : MonoBehaviour
             {
                 if(energy >= 20)
                 {
-                    UpdateEnergy(energy - 20);
-                    rechargeDelayTime = Time.time + 7f;
+                    startedRecharge = false;
+                    UpdateEnergy(energy - drainPerSecond);
+                    rechargeDelayTime = Time.time + rechargeDelay;
                     camoDrainTime = Time.time + 1f;
                 }
                 else
@@ -171,20 +181,18 @@ public class playerController : MonoBehaviour
             } 
         }
 
-        /*if(energy != 100)
-        {
-            if(waitingToRefill == false)
-            {
-                waitingToRefill = true;
-                rechargeDelayTime = Time.time + 7f;
-            }
-        }*/
-
         if(Time.time > rechargeDelayTime && energy != 100)
         {
-            Instantiate(myRechargeSound);
-            UpdateEnergy(100);
-            waitingToRefill = false;
+            if(Time.time > rechargeRateTime)
+            {
+                if(startedRecharge == false)
+                {
+                    Instantiate(myRechargeSound);
+                    startedRecharge = true;
+                }
+                UpdateEnergy(energy + rechargePerSecond);
+                rechargeRateTime = Time.time + 1f;
+            }
         }
 
         if(Time.time > currentTime && alreadyFired == true && fireRecovery == false)
@@ -208,8 +216,9 @@ public class playerController : MonoBehaviour
             {
                 if(alreadyFired == false)
                 {
+                    startedRecharge = false;
                     UpdateEnergy(0);
-                    rechargeDelayTime = Time.time + 7f;
+                    rechargeDelayTime = Time.time + rechargeDelay;
 
                     Instantiate(myShootSound);
                     isShooting = true;
@@ -250,7 +259,6 @@ public class playerController : MonoBehaviour
         //UP
         if(Input.GetKey(KeyCode.W))
         {
-            //myRigidbody.transform.Translate(0,0, speed * Time.deltaTime);
             myRigidbody.AddForce(transform.forward * speed);
             isWalking = true;
             isForward = true;
@@ -258,7 +266,6 @@ public class playerController : MonoBehaviour
         //DOWN
         if(Input.GetKey(KeyCode.S))
         {
-            //myRigidbody.transform.Translate(0,0, -speed * Time.deltaTime);
             myRigidbody.AddForce(transform.forward * -speed);
             isWalking = true;
             isBackward = true;
@@ -266,7 +273,6 @@ public class playerController : MonoBehaviour
         //LEFT
         if(Input.GetKey(KeyCode.A))
         {
-            //myRigidbody.transform.Translate(-speed * Time.deltaTime,0,0);
             myRigidbody.AddForce(transform.right * -speed);
             isWalking = true;
             isLeft = true;
@@ -274,7 +280,6 @@ public class playerController : MonoBehaviour
         //RIGHT
         if(Input.GetKey(KeyCode.D))
         {
-            //myRigidbody.transform.Translate(speed * Time.deltaTime,0,0);
             myRigidbody.AddForce(transform.right * speed);
             isWalking = true;
             isRight = true;
@@ -348,9 +353,9 @@ public class playerController : MonoBehaviour
                 if(energy >= 20)
                 {
                     camoEnabled = true;
-
-                    UpdateEnergy(energy - 20);
-                    rechargeDelayTime = Time.time + 7f;
+                    startedRecharge = false;
+                    UpdateEnergy(energy - drainPerSecond);
+                    rechargeDelayTime = Time.time + rechargeDelay;
                     camoDrainTime = Time.time + 1f;
 
                     Instantiate(myCamoSound);
@@ -372,9 +377,9 @@ public class playerController : MonoBehaviour
                 if(energy >= 20)
                 {
                     camoEnabled = true;
-
-                    UpdateEnergy(energy - 20);
-                    rechargeDelayTime = Time.time + 7f;
+                    startedRecharge = false;
+                    UpdateEnergy(energy - drainPerSecond);
+                    rechargeDelayTime = Time.time + rechargeDelay;
                     camoDrainTime = Time.time + 1f;
 
                     Instantiate(myCamoSound);
@@ -396,9 +401,9 @@ public class playerController : MonoBehaviour
                 if(energy >= 20)
                 {
                     camoEnabled = true;
-
-                    UpdateEnergy(energy - 20);
-                    rechargeDelayTime = Time.time + 7f;
+                    startedRecharge = false;
+                    UpdateEnergy(energy - drainPerSecond);
+                    rechargeDelayTime = Time.time + rechargeDelay;
                     camoDrainTime = Time.time + 1f;
 
                     Instantiate(myCamoSound);
@@ -428,18 +433,6 @@ public class playerController : MonoBehaviour
 
     void CheckGrounded()
     {
-       /*Ray ray = new Ray(transform.position, -transform.up);
-        RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit, 1 + .1f, groundedMask))
-            {
-                isGrounded = true;
-            }
-            else
-            {
-                isGrounded = false;
-            }*/
-
         Collider[] colliders = Physics.OverlapSphere(transform.position, 5f, groundedMask);
         foreach(Collider col in colliders)
         {
@@ -468,5 +461,6 @@ public class playerController : MonoBehaviour
     {
         energy = newEnergy;
         energyBar.GetComponent<Text>().text = "Energy: "  + energy.ToString();
+        energyGauge.sizeDelta = new Vector2(energy * 2, energyGauge.sizeDelta.y);
     }
 }
