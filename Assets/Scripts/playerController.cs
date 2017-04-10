@@ -5,6 +5,13 @@ using UnityEngine.UI;
 
 public class playerController : MonoBehaviour 
 {
+    Camera camera;
+
+    public Image crosshair;
+
+
+    public GameObject aimDirection;
+
     public GameObject switchController;
     switchScript mySwitchController;
 
@@ -171,6 +178,8 @@ public class playerController : MonoBehaviour
 	
 	void Update () 
     {
+       
+
         CheckGrounded();
 
         myAnimator.SetBool("isGrounded", isGrounded);
@@ -227,9 +236,12 @@ public class playerController : MonoBehaviour
 
         if(Time.time > currentTime && alreadyFired == true && fireRecovery == false)
         {
+            //Ray ray = camera.ScreenPointToRay(transform.forward);
+            //Vector3 aimPos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
+            //crosshair.
             GameObject shot = Instantiate(bulletRef, gunRef.transform.position, gunRef.transform.rotation);
             GunBolt bolt = shot.GetComponent<GunBolt>();
-            bolt.setDir(transform.forward);
+            bolt.setDir(aimDirection.transform.forward); // alec's cue. crosshair.transform.forward is the transform for the image in canvas coordinates. you want to get the world coordinates themselves instead.
             currentTime = Time.time + 1f;
             fireRecovery = true;
         }   
