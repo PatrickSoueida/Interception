@@ -749,3 +749,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isStart: 1
   isQuit: 0
+  menuSelectionSound: {fileID: 82683865030288782, guid: b4eb8b70b7a624bb39c72ab0e1e23a0a,
+    type: 2}

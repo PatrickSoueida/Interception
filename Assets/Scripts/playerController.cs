@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class playerController : MonoBehaviour 
 {
@@ -30,6 +31,18 @@ public class playerController : MonoBehaviour
     public AudioSource rechargeSound;
     AudioSource myRechargeSound;
 
+    public AudioSource crouchSound;
+    AudioSource myCrouchSound;
+
+    public AudioSource deathSound;
+    AudioSource myDeathSound;
+
+    public AudioSource jumpSound;
+    AudioSource myJumpSound;
+
+    public AudioSource openCloseMenuSound;
+    AudioSource myOpenCloseMenuSound;
+
     public Transform cameraTransform;
     public LayerMask groundedMask;
 
@@ -54,6 +67,8 @@ public class playerController : MonoBehaviour
     bool isShooting;
 
     bool isGrounded;
+
+    bool isPunching;
 
     bool isLeft;
     bool isRight;
@@ -85,11 +100,21 @@ public class playerController : MonoBehaviour
     float rechargePerSecond;
     float drainPerSecond;
     float rechargeDelay;
+    float jumpDelay;
 
     bool startedRecharge;
 
 	void Start () 
     {
+        //Debug.Log(transform.position);
+        //Debug.Log(transform.rotation);
+
+        isPunching = false;
+        myOpenCloseMenuSound = openCloseMenuSound.GetComponent<AudioSource>();
+        jumpDelay = 0f;
+        myJumpSound = jumpSound.GetComponent<AudioSource>();
+        myDeathSound = deathSound.GetComponent<AudioSource>();
+        myCrouchSound = crouchSound.GetComponent<AudioSource>();
         mySwitchController = switchController.GetComponent<switchScript>();
 
         startedRecharge = false;
@@ -150,6 +175,8 @@ public class playerController : MonoBehaviour
 	
 	void Update () 
     {
+       
+
         CheckGrounded();
 
         myAnimator.SetBool("isGrounded", isGrounded);
@@ -164,9 +191,16 @@ public class playerController : MonoBehaviour
         myAnimator.SetBool("isForward", isForward);
         myAnimator.SetBool("isBackward", isBackward);
 
+        myAnimator.SetBool("isPunching", isPunching);
+
         if(isShooting == true)
         {
             isShooting = false;
+        }
+
+        if(isPunching == true)
+        {
+            isPunching = false;
         }
 
         if(camoEnabled == true)
@@ -208,7 +242,7 @@ public class playerController : MonoBehaviour
         {
             GameObject shot = Instantiate(bulletRef, gunRef.transform.position, gunRef.transform.rotation);
             GunBolt bolt = shot.GetComponent<GunBolt>();
-            bolt.setDir(transform.forward);
+            bolt.setDir(cameraTransform.forward);
             currentTime = Time.time + 1f;
             fireRecovery = true;
         }   
@@ -264,7 +298,7 @@ public class playerController : MonoBehaviour
         {
             transform.Rotate(Vector3.up * Input.GetAxis ("Mouse X") * mouseSensitivityX);
             verticalLookRotation += Input.GetAxis("Mouse Y") * mouseSensitivityY;
-            verticalLookRotation = Mathf.Clamp(verticalLookRotation, -20, 5);
+            verticalLookRotation = Mathf.Clamp(verticalLookRotation, -20, 6);
             cameraTransform.localEulerAngles = Vector3.left * verticalLookRotation;
         }
 
@@ -324,10 +358,18 @@ public class playerController : MonoBehaviour
         {
             if(isCrouching == true)
             {
+                if(isRunning == false && isGrounded == true)
+                {
+                    Instantiate(myCrouchSound);
+                }
                 isCrouching = false;
             }
-            else if(isCrouching == false)
+            else if(isCrouching == false && isGrounded == true)
             {
+                if(isRunning == false)
+                {
+                    Instantiate(myCrouchSound);
+                }
                 isCrouching = true;
             }
         }
@@ -337,10 +379,11 @@ public class playerController : MonoBehaviour
         }*/
 
         //RUN
-        if(isWalking == true && isCrouching == false && isForward == true && isLeft == false && isRight == false && isBackward == false)
+        if(isWalking == true && isForward == true && isLeft == false && isRight == false && isBackward == false)
         {
             if(Input.GetKey(KeyCode.LeftShift) && pauseScreen.activeSelf == false)
             {
+                isCrouching = false;
                 isRunning = true;
             }
         }
@@ -350,11 +393,14 @@ public class playerController : MonoBehaviour
         }
             
         //JUMP
-        if(isGrounded == true && isCrouching == false)
+        if(isGrounded == true)
         {
-            if(Input.GetKeyDown(KeyCode.Space) && pauseScreen.activeSelf == false)
+            if(Input.GetKeyDown(KeyCode.Space) && pauseScreen.activeSelf == false && Time.time > jumpDelay)
             {
+                isCrouching = false;
                 myRigidbody.AddForce(0,2750,0);
+                Instantiate(myJumpSound);
+                jumpDelay = Time.time + 1f;
             }
         }
 
@@ -362,6 +408,7 @@ public class playerController : MonoBehaviour
         {
             if(pauseScreen.activeSelf == false)
             {
+                Instantiate(myOpenCloseMenuSound);
                 pauseScreen.SetActive(true);
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
@@ -370,12 +417,18 @@ public class playerController : MonoBehaviour
             }
             else if(pauseScreen.activeSelf == true)
             {
+                Instantiate(myOpenCloseMenuSound);
                 pauseScreen.SetActive(false);
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
                 Time.timeScale = 1;
                 //Instantiate(myClosePause);
             }
+        }
+
+        if(Input.GetKeyDown(KeyCode.E))
+        {
+            isPunching = true;
         }
 
         //RED
@@ -482,34 +535,42 @@ public class playerController : MonoBehaviour
     {
         GameObject obj = col.gameObject;
 
+        if(obj.tag == "Portal")
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            SceneManager.LoadScene("MainMenu");
+            //Destroy(GameObject.Find("menuOpenCloseSound(Clone)"));
+        }
+
+        if(obj.tag == "Enemy")
+        {
+            Respawn();
+        }
+
         if(obj.tag == "Switch1")
         {
             mySwitchController.ActivateSwitch1();
-            //Instantiate(mySwitchSound);
         }
 
         if(obj.tag == "Switch2")
         {
             mySwitchController.ActivateSwitch2();
-            //Instantiate(mySwitchSound);
         }
 
         if(obj.tag == "Switch3")
         {
             mySwitchController.ActivateSwitch3();
-            //Instantiate(mySwitchSound);
         }
 
         if(obj.tag == "Switch4")
         {
             mySwitchController.ActivateSwitch4();
-            //Instantiate(mySwitchSound);
         }
 
         if(obj.tag == "Switch5")
         {
             mySwitchController.ActivateSwitch5();
-            //Instantiate(mySwitchSound);
         }
     }
 
@@ -538,7 +599,9 @@ public class playerController : MonoBehaviour
 
     public void Respawn()
     {
-        transform.position = new Vector3(166f, 67.2f, -128f);
-        transform.rotation = new Quaternion(0f, -0.7f, 0f, 0.7f);
+        Instantiate(myDeathSound);
+
+        transform.position = new Vector3(186.2f, 67.2f, -179f);
+        transform.rotation = new Quaternion(0f, -0.4f, 0f, 0.9f);
     }
 }
