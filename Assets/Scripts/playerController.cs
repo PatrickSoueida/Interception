@@ -94,11 +94,16 @@ public class playerController : MonoBehaviour
     float rechargePerSecond;
     float drainPerSecond;
     float rechargeDelay;
+    float jumpDelay;
 
     bool startedRecharge;
 
 	void Start () 
     {
+        //Debug.Log(transform.position);
+        //Debug.Log(transform.rotation);
+
+        jumpDelay = 0f;
         myJumpSound = jumpSound.GetComponent<AudioSource>();
         myDeathSound = deathSound.GetComponent<AudioSource>();
         myCrouchSound = crouchSound.GetComponent<AudioSource>();
@@ -373,11 +378,12 @@ public class playerController : MonoBehaviour
         //JUMP
         if(isGrounded == true)
         {
-            if(Input.GetKeyDown(KeyCode.Space) && pauseScreen.activeSelf == false)
+            if(Input.GetKeyDown(KeyCode.Space) && pauseScreen.activeSelf == false && Time.time > jumpDelay)
             {
                 isCrouching = false;
                 myRigidbody.AddForce(0,2750,0);
                 Instantiate(myJumpSound);
+                jumpDelay = Time.time + 0.75f;
             }
         }
 
@@ -563,7 +569,7 @@ public class playerController : MonoBehaviour
     {
         Instantiate(myDeathSound);
 
-        transform.position = new Vector3(166f, 67.2f, -128f);
-        transform.rotation = new Quaternion(0f, -0.7f, 0f, 0.7f);
+        transform.position = new Vector3(186.2f, 67.2f, -179f);
+        transform.rotation = new Quaternion(0f, -0.4f, 0f, 0.9f);
     }
 }
