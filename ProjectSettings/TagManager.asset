@@ -9,6 +9,11 @@ TagManager:
   - Waypoint Set 1
   - AI
   - Wall
+  - Camo Pad
+  - AI 2
+  - Waypoint Set 2
+  - AI 3
+  - Waypoint Set 3
   layers:
   - Default
   - TransparentFX
