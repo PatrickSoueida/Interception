@@ -11,38 +11,35 @@ public class CameraBehaviour : MonoBehaviour
      public Transform initialRotation;
 
      public float smoothFactor = 2;
-     public bool buttonPressed;
+     bool buttonPressed;
 
 	// Use this for initialization
 	void Start () 
     {
-        
-	    
+        buttonPressed = false;
 	}
 	
 	// Update is called once per frame
 	void Update () 
     {
         if (Input.GetMouseButtonDown(1))
+        {
             buttonPressed = true;
-
-        else if (Input.GetMouseButtonUp(1))
+        }
+        if (Input.GetMouseButtonUp(1))
+        {
             buttonPressed = false;
+        }
 
         if (buttonPressed == true) 
         { 
-                 transform.position = Vector3.Lerp(transform.position, targetPosition.position, Time.deltaTime * smoothFactor);
-                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation.rotation, Time.deltaTime * smoothFactor);
+             transform.position = Vector3.Lerp(transform.position, targetPosition.position, Time.deltaTime * smoothFactor);
+             //transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation.rotation, Time.deltaTime * smoothFactor);
         }
-
-        else if (buttonPressed == false)
+        if (buttonPressed == false)
         {
             transform.position = Vector3.Lerp(transform.position, initialPosition.position, Time.deltaTime * smoothFactor);
-            transform.rotation = Quaternion.Slerp(transform.rotation, initialRotation.rotation, Time.deltaTime * smoothFactor); 
+            //transform.rotation = Quaternion.Slerp(transform.rotation, initialRotation.rotation, Time.deltaTime * smoothFactor); 
         }
-		
-
-
-
 	}
 }

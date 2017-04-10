@@ -17,6 +17,7 @@ public class quitScript : MonoBehaviour
     {
         //Instantiate(myPuzzleStart);
         //menuLoadScreen.SetActive(true);
+        Time.timeScale = 1;
         SceneManager.LoadScene("MainMenu");
     }
 }
