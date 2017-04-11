@@ -605,15 +605,6 @@ public class playerController : MonoBehaviour
                 mySwitchController.ActivateSwitch4();
             }
         }
-
-        if(obj.tag == "Switch5")
-        {
-            if(Input.GetKeyDown(KeyCode.E))
-            {
-                isPunching = true;
-                mySwitchController.ActivateSwitch5();
-            }
-        }
     }
 
 	public string GetColor(){
