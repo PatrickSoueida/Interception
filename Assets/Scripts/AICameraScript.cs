@@ -148,7 +148,9 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 		}
 
 		IEnumerator Stun(){
-			agent.speed = 0f;
+			//stunned 
+
+            agent.speed = 0f;
 			character.Move (Vector3.zero, false, false);
 			gameObject.GetComponentInChildren<Camera> ().enabled = false;
 			Debug.Log ("AI is stunned!");
@@ -211,7 +213,9 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 		}
 
 		void CheckForPlayer(){
-			RaycastHit hit;
+			//question mark
+
+            RaycastHit hit;
 			Debug.DrawRay (AICam.transform.position, transform.forward * sightDist, Color.yellow);
 			Debug.DrawRay (AICam.transform.position, (transform.forward + transform.right).normalized * sightDist, Color.yellow);
 			Debug.DrawRay (AICam.transform.position, (transform.forward - transform.right).normalized * sightDist, Color.yellow);

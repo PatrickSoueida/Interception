@@ -8681,7 +8681,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 0.08862305, y: 0.000019133877}
-  m_SizeDelta: {x: 200, y: 10}
+  m_SizeDelta: {x: 200, y: 25}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &380855603
 MonoBehaviour:
@@ -16303,7 +16303,7 @@ RectTransform:
   m_GameObject: {fileID: 693754373}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 941401993}
   - {fileID: 887744914}
@@ -16311,11 +16311,11 @@ RectTransform:
   m_Father: {fileID: 752233362}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &693754375
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16361,7 +16361,7 @@ Canvas:
   m_GameObject: {fileID: 693754373}
   m_Enabled: 1
   serializedVersion: 2
-  m_RenderMode: 0
+  m_RenderMode: 2
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -18008,6 +18008,8 @@ MonoBehaviour:
   alertBillboard: {fileID: 941401992}
   searchBillboard: {fileID: 887744913}
   stunnedBillboard: {fileID: 1209161796}
+  alertSound: {fileID: 82695193955909800, guid: 818d6ada307304d5f931c8699175b77a,
+    type: 2}
   outroText: {fileID: 1528727210}
   switchController: {fileID: 55103105}
   pauseScreen: {fileID: 780946202}
@@ -21765,7 +21767,6 @@ GameObject:
   - component: {fileID: 887744914}
   - component: {fileID: 887744916}
   - component: {fileID: 887744915}
-  - component: {fileID: 887744917}
   m_Layer: 5
   m_Name: Searching
   m_TagString: Untagged
@@ -21781,14 +21782,14 @@ RectTransform:
   m_GameObject: {fileID: 887744913}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.85, y: 0.85, z: 0.85}
+  m_LocalScale: {x: 0.004, y: 0.004, z: 0.004}
   m_Children: []
   m_Father: {fileID: 693754374}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 115}
+  m_AnchoredPosition: {x: 0, y: 2.15}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &887744915
@@ -21824,19 +21825,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 887744913}
---- !u!114 &887744917
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 887744913}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a186cf87b963747adb69a635889142cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  searchSound: {fileID: 82695193955909800, guid: 818d6ada307304d5f931c8699175b77a,
-    type: 2}
 --- !u!1001 &890857892
 Prefab:
   m_ObjectHideFlags: 0
@@ -23621,7 +23609,6 @@ GameObject:
   - component: {fileID: 941401993}
   - component: {fileID: 941401995}
   - component: {fileID: 941401994}
-  - component: {fileID: 941401996}
   m_Layer: 5
   m_Name: Alert
   m_TagString: Untagged
@@ -23637,14 +23624,14 @@ RectTransform:
   m_GameObject: {fileID: 941401992}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.005, y: 0.005, z: 0.005}
   m_Children: []
   m_Father: {fileID: 693754374}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 115}
+  m_AnchoredPosition: {x: 0, y: 2.15}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &941401994
@@ -23680,19 +23667,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 941401992}
---- !u!114 &941401996
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 941401992}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53d0785e15b694ad7b403f7aee6a7e03, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  alertSound: {fileID: 82695193955909800, guid: 818d6ada307304d5f931c8699175b77a,
-    type: 2}
 --- !u!1 &951314790
 GameObject:
   m_ObjectHideFlags: 0
@@ -26550,8 +26524,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 410, y: 275}
-  m_SizeDelta: {x: 200, y: 10}
+  m_AnchoredPosition: {x: 410, y: 270}
+  m_SizeDelta: {x: 200, y: 25}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1064009956
 MonoBehaviour:
@@ -31550,7 +31524,6 @@ GameObject:
   - component: {fileID: 1209161797}
   - component: {fileID: 1209161799}
   - component: {fileID: 1209161798}
-  - component: {fileID: 1209161800}
   m_Layer: 5
   m_Name: Stunned
   m_TagString: Untagged
@@ -31566,14 +31539,14 @@ RectTransform:
   m_GameObject: {fileID: 1209161796}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
+  m_LocalScale: {x: 0.004, y: 0.004, z: 0.004}
   m_Children: []
   m_Father: {fileID: 693754374}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 115}
+  m_AnchoredPosition: {x: 0, y: 2.15}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1209161798
@@ -31609,18 +31582,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1209161796}
---- !u!114 &1209161800
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1209161796}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34aa363919d914111bc8820532e5cb56, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stunSound: {fileID: 82695193955909800, guid: 818d6ada307304d5f931c8699175b77a, type: 2}
 --- !u!1001 &1211787372
 Prefab:
   m_ObjectHideFlags: 0
