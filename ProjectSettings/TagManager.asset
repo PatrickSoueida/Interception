@@ -17,7 +17,9 @@ TagManager:
   - Portal
   - Switch1
   - Enemy
-  - Bolt
+  - Switch2
+  - Switch3
+  - Switch4
   layers:
   - Default
   - TransparentFX
@@ -28,7 +30,7 @@ TagManager:
   - 
   - 
   - Ground
-  - 
+  - Player
   - 
   - 
   - 

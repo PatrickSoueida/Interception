@@ -68,4 +68,9 @@ public class CameraBehaviour : MonoBehaviour
             //transform.rotation = Quaternion.Slerp(transform.rotation, initialRotation.rotation, Time.deltaTime * smoothFactor); 
         }
 	}
+
+    public bool GetButtonPressed()
+    {
+        return buttonPressed;
+    }
 }
