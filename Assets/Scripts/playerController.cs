@@ -242,7 +242,15 @@ public class playerController : MonoBehaviour
         {
             GameObject shot = Instantiate(bulletRef, gunRef.transform.position, gunRef.transform.rotation);
             GunBolt bolt = shot.GetComponent<GunBolt>();
-            bolt.setDir(cameraTransform.forward);
+           
+            if(cameraTransform.gameObject.GetComponent<CameraBehaviour>().GetButtonPressed() == true)
+            {
+                bolt.setDir(cameraTransform.forward);
+            }
+            else
+            {
+                bolt.setDir(transform.forward);
+            }
             currentTime = Time.time + 1f;
             fireRecovery = true;
         }   
@@ -301,6 +309,15 @@ public class playerController : MonoBehaviour
             verticalLookRotation = Mathf.Clamp(verticalLookRotation, -20, 6);
             cameraTransform.localEulerAngles = Vector3.left * verticalLookRotation;
         }
+
+        //ALTERNATE 3RD PERSON CAMERA
+        /*Vector2 input = new Vector2 (Input.GetAxisRaw ("Horizontal"), Input.GetAxisRaw ("Vertical"));
+        Vector2 inputDir = input.normalized;
+
+        if (inputDir != Vector2.zero) {
+            float targetRotation = Mathf.Atan2 (inputDir.x, inputDir.y) * Mathf.Rad2Deg + cameraT.eulerAngles.y;
+            transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref turnSmoothVelocity, 0.2f);
+        }*/
 
 
         //UP
@@ -426,10 +443,10 @@ public class playerController : MonoBehaviour
             }
         }
 
-        if(Input.GetKeyDown(KeyCode.E))
+       /* if(Input.GetKeyDown(KeyCode.E))
         {
             isPunching = true;
-        }
+        }*/
 
         //RED
         if(Input.GetKeyDown(KeyCode.Alpha1) && pauseScreen.activeSelf == false)
@@ -547,30 +564,46 @@ public class playerController : MonoBehaviour
         {
             Respawn();
         }*/
+    }
+
+    void OnCollisionStay(Collision col)
+    {
+        GameObject obj = col.gameObject;
 
         if(obj.tag == "Switch1")
         {
-            mySwitchController.ActivateSwitch1();
+            if(Input.GetKeyDown(KeyCode.E))
+            {
+                isPunching = true;
+                mySwitchController.ActivateSwitch1();
+            }
         }
 
         if(obj.tag == "Switch2")
         {
-            mySwitchController.ActivateSwitch2();
+            if(Input.GetKeyDown(KeyCode.E))
+            {
+                isPunching = true;
+                mySwitchController.ActivateSwitch2();
+            }
         }
 
         if(obj.tag == "Switch3")
         {
-            mySwitchController.ActivateSwitch3();
+            if(Input.GetKeyDown(KeyCode.E))
+            {
+                isPunching = true;
+                mySwitchController.ActivateSwitch3();
+            }
         }
 
         if(obj.tag == "Switch4")
         {
-            mySwitchController.ActivateSwitch4();
-        }
-
-        if(obj.tag == "Switch5")
-        {
-            mySwitchController.ActivateSwitch5();
+            if(Input.GetKeyDown(KeyCode.E))
+            {
+                isPunching = true;
+                mySwitchController.ActivateSwitch4();
+            }
         }
     }
 

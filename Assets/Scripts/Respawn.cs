@@ -7,6 +7,7 @@ public class Respawn : MonoBehaviour {
 	public playerController Player;
 
 	void Start () {
+		
 	}
 	
 
@@ -16,5 +17,10 @@ public class Respawn : MonoBehaviour {
 			Debug.Log ("You have been caught!");
 			Player.Respawn ();
 		}
+
+		/*if (col.gameObject.CompareTag ("Bolt")) {
+			Debug.Log ("You shot the AI!");
+			//AI.SetState ("STUNNED");
+		}*/
 	}
 }
