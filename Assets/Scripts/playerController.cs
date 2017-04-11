@@ -310,6 +310,15 @@ public class playerController : MonoBehaviour
             cameraTransform.localEulerAngles = Vector3.left * verticalLookRotation;
         }
 
+        //ALTERNATE 3RD PERSON CAMERA
+        /*Vector2 input = new Vector2 (Input.GetAxisRaw ("Horizontal"), Input.GetAxisRaw ("Vertical"));
+        Vector2 inputDir = input.normalized;
+
+        if (inputDir != Vector2.zero) {
+            float targetRotation = Mathf.Atan2 (inputDir.x, inputDir.y) * Mathf.Rad2Deg + cameraT.eulerAngles.y;
+            transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref turnSmoothVelocity, 0.2f);
+        }*/
+
 
         //UP
         if(Input.GetKey(KeyCode.W) && pauseScreen.activeSelf == false)
