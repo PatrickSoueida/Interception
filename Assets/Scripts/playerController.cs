@@ -382,6 +382,8 @@ public class playerController : MonoBehaviour
                     Instantiate(myCrouchSound);
                 }
                 isCrouching = false;
+				gameObject.GetComponent<CapsuleCollider> ().enabled = true;
+				gameObject.GetComponent<BoxCollider> ().enabled = false;
             }
             else if(isCrouching == false && isGrounded == true)
             {
@@ -390,6 +392,8 @@ public class playerController : MonoBehaviour
                     Instantiate(myCrouchSound);
                 }
                 isCrouching = true;
+				gameObject.GetComponent<CapsuleCollider> ().enabled = false;
+				gameObject.GetComponent<BoxCollider> ().enabled = true;
             }
         }
         /*if(Input.GetKeyUp(KeyCode.LeftControl))
@@ -404,6 +408,8 @@ public class playerController : MonoBehaviour
             {
                 isCrouching = false;
                 isRunning = true;
+				gameObject.GetComponent<CapsuleCollider> ().enabled = true;
+				gameObject.GetComponent<BoxCollider> ().enabled = false;
             }
         }
         if(Input.GetKeyUp(KeyCode.LeftShift) || isWalking == false || isCrouching == true)
@@ -420,6 +426,8 @@ public class playerController : MonoBehaviour
                 myRigidbody.AddForce(0,2750,0);
                 Instantiate(myJumpSound);
                 jumpDelay = Time.time + 1f;
+				gameObject.GetComponent<CapsuleCollider> ().enabled = true;
+				gameObject.GetComponent<BoxCollider> ().enabled = false;
             }
         }
 
@@ -635,6 +643,10 @@ public class playerController : MonoBehaviour
 
 	public bool GetGrounded(){
 		return isGrounded;
+	}
+
+	public bool GetCrouched(){
+		return isCrouching;
 	}
 
     public void Respawn()

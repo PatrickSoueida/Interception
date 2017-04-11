@@ -14,12 +14,14 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 		public enum State{
 			PATROL,
 			CHASE,
-			RETURN
+			RETURN,
+			STUNNED
 		}
 
 		public State state;
 		private bool alive;
 		private int totalNumOfAI = 3;
+		private int lastState;
 
 		//public bool sawPlayer;
 
@@ -64,7 +66,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 				}
 			}
 
-			playerColl = Player.GetComponent<Collider> ();
+			playerColl = Player.GetComponent<CapsuleCollider> ();
 
 			state = AICameraScript.State.PATROL;
 			alive = true;
@@ -85,6 +87,9 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 					break;
 				case State.RETURN:
 					Return ();
+					break;
+				case State.STUNNED:
+					Stunned ();
 					break;
 				}
 
@@ -138,13 +143,24 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 
 		}
 
+		void Stunned(){
+			StartCoroutine(Stun ());
+		}
+
+		IEnumerator Stun(){
+			agent.speed = 0f;
+			character.Move (Vector3.zero, false, false);
+			Debug.Log ("AI is stunned!");
+			yield return new WaitForSeconds(10.0f);
+			if (lastState == 1) {
+				SetState ("CHASE");
+			} else {
+				SetState ("PATROL");
+			}
+		}
+
 		void Update ()
 		{
-
-			if (Player.GetCamo ()) {
-				SetState ("RETURN");
-			}
-
 			//Memo's Code
 			/*Vector3 targetDir = target.transform.position - transform.position;
             float angle = Vector3.Angle(targetDir, transform.forward);
@@ -156,6 +172,14 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 
             if (sawPlayer == true)
                 Chase();*/
+
+			if (Player.GetCrouched ()) {
+				playerColl = Player.GetComponent<BoxCollider> ();
+			} else {
+				playerColl = Player.GetComponent<CapsuleCollider> ();
+			}
+
+			if (!Player.GetCamo ()) {
 				planes = GeometryUtility.CalculateFrustumPlanes (AICam);
 				if (GeometryUtility.TestPlanesAABB (planes, playerColl.bounds)) {
 					Debug.Log ("Player Sighted");
@@ -163,11 +187,23 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 				} 
 				else {
 				}
+
+			} else {
+				SetState ("PATROL");
+			}
+
 		}
 
 		void OnTriggerEnter(Collider coll){
 			if (coll.gameObject.tag == "Player") {
 				SetState ("PATROL");
+			}
+
+			if (coll.tag == "Bolt") {
+				Debug.Log ("You shot the AI!");
+				lastState = GetState ();
+				Debug.Log (lastState);
+				SetState ("STUNNED");
 			}
 		}
 
@@ -205,6 +241,9 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 			}
 			if (newState == "RETURN") {
 				state = AICameraScript.State.RETURN;
+			}
+			if (newState == "STUNNED") {
+				state = AICameraScript.State.STUNNED;
 			}
 		}
 
