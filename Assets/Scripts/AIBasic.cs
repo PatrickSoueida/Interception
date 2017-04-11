@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 namespace UnityStandardAssets.Characters.ThirdPerson{
 
-	public class BasicAI : MonoBehaviour {
+	public class AIBasic : MonoBehaviour {
 
         public Transform enemy; 
 		public NavMeshAgent agent;
@@ -45,7 +45,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 				waypointIndex = Random.Range (0, waypoints.Length);
 			}
 
-			state = BasicAI.State.PATROL;
+			state = AIBasic.State.PATROL;
 			alive = true;
 
 			StartCoroutine ("FSM");
