@@ -15,7 +15,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 			PATROL,
 			CHASE,
 			INVESTIGATE,
-			RETURN
+			RETURN,
+			STUNNED
 		}
 
 		public State state;
@@ -91,6 +92,9 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 				case State.RETURN:
 					Return ();
 					break;
+				case State.STUNNED:
+					Stunned ();
+					break;
 				}
 
 				yield return null;
@@ -157,13 +161,23 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 
 		}
 
+		void Stunned(){
+			StartCoroutine(Stun ());
+		}
+
+		IEnumerator Stun(){
+			agent.speed = 0f;
+			character.Move (Vector3.zero, false, false);
+			Debug.Log ("AI is stunned!");
+			yield return new WaitForSeconds(3.0f);
+			SetState ("PATROL");
+		}
+
 		void Update ()
 		{
-
-			if (Player.GetCamo () && GetState () == 1) {
-				SetState ("PATROL");
-			}
-
+				if (Player.GetCamo () && GetState () == 1) {
+					SetState ("PATROL");
+				}
 			//Memo's Code
 			/*Vector3 targetDir = target.transform.position - transform.position;
             float angle = Vector3.Angle(targetDir, transform.forward);
@@ -183,6 +197,11 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 				state = AISight.State.INVESTIGATE;
 				investigateSpot = coll.gameObject.transform.position;
 			}
+
+			if (coll.tag == "Bolt") {
+				Debug.Log ("You shot the AI!");
+				SetState ("STUNNED");
+			}
 		}
 
 		void FixedUpdate(){
@@ -191,23 +210,25 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 				Debug.DrawRay (transform.position + Vector3.up * heightMultiplier, (transform.forward + transform.right).normalized * sightDist, Color.yellow);
 				Debug.DrawRay (transform.position + Vector3.up * heightMultiplier, (transform.forward - transform.right).normalized * sightDist, Color.yellow);
 			}
-			RaycastHit hit;
-			if (Physics.Raycast (transform.position + Vector3.up * heightMultiplier, transform.forward, out hit, sightDist)) {
-				if (hit.collider.gameObject.tag == "Player") {
-					state = AISight.State.CHASE;
-					target = hit.collider.gameObject;
+			if (GetState () != 4) {
+				RaycastHit hit;
+				if (Physics.Raycast (transform.position + Vector3.up * heightMultiplier, transform.forward, out hit, sightDist)) {
+					if (hit.collider.gameObject.tag == "Player") {
+						state = AISight.State.CHASE;
+						target = hit.collider.gameObject;
+					}
 				}
-			}
-			if (Physics.Raycast (transform.position + Vector3.up * heightMultiplier, (transform.forward + transform.right).normalized, out hit, sightDist)) {
-				if (hit.collider.gameObject.tag == "Player") {
-					state = AISight.State.CHASE;
-					target = hit.collider.gameObject;
+				if (Physics.Raycast (transform.position + Vector3.up * heightMultiplier, (transform.forward + transform.right).normalized, out hit, sightDist)) {
+					if (hit.collider.gameObject.tag == "Player") {
+						state = AISight.State.CHASE;
+						target = hit.collider.gameObject;
+					}
 				}
-			}
-			if (Physics.Raycast (transform.position + Vector3.up * heightMultiplier, (transform.forward - transform.right).normalized, out hit, sightDist)) {
-				if (hit.collider.gameObject.tag == "Player") {
-					state = AISight.State.CHASE;
-					target = hit.collider.gameObject;
+				if (Physics.Raycast (transform.position + Vector3.up * heightMultiplier, (transform.forward - transform.right).normalized, out hit, sightDist)) {
+					if (hit.collider.gameObject.tag == "Player") {
+						state = AISight.State.CHASE;
+						target = hit.collider.gameObject;
+					}
 				}
 			}
 			 
@@ -225,6 +246,9 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 			}
 			if (newState == "RETURN") {
 				state = AISight.State.RETURN;
+			}
+			if (newState == "STUNNED") {
+				state = AISight.State.STUNNED;
 			}
 		}
 
