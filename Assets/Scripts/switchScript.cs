@@ -20,8 +20,6 @@ public class switchScript : MonoBehaviour
     public bool switch3;
     public bool switch4;
 
-    public GameObject switchPrefab;
-
     bool portalActive;
 
     GameObject[] possibleSpawns;
