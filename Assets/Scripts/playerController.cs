@@ -10,6 +10,8 @@ public class playerController : MonoBehaviour
     public GameObject searchBillboard;
     public GameObject stunnedBillboard;
     float billboardTime = 0f;
+    public AudioSource alertSound;
+    AudioSource myAlertSound;
 
     public GameObject outroText;
 
@@ -116,6 +118,7 @@ public class playerController : MonoBehaviour
         //Debug.Log(transform.position);
         //Debug.Log(transform.rotation);
 
+        myAlertSound = alertSound.GetComponent<AudioSource>();
         isPunching = false;
         myOpenCloseMenuSound = openCloseMenuSound.GetComponent<AudioSource>();
         jumpDelay = 0f;
@@ -320,6 +323,11 @@ public class playerController : MonoBehaviour
         //STUNNED BILLBOARD
         if(Input.GetKeyDown(KeyCode.I))
         {
+            if(stunnedBillboard.activeSelf == false)
+            {
+                Instantiate(myAlertSound);
+            }
+
             alertBillboard.SetActive(false);
             searchBillboard.SetActive(false);
 
@@ -331,6 +339,11 @@ public class playerController : MonoBehaviour
         //SEARCH BILLBOARD
         if(Input.GetKeyDown(KeyCode.O))
         {
+            if(searchBillboard.activeSelf == false)
+            {
+                Instantiate(myAlertSound);
+            }
+
             alertBillboard.SetActive(false);
             stunnedBillboard.SetActive(false);
 
@@ -342,6 +355,11 @@ public class playerController : MonoBehaviour
         //ALERT BILLBOARD
         if(Input.GetKeyDown(KeyCode.P))
         {
+            if(alertBillboard.activeSelf == false)
+            {
+                Instantiate(myAlertSound);
+            }
+
             searchBillboard.SetActive(false);
             stunnedBillboard.SetActive(false);
 
