@@ -12,16 +12,25 @@ public class switchScript : MonoBehaviour
     public AudioSource switchSound;
     AudioSource mySwitchSound;
 
+    public AudioSource secretSound;
+    AudioSource mySecretSound;
+
     public bool switch1;
     public bool switch2;
     public bool switch3;
     public bool switch4;
     public bool switch5;
 
+    public GameObject switchPrefab;
+
     bool portalActive;
+
+    Transform[] possibleSpawns;
 
 	void Start () 
     {
+        possibleSpawns = new Transform[11];
+        mySecretSound = secretSound.GetComponent<AudioSource>();
         mySwitchSound = switchSound.GetComponent<AudioSource>();
         portalActive = false;
         myExitSound = exitSound.GetComponent<AudioSource>();
@@ -37,8 +46,9 @@ public class switchScript : MonoBehaviour
     {
         if(portalActive == false && switch1 == true && switch2 == true && switch3 == true && switch4 == true && switch5 == true)
         {
+            Instantiate(mySecretSound);
+            Instantiate(myExitSound);
             portalActive = true;
-            Instantiate(myExitSound, portal.transform);
             portal.SetActive(true);
         }
     }

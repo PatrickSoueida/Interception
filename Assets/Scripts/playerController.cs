@@ -242,7 +242,15 @@ public class playerController : MonoBehaviour
         {
             GameObject shot = Instantiate(bulletRef, gunRef.transform.position, gunRef.transform.rotation);
             GunBolt bolt = shot.GetComponent<GunBolt>();
-            bolt.setDir(cameraTransform.forward);
+           
+            if(cameraTransform.gameObject.GetComponent<CameraBehaviour>().GetButtonPressed() == true)
+            {
+                bolt.setDir(cameraTransform.forward);
+            }
+            else
+            {
+                bolt.setDir(transform.forward);
+            }
             currentTime = Time.time + 1f;
             fireRecovery = true;
         }   
@@ -426,10 +434,10 @@ public class playerController : MonoBehaviour
             }
         }
 
-        if(Input.GetKeyDown(KeyCode.E))
+       /* if(Input.GetKeyDown(KeyCode.E))
         {
             isPunching = true;
-        }
+        }*/
 
         //RED
         if(Input.GetKeyDown(KeyCode.Alpha1) && pauseScreen.activeSelf == false)
@@ -547,30 +555,55 @@ public class playerController : MonoBehaviour
         {
             Respawn();
         }*/
+    }
+
+    void OnCollisionStay(Collision col)
+    {
+        GameObject obj = col.gameObject;
 
         if(obj.tag == "Switch1")
         {
-            mySwitchController.ActivateSwitch1();
+            if(Input.GetKeyDown(KeyCode.E))
+            {
+                isPunching = true;
+                mySwitchController.ActivateSwitch1();
+            }
         }
 
         if(obj.tag == "Switch2")
         {
-            mySwitchController.ActivateSwitch2();
+            if(Input.GetKeyDown(KeyCode.E))
+            {
+                isPunching = true;
+                mySwitchController.ActivateSwitch2();
+            }
         }
 
         if(obj.tag == "Switch3")
         {
-            mySwitchController.ActivateSwitch3();
+            if(Input.GetKeyDown(KeyCode.E))
+            {
+                isPunching = true;
+                mySwitchController.ActivateSwitch3();
+            }
         }
 
         if(obj.tag == "Switch4")
         {
-            mySwitchController.ActivateSwitch4();
+            if(Input.GetKeyDown(KeyCode.E))
+            {
+                isPunching = true;
+                mySwitchController.ActivateSwitch4();
+            }
         }
 
         if(obj.tag == "Switch5")
         {
-            mySwitchController.ActivateSwitch5();
+            if(Input.GetKeyDown(KeyCode.E))
+            {
+                isPunching = true;
+                mySwitchController.ActivateSwitch5();
+            }
         }
     }
 
