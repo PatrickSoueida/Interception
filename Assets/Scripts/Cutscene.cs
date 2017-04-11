@@ -19,14 +19,18 @@ public class Cutscene : MonoBehaviour
 	// Use this for initialization
 	void Start () 
     {
-		
+        GameObject.FindGameObjectWithTag("Player").GetComponent<playerController>().enabled = false;
 	}
+
+    void OnGUI()
+    {
+       // GUI.Label(new Rect(Screen.width / 2 - 900 / 2, Screen.height / 2, 900,  20), "Welcome to reb00t!");
+    }
 	
 	// Update is called once per frame
 	void Update () 
     {
-        time -= Time.deltaTime; 
-
+        time -= Time.deltaTime;
         if (time <= 15.0f)
         {
             timeOne += Time.deltaTime;
@@ -50,9 +54,9 @@ public class Cutscene : MonoBehaviour
 
         if (time <= 3.0f)
         {
-            //timeFour += Time.deltaTime;
-            //transform.position = Vector3.Lerp(transform.position, gateVantagePoint.position, timeFour / timeToMove);
-            //transform.rotation = Quaternion.Slerp(transform.rotation, gateVantagePoint.rotation, timeFour / timeToMove);
+            timeFour += Time.deltaTime;
+            transform.position = Vector3.Lerp(transform.position, gateVantagePoint.position, timeFour / timeToMove);
+            transform.rotation = Quaternion.Slerp(transform.rotation, gateVantagePoint.rotation, timeFour / timeToMove);
         }
 
         if (time <= -1.0f)
@@ -64,7 +68,7 @@ public class Cutscene : MonoBehaviour
 
         if (time <= -4.0f)
         {
-            destroy = true;
+            //GameObject.FindGameObjectWithTag("Player").GetComponent<playerController>().enabled = true;
             Destroy(this.gameObject);
         }
 

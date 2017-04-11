@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class playerController : MonoBehaviour 
 {
+    public GameObject outroText;
+
     public GameObject switchController;
     switchScript mySwitchController;
 
@@ -261,7 +263,7 @@ public class playerController : MonoBehaviour
             alreadyFired = false;
         }
 
-        if (Input.GetMouseButtonDown(0) && pauseScreen.activeSelf == false)
+        if (Input.GetMouseButtonDown(0) && pauseScreen.activeSelf == false && outroText.activeSelf == false)
         {
             if(energy == 100)
             {
@@ -302,7 +304,7 @@ public class playerController : MonoBehaviour
             mouseYEnabled = true;
         }
 
-        if(pauseScreen.activeSelf == false)
+        if(pauseScreen.activeSelf == false && outroText.activeSelf == false)
         {
             transform.Rotate(Vector3.up * Input.GetAxis ("Mouse X") * mouseSensitivityX);
             verticalLookRotation += Input.GetAxis("Mouse Y") * mouseSensitivityY;
@@ -321,28 +323,28 @@ public class playerController : MonoBehaviour
 
 
         //UP
-        if(Input.GetKey(KeyCode.W) && pauseScreen.activeSelf == false)
+        if(Input.GetKey(KeyCode.W) && pauseScreen.activeSelf == false && outroText.activeSelf == false)
         {
             myRigidbody.AddForce(transform.forward * speed);
             isWalking = true;
             isForward = true;
         }
         //DOWN
-        if(Input.GetKey(KeyCode.S) && pauseScreen.activeSelf == false)
+        if(Input.GetKey(KeyCode.S) && pauseScreen.activeSelf == false && outroText.activeSelf == false)
         {
             myRigidbody.AddForce(transform.forward * -speed);
             isWalking = true;
             isBackward = true;
         }
         //LEFT
-        if(Input.GetKey(KeyCode.A) && pauseScreen.activeSelf == false)
+        if(Input.GetKey(KeyCode.A) && pauseScreen.activeSelf == false && outroText.activeSelf == false)
         {
             myRigidbody.AddForce(transform.right * -speed);
             isWalking = true;
             isLeft = true;
         }
         //RIGHT
-        if(Input.GetKey(KeyCode.D) && pauseScreen.activeSelf == false)
+        if(Input.GetKey(KeyCode.D) && pauseScreen.activeSelf == false && outroText.activeSelf == false)
         {
             myRigidbody.AddForce(transform.right * speed);
             isWalking = true;
@@ -371,7 +373,7 @@ public class playerController : MonoBehaviour
         }
 
         //CROUCH
-        if(Input.GetKeyDown(KeyCode.LeftControl) && pauseScreen.activeSelf == false)
+        if(Input.GetKeyDown(KeyCode.LeftControl) && pauseScreen.activeSelf == false && outroText.activeSelf == false)
         {
             if(isCrouching == true)
             {
@@ -380,6 +382,8 @@ public class playerController : MonoBehaviour
                     Instantiate(myCrouchSound);
                 }
                 isCrouching = false;
+				gameObject.GetComponent<CapsuleCollider> ().enabled = true;
+				gameObject.GetComponent<BoxCollider> ().enabled = false;
             }
             else if(isCrouching == false && isGrounded == true)
             {
@@ -388,6 +392,8 @@ public class playerController : MonoBehaviour
                     Instantiate(myCrouchSound);
                 }
                 isCrouching = true;
+				gameObject.GetComponent<CapsuleCollider> ().enabled = false;
+				gameObject.GetComponent<BoxCollider> ().enabled = true;
             }
         }
         /*if(Input.GetKeyUp(KeyCode.LeftControl))
@@ -398,10 +404,12 @@ public class playerController : MonoBehaviour
         //RUN
         if(isWalking == true && isForward == true && isLeft == false && isRight == false && isBackward == false)
         {
-            if(Input.GetKey(KeyCode.LeftShift) && pauseScreen.activeSelf == false)
+            if(Input.GetKey(KeyCode.LeftShift) && pauseScreen.activeSelf == false && outroText.activeSelf == false)
             {
                 isCrouching = false;
                 isRunning = true;
+				gameObject.GetComponent<CapsuleCollider> ().enabled = true;
+				gameObject.GetComponent<BoxCollider> ().enabled = false;
             }
         }
         if(Input.GetKeyUp(KeyCode.LeftShift) || isWalking == false || isCrouching == true)
@@ -412,16 +420,18 @@ public class playerController : MonoBehaviour
         //JUMP
         if(isGrounded == true)
         {
-            if(Input.GetKeyDown(KeyCode.Space) && pauseScreen.activeSelf == false && Time.time > jumpDelay)
+            if(Input.GetKeyDown(KeyCode.Space) && pauseScreen.activeSelf == false && outroText.activeSelf == false && Time.time > jumpDelay)
             {
                 isCrouching = false;
                 myRigidbody.AddForce(0,2750,0);
                 Instantiate(myJumpSound);
                 jumpDelay = Time.time + 1f;
+				gameObject.GetComponent<CapsuleCollider> ().enabled = true;
+				gameObject.GetComponent<BoxCollider> ().enabled = false;
             }
         }
 
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if(Input.GetKeyDown(KeyCode.Escape) && outroText.activeSelf == false)
         {
             if(pauseScreen.activeSelf == false)
             {
@@ -449,7 +459,7 @@ public class playerController : MonoBehaviour
         }*/
 
         //RED
-        if(Input.GetKeyDown(KeyCode.Alpha1) && pauseScreen.activeSelf == false)
+        if(Input.GetKeyDown(KeyCode.Alpha1) && pauseScreen.activeSelf == false && outroText.activeSelf == false)
         {
             if(!currentColor.Equals("RED"))
             {
@@ -473,7 +483,7 @@ public class playerController : MonoBehaviour
         }
 
         //GREEN
-        if(Input.GetKeyDown(KeyCode.Alpha2) && pauseScreen.activeSelf == false)
+        if(Input.GetKeyDown(KeyCode.Alpha2) && pauseScreen.activeSelf == false && outroText.activeSelf == false)
         {
             if(!currentColor.Equals("GREEN"))
             {
@@ -497,7 +507,7 @@ public class playerController : MonoBehaviour
         }
 
         //BLUE
-        if(Input.GetKeyDown(KeyCode.Alpha3) && pauseScreen.activeSelf == false)
+        if(Input.GetKeyDown(KeyCode.Alpha3) && pauseScreen.activeSelf == false && outroText.activeSelf == false)
         {
             if(!currentColor.Equals("BLUE"))
             {
@@ -521,7 +531,7 @@ public class playerController : MonoBehaviour
         }
 
         //RESET
-        if(Input.GetKeyDown(KeyCode.Tab) && pauseScreen.activeSelf == false)
+        if(Input.GetKeyDown(KeyCode.Tab) && pauseScreen.activeSelf == false && outroText.activeSelf == false)
         {
             if(!currentColor.Equals("BLACK"))
             {
@@ -554,10 +564,11 @@ public class playerController : MonoBehaviour
 
         if(obj.tag == "Portal")
         {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-            SceneManager.LoadScene("MainMenu");
-            //Destroy(GameObject.Find("menuOpenCloseSound(Clone)"));
+            Instantiate(myOpenCloseMenuSound);
+            outroText.SetActive(true);
+            Time.timeScale = 0;
+            //SceneManager.LoadScene("MainMenu");
+            Destroy(GameObject.Find("exitOpenSound(Clone)"));
         }
 
         /*if(obj.tag == "Enemy")
@@ -632,6 +643,10 @@ public class playerController : MonoBehaviour
 
 	public bool GetGrounded(){
 		return isGrounded;
+	}
+
+	public bool GetCrouched(){
+		return isCrouching;
 	}
 
     public void Respawn()

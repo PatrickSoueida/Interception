@@ -23,7 +23,6 @@ public class switchScript : MonoBehaviour
     bool portalActive;
 
     GameObject[] possibleSpawns;
-    public GameObject spawn0;
     public GameObject spawn1;
     public GameObject spawn2;
     public GameObject spawn3;
@@ -32,6 +31,7 @@ public class switchScript : MonoBehaviour
     public GameObject spawn6;
     public GameObject spawn7;
     public GameObject spawn8;
+    public GameObject spawn9;
 
     int randomNumber;
 
@@ -45,14 +45,14 @@ public class switchScript : MonoBehaviour
         instantiated = 0;
         alreadyPicked = false;
         picked = new int[4];
-        possibleSpawns = new GameObject[]{spawn0, spawn1, spawn2, spawn3, spawn4, spawn5, spawn6, spawn7, spawn8};
+        possibleSpawns = new GameObject[]{spawn1, spawn2, spawn3, spawn4, spawn5, spawn6, spawn7, spawn8, spawn9};
 
         while(instantiated < 4)
         {
             alreadyPicked = false;
 
-            //new random number between 0 and 8
-            randomNumber = Random.Range(0, 9);
+            //new random number between 1 and 9
+            randomNumber = Random.Range(1, 10);
 
             for(int y = 0; y < picked.Length; y++)
             {
@@ -65,8 +65,8 @@ public class switchScript : MonoBehaviour
             if(alreadyPicked == false)
             {
                 picked[instantiated] = randomNumber;
-                possibleSpawns[randomNumber].SetActive(true);
-                possibleSpawns[randomNumber].tag = "Switch" + (instantiated + 1);
+                possibleSpawns[randomNumber-1].SetActive(true);
+                possibleSpawns[randomNumber-1].tag = "Switch" + (instantiated + 1);
                 instantiated++;
             }
         }
