@@ -19,17 +19,60 @@ public class switchScript : MonoBehaviour
     public bool switch2;
     public bool switch3;
     public bool switch4;
-    public bool switch5;
 
     public GameObject switchPrefab;
 
     bool portalActive;
 
-    Transform[] possibleSpawns;
+    GameObject[] possibleSpawns;
+    public GameObject spawn0;
+    public GameObject spawn1;
+    public GameObject spawn2;
+    public GameObject spawn3;
+    public GameObject spawn4;
+    public GameObject spawn5;
+    public GameObject spawn6;
+    public GameObject spawn7;
+    public GameObject spawn8;
+
+    int randomNumber;
+
+    int[] picked;
+    bool alreadyPicked;
+    int instantiated;
 
 	void Start () 
     {
-        possibleSpawns = new Transform[11];
+        randomNumber = 0;
+        instantiated = 0;
+        alreadyPicked = false;
+        picked = new int[4];
+        possibleSpawns = new GameObject[]{spawn0, spawn1, spawn2, spawn3, spawn4, spawn5, spawn6, spawn7, spawn8};
+
+        while(instantiated < 4)
+        {
+            alreadyPicked = false;
+
+            //new random number between 0 and 8
+            randomNumber = Random.Range(0, 9);
+
+            for(int y = 0; y < picked.Length; y++)
+            {
+                if(randomNumber == picked[y])
+                {
+                    alreadyPicked = true;
+                }
+            }
+
+            if(alreadyPicked == false)
+            {
+                picked[instantiated] = randomNumber;
+                possibleSpawns[randomNumber].SetActive(true);
+                possibleSpawns[randomNumber].tag = "Switch" + (instantiated + 1);
+                instantiated++;
+            }
+        }
+            
         mySecretSound = secretSound.GetComponent<AudioSource>();
         mySwitchSound = switchSound.GetComponent<AudioSource>();
         portalActive = false;
@@ -39,12 +82,11 @@ public class switchScript : MonoBehaviour
         switch2 = false;
         switch3 = false;
         switch4 = false;
-        switch5 = false;
     }
 
     void Update()
     {
-        if(portalActive == false && switch1 == true && switch2 == true && switch3 == true && switch4 == true && switch5 == true)
+        if(portalActive == false && switch1 == true && switch2 == true && switch3 == true && switch4 == true)
         {
             Instantiate(mySecretSound);
             Instantiate(myExitSound);
@@ -85,15 +127,6 @@ public class switchScript : MonoBehaviour
         if(switch4 == false)
         {
             switch4 = true;
-            Instantiate(mySwitchSound);
-        }
-    }
-
-    public void ActivateSwitch5()
-    {
-        if(switch5 == false)
-        {
-            switch5 = true;
             Instantiate(mySwitchSound);
         }
     }
