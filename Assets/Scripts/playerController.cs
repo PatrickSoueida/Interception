@@ -104,14 +104,8 @@ public class playerController : MonoBehaviour
 
     bool startedRecharge;
 
-	Transform cameraT;
-	float turnSmoothVelocity;
-
 	void Start () 
     {
-		cameraT = Camera.main.transform;
-
-
         //Debug.Log(transform.position);
         //Debug.Log(transform.rotation);
 
@@ -302,19 +296,11 @@ public class playerController : MonoBehaviour
 
         if(pauseScreen.activeSelf == false)
         {
-            /*transform.Rotate(Vector3.up * Input.GetAxis ("Mouse X") * mouseSensitivityX);
+            transform.Rotate(Vector3.up * Input.GetAxis ("Mouse X") * mouseSensitivityX);
             verticalLookRotation += Input.GetAxis("Mouse Y") * mouseSensitivityY;
             verticalLookRotation = Mathf.Clamp(verticalLookRotation, -20, 6);
-            cameraTransform.localEulerAngles = Vector3.left * verticalLookRotation;*/
+            cameraTransform.localEulerAngles = Vector3.left * verticalLookRotation;
         }
-
-		Vector2 input = new Vector2 (Input.GetAxisRaw ("Horizontal"), Input.GetAxisRaw ("Vertical"));
-		Vector2 inputDir = input.normalized;
-
-		if (inputDir != Vector2.zero) {
-			float targetRotation = Mathf.Atan2 (inputDir.x, inputDir.y) * Mathf.Rad2Deg + cameraT.eulerAngles.y;
-			transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref turnSmoothVelocity, 0.2f);
-		}
 
 
         //UP
