@@ -150,11 +150,14 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 		IEnumerator Stun(){
 			agent.speed = 0f;
 			character.Move (Vector3.zero, false, false);
+			gameObject.GetComponentInChildren<Camera> ().enabled = false;
 			Debug.Log ("AI is stunned!");
 			yield return new WaitForSeconds(10.0f);
 			if (lastState == 1) {
+				gameObject.GetComponentInChildren<Camera> ().enabled = true;
 				SetState ("CHASE");
 			} else {
+				gameObject.GetComponentInChildren<Camera> ().enabled = true;
 				SetState ("PATROL");
 			}
 		}
@@ -202,7 +205,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 			if (coll.tag == "Bolt") {
 				Debug.Log ("You shot the AI!");
 				lastState = GetState ();
-				Debug.Log (lastState);
+				Destroy (coll.gameObject);
 				SetState ("STUNNED");
 			}
 		}
@@ -212,6 +215,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 			Debug.DrawRay (AICam.transform.position, transform.forward * sightDist, Color.yellow);
 			Debug.DrawRay (AICam.transform.position, (transform.forward + transform.right).normalized * sightDist, Color.yellow);
 			Debug.DrawRay (AICam.transform.position, (transform.forward - transform.right).normalized * sightDist, Color.yellow);
+			Debug.DrawRay (AICam.transform.position, (transform.forward + (transform.forward + transform.right)).normalized * sightDist, Color.yellow);
+			Debug.DrawRay (AICam.transform.position, (transform.forward + (transform.forward - transform.right)).normalized * sightDist, Color.yellow);
 			if (Physics.Raycast (AICam.transform.position, transform.forward, out hit, sightDist)) {
 				if (hit.collider.gameObject.tag == "Player") {
 					state = AICameraScript.State.CHASE;
@@ -220,14 +225,34 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 			}
 			if (Physics.Raycast (AICam.transform.position, (transform.forward + transform.right).normalized, out hit, sightDist)) {
 				if (hit.collider.gameObject.tag == "Player") {
-					state = AICameraScript.State.CHASE;
-					target = hit.collider.gameObject;
+					if (state != AICameraScript.State.STUNNED) {
+						state = AICameraScript.State.CHASE;
+						target = hit.collider.gameObject;
+					}
 				}
 			}
 			if (Physics.Raycast (AICam.transform.position, (transform.forward - transform.right).normalized, out hit, sightDist)) {
 				if (hit.collider.gameObject.tag == "Player") {
-					state = AICameraScript.State.CHASE;
-					target = hit.collider.gameObject;
+					if (state != AICameraScript.State.STUNNED) {
+						state = AICameraScript.State.CHASE;
+						target = hit.collider.gameObject;
+					}
+				}
+			}
+			if (Physics.Raycast (AICam.transform.position, (transform.forward + (transform.forward + transform.right)).normalized, out hit, sightDist)) {
+				if (hit.collider.gameObject.tag == "Player") {
+					if (state != AICameraScript.State.STUNNED) {
+						state = AICameraScript.State.CHASE;
+						target = hit.collider.gameObject;
+					}
+				}
+			}
+			if (Physics.Raycast (AICam.transform.position, (transform.forward + (transform.forward - transform.right)).normalized, out hit, sightDist)) {
+				if (hit.collider.gameObject.tag == "Player") {
+					if (state != AICameraScript.State.STUNNED) {
+						state = AICameraScript.State.CHASE;
+						target = hit.collider.gameObject;
+					}
 				}
 			}
 		}
