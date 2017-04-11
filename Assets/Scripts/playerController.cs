@@ -8,6 +8,7 @@ public class playerController : MonoBehaviour
 {
     public GameObject alertBillboard;
     public GameObject searchBillboard;
+    public GameObject stunnedBillboard;
     float billboardTime = 0f;
 
     public GameObject outroText;
@@ -316,19 +317,34 @@ public class playerController : MonoBehaviour
             cameraTransform.localEulerAngles = Vector3.left * verticalLookRotation;
         }
 
-        //ALERT BILLBOARD
+        //STUNNED BILLBOARD
+        if(Input.GetKeyDown(KeyCode.I))
+        {
+            alertBillboard.SetActive(false);
+            searchBillboard.SetActive(false);
+
+            stunnedBillboard.SetActive(true);
+
+            billboardTime = Time.time + 2f;
+        }
+            
+        //SEARCH BILLBOARD
         if(Input.GetKeyDown(KeyCode.O))
         {
             alertBillboard.SetActive(false);
+            stunnedBillboard.SetActive(false);
+
             searchBillboard.SetActive(true);
 
             billboardTime = Time.time + 2f;
         }
 
-
+        //ALERT BILLBOARD
         if(Input.GetKeyDown(KeyCode.P))
         {
             searchBillboard.SetActive(false);
+            stunnedBillboard.SetActive(false);
+
             alertBillboard.SetActive(true);
 
             billboardTime = Time.time + 2f;
@@ -338,6 +354,7 @@ public class playerController : MonoBehaviour
         {
             alertBillboard.SetActive(false);
             searchBillboard.SetActive(false);
+            stunnedBillboard.SetActive(false);
         }
 
         //ALTERNATE 3RD PERSON CAMERA
