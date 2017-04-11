@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 namespace UnityStandardAssets.Characters.ThirdPerson{
 
-	public class AISight : MonoBehaviour {
+	public class AICameraScript : MonoBehaviour {
 
 		public NavMeshAgent agent;
 		public ThirdPersonCharacter character;
@@ -14,7 +14,6 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 		public enum State{
 			PATROL,
 			CHASE,
-			INVESTIGATE,
 			RETURN
 		}
 
@@ -30,14 +29,13 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 		private int waypointIndex;
 		public float patrolSpeed = 0.5f;
 
-		//Variables for Investigating
-		private Vector3 investigateSpot;
-		private float timer = 0;
-		public float investigateWait = 2;
-
 		//Variables for Sight
-		public float heightMultiplier;
-		public float sightDist = 30.0f;
+		public float sightDist = 50.0f;
+
+		//Variables for Camera Sight
+		public Collider playerColl;
+		public Camera AICam;
+		private Plane[] planes;
 
 		//Variables for Chasing
 		public float chaseSpeed = 1f;
@@ -66,10 +64,10 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 				}
 			}
 
-			state = AISight.State.PATROL;
-			alive = true;
+			playerColl = Player.GetComponent<Collider> ();
 
-			heightMultiplier = 9.0f;
+			state = AICameraScript.State.PATROL;
+			alive = true;
 
 			StartCoroutine ("FSM");
 
@@ -85,9 +83,6 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 				case State.CHASE:
 					Chase ();
 					break;
-				case State.INVESTIGATE:
-					Investigate ();
-					break;
 				case State.RETURN:
 					Return ();
 					break;
@@ -100,17 +95,17 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 
 		void Patrol()
 		{
-			agent.speed = patrolSpeed;
-			float tempY = transform.rotation.y;
-			transform.Rotate (0, tempY, 0);
-			if (Vector3.Distance (this.transform.position, waypoints [waypointIndex].transform.position) >= 2) {
-				agent.SetDestination (waypoints [waypointIndex].transform.position);
-				character.Move (agent.desiredVelocity, false, false);
-			} else if (Vector3.Distance (this.transform.position, waypoints [waypointIndex].transform.position) <= 2) {
-				waypointIndex = Random.Range (0, waypoints.Length);
-			} else {
-				character.Move (Vector3.zero, false, false);
-			}
+				agent.speed = patrolSpeed;
+				float tempY = transform.rotation.y;
+				transform.Rotate (0, tempY, 0);
+				if (Vector3.Distance (this.transform.position, waypoints [waypointIndex].transform.position) >= 2) {
+					agent.SetDestination (waypoints [waypointIndex].transform.position);
+					character.Move (agent.desiredVelocity, false, false);
+				} else if (Vector3.Distance (this.transform.position, waypoints [waypointIndex].transform.position) <= 2) {
+					waypointIndex = Random.Range (0, waypoints.Length);
+				} else {
+					character.Move (Vector3.zero, false, false);
+				}
 		}
 
 		void Chase()
@@ -133,21 +128,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
             transform.Translate(direction * realSpeed * Time.deltaTime, Space.World);*/
 
 		}
-
-		void Investigate(){
 			
-			//Display Question Mark Above Head?
-
-			timer += Time.deltaTime;
-			agent.SetDestination (this.transform.position);
-			character.Move (Vector3.zero, false, false);
-			transform.LookAt (investigateSpot);
-			if (timer >= investigateWait) {
-				state = AISight.State.PATROL;
-				timer = 0;
-			}
-		}
-
 		void Return(){
 
 			agent.speed = patrolSpeed;
@@ -160,8 +141,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 		void Update ()
 		{
 
-			if (Player.GetCamo () && GetState () == 1) {
-				SetState ("PATROL");
+			if (Player.GetCamo ()) {
+				SetState ("RETURN");
 			}
 
 			//Memo's Code
@@ -175,56 +156,55 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 
             if (sawPlayer == true)
                 Chase();*/
-
+				planes = GeometryUtility.CalculateFrustumPlanes (AICam);
+				if (GeometryUtility.TestPlanesAABB (planes, playerColl.bounds)) {
+					Debug.Log ("Player Sighted");
+					CheckForPlayer ();
+				} 
+				else {
+				}
 		}
 
 		void OnTriggerEnter(Collider coll){
-			if (coll.tag == "Player") {
-				state = AISight.State.INVESTIGATE;
-				investigateSpot = coll.gameObject.transform.position;
+			if (coll.gameObject.tag == "Player") {
+				SetState ("PATROL");
 			}
 		}
 
-		void FixedUpdate(){
-			if (GetState () != 1) {
-				Debug.DrawRay (transform.position + Vector3.up * heightMultiplier, transform.forward * sightDist, Color.yellow);
-				Debug.DrawRay (transform.position + Vector3.up * heightMultiplier, (transform.forward + transform.right).normalized * sightDist, Color.yellow);
-				Debug.DrawRay (transform.position + Vector3.up * heightMultiplier, (transform.forward - transform.right).normalized * sightDist, Color.yellow);
-			}
+		void CheckForPlayer(){
 			RaycastHit hit;
-			if (Physics.Raycast (transform.position + Vector3.up * heightMultiplier, transform.forward, out hit, sightDist)) {
+			Debug.DrawRay (AICam.transform.position, transform.forward * sightDist, Color.yellow);
+			Debug.DrawRay (AICam.transform.position, (transform.forward + transform.right).normalized * sightDist, Color.yellow);
+			Debug.DrawRay (AICam.transform.position, (transform.forward - transform.right).normalized * sightDist, Color.yellow);
+			if (Physics.Raycast (AICam.transform.position, transform.forward, out hit, sightDist)) {
 				if (hit.collider.gameObject.tag == "Player") {
-					state = AISight.State.CHASE;
+					state = AICameraScript.State.CHASE;
 					target = hit.collider.gameObject;
 				}
 			}
-			if (Physics.Raycast (transform.position + Vector3.up * heightMultiplier, (transform.forward + transform.right).normalized, out hit, sightDist)) {
+			if (Physics.Raycast (AICam.transform.position, (transform.forward + transform.right).normalized, out hit, sightDist)) {
 				if (hit.collider.gameObject.tag == "Player") {
-					state = AISight.State.CHASE;
+					state = AICameraScript.State.CHASE;
 					target = hit.collider.gameObject;
 				}
 			}
-			if (Physics.Raycast (transform.position + Vector3.up * heightMultiplier, (transform.forward - transform.right).normalized, out hit, sightDist)) {
+			if (Physics.Raycast (AICam.transform.position, (transform.forward - transform.right).normalized, out hit, sightDist)) {
 				if (hit.collider.gameObject.tag == "Player") {
-					state = AISight.State.CHASE;
+					state = AICameraScript.State.CHASE;
 					target = hit.collider.gameObject;
 				}
 			}
-			 
 		}
 
 		public void SetState(string newState){
 			if (newState == "CHASE") {
-				state = AISight.State.CHASE;
+				state = AICameraScript.State.CHASE;
 			}
 			if (newState == "PATROL") {
-				state = AISight.State.PATROL;
-			}
-			if (newState == "INVESTIGATE") {
-				state = AISight.State.INVESTIGATE;
+				state = AICameraScript.State.PATROL;
 			}
 			if (newState == "RETURN") {
-				state = AISight.State.RETURN;
+				state = AICameraScript.State.RETURN;
 			}
 		}
 
