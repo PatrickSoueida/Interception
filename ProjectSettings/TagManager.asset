@@ -20,7 +20,6 @@ TagManager:
   - Switch2
   - Switch3
   - Switch4
-  - Switch5
   layers:
   - Default
   - TransparentFX

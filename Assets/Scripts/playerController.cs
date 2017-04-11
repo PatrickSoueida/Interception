@@ -575,6 +575,7 @@ public class playerController : MonoBehaviour
             if(Input.GetKeyDown(KeyCode.E))
             {
                 isPunching = true;
+                obj.SetActive(false);
                 mySwitchController.ActivateSwitch1();
             }
         }
@@ -584,6 +585,7 @@ public class playerController : MonoBehaviour
             if(Input.GetKeyDown(KeyCode.E))
             {
                 isPunching = true;
+                obj.SetActive(false);
                 mySwitchController.ActivateSwitch2();
             }
         }
@@ -593,6 +595,7 @@ public class playerController : MonoBehaviour
             if(Input.GetKeyDown(KeyCode.E))
             {
                 isPunching = true;
+                obj.SetActive(false);
                 mySwitchController.ActivateSwitch3();
             }
         }
@@ -602,6 +605,7 @@ public class playerController : MonoBehaviour
             if(Input.GetKeyDown(KeyCode.E))
             {
                 isPunching = true;
+                obj.SetActive(false);
                 mySwitchController.ActivateSwitch4();
             }
         }
