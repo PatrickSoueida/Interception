@@ -106,10 +106,17 @@ public class playerController : MonoBehaviour
 
     bool startedRecharge;
 
+    //camera stuff
+    
+    CameraBehaviour camScript;
+
 	void Start () 
     {
         //Debug.Log(transform.position);
         //Debug.Log(transform.rotation);
+        camScript = cameraTransform.GetComponent<CameraBehaviour>();
+       
+       
 
         isPunching = false;
         myOpenCloseMenuSound = openCloseMenuSound.GetComponent<AudioSource>();
@@ -177,7 +184,7 @@ public class playerController : MonoBehaviour
 	
 	void Update () 
     {
-       
+        //Debug.DrawLine(transform.position + Vector3.up * 8, camScript.targetPosition.localPosition, Color.red);
 
         CheckGrounded();
 
@@ -541,8 +548,24 @@ public class playerController : MonoBehaviour
 			    currentColor = "BLACK";
             }
         }
-
+        adjustCamera();
 	}
+
+    void adjustCamera()
+    {
+        float dist = 10f;
+        Ray ray = new Ray(transform.position + Vector3.up * 8, camScript.initialPosition.position - (transform.position + Vector3.up * 8));
+        RaycastHit info;
+        Debug.DrawRay(transform.position + Vector3.up * 8, camScript.initialPosition.position - (transform.position + Vector3.up * 8), Color.red);
+
+        if (Physics.Raycast(ray, out info, dist))
+        {
+            //print("obstructed by "+info.collider.name);
+            //cameraTransform.position = Vector3.Lerp(cameraTransform.position, camScript.targetPosition.position)
+            camScript.obstructed = true;
+        }
+        else camScript.obstructed = false;
+    }
 
     void CheckGrounded()
     {
