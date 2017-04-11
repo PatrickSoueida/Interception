@@ -8,6 +8,14 @@ public class Cutscene : MonoBehaviour
     public Transform mapVantagePoint, characterVantagePoint, keyVantagePoint, gateVantagePoint, enemyVantagePoint, characterCameraPoint;
     public float smoothFactor;
     public Camera camera;
+    float timeOne = 0.0f;
+    float timeTwo = 0.0f;
+    float timeThree = 0.0f;
+    float timeFour = 0.0f;
+    float timeFive = 0.0f;
+    public bool destroy;
+
+    float timeToMove = 2.0f;
 	// Use this for initialization
 	void Start () 
     {
@@ -21,46 +29,42 @@ public class Cutscene : MonoBehaviour
 
         if (time <= 15.0f)
         {
-            transform.position = mapVantagePoint.position;
-            transform.rotation = mapVantagePoint.rotation;
-            //transform.position = Vector3.Lerp(transform.position, targetPosition.position, Time.deltaTime * smoothFactor); 
-            //transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation.rotation, Time.deltaTime * smoothFactor);
+            timeOne += Time.deltaTime;
+            transform.position = Vector3.Lerp(transform.position, mapVantagePoint.position, timeOne / timeToMove); 
+            transform.rotation = Quaternion.Slerp(transform.rotation, mapVantagePoint.rotation,  timeOne / timeToMove);
         }
 
         if (time <= 11.0f)
         {
-            transform.position = characterVantagePoint.position;
-            transform.rotation = characterVantagePoint.rotation;
-            //transform.position = Vector3.Lerp(transform.position, targetPosition.position, Time.deltaTime * smoothFactor);
-            //transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation.rotation, Time.deltaTime * smoothFactor);
+            timeTwo += Time.deltaTime;
+            transform.position = Vector3.Lerp(transform.position, characterVantagePoint.position, timeTwo / timeToMove);
+            transform.rotation = Quaternion.Slerp(transform.rotation, characterVantagePoint.rotation, timeTwo / timeToMove);
         }
 
         if (time <= 7.0f)
         {
-            transform.position = keyVantagePoint.position;
-            transform.rotation = keyVantagePoint.rotation;
-            //transform.position = Vector3.Lerp(transform.position, targetPosition.position, Time.deltaTime * smoothFactor);
-            //transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation.rotation, Time.deltaTime * smoothFactor);
+            timeThree += Time.deltaTime;
+            transform.position = Vector3.Lerp(transform.position, keyVantagePoint.position,  timeThree / timeToMove);
+            transform.rotation = Quaternion.Slerp(transform.rotation, keyVantagePoint.rotation,  timeThree / timeToMove);
         }
 
         if (time <= 3.0f)
         {
-            transform.position = gateVantagePoint.position;
-            transform.rotation = gateVantagePoint.rotation;
-            //transform.position = Vector3.Lerp(transform.position, targetPosition.position, Time.deltaTime * smoothFactor);
-            //transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation.rotation, Time.deltaTime * smoothFactor);
+            //timeFour += Time.deltaTime;
+            //transform.position = Vector3.Lerp(transform.position, gateVantagePoint.position, timeFour / timeToMove);
+            //transform.rotation = Quaternion.Slerp(transform.rotation, gateVantagePoint.rotation, timeFour / timeToMove);
         }
 
         if (time <= -1.0f)
         {
-            transform.position = enemyVantagePoint.position;
-            transform.rotation = enemyVantagePoint.rotation;
-            //transform.position = Vector3.Lerp(transform.position, targetPosition.position, Time.deltaTime * smoothFactor);
-            //transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation.rotation, Time.deltaTime * smoothFactor);
+            timeFive += Time.deltaTime;
+            transform.position = Vector3.Lerp(transform.position, enemyVantagePoint.position, timeFive / timeToMove);
+            transform.rotation = Quaternion.Slerp(transform.rotation, enemyVantagePoint.rotation, timeFive / timeToMove);
         }
 
         if (time <= -4.0f)
         {
+            destroy = true;
             Destroy(this.gameObject);
         }
 
