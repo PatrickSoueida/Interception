@@ -40,7 +40,8 @@ public class GunBolt : MonoBehaviour {
     void OnCollisionEnter(Collision col)
     {
         //GameObject eff = Instantiate(impactRef, transform.position, transform.rotation);
-        if(!col.gameObject.CompareTag("Player"))
-            Destroy(gameObject);
+		if(!col.gameObject.CompareTag("Player") || !col.gameObject.CompareTag("Ground")){
+            //Destroy(gameObject);
+		}
     }
 }

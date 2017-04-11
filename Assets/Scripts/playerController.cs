@@ -6,6 +6,13 @@ using UnityEngine.SceneManagement;
 
 public class playerController : MonoBehaviour 
 {
+    public GameObject alertBillboard;
+    public GameObject searchBillboard;
+    public GameObject stunnedBillboard;
+    float billboardTime = 0f;
+    public AudioSource alertSound;
+    AudioSource myAlertSound;
+
     public GameObject outroText;
 
     public GameObject switchController;
@@ -118,6 +125,7 @@ public class playerController : MonoBehaviour
        
        
 
+        myAlertSound = alertSound.GetComponent<AudioSource>();
         isPunching = false;
         myOpenCloseMenuSound = openCloseMenuSound.GetComponent<AudioSource>();
         jumpDelay = 0f;
@@ -317,6 +325,61 @@ public class playerController : MonoBehaviour
             verticalLookRotation += Input.GetAxis("Mouse Y") * mouseSensitivityY;
             verticalLookRotation = Mathf.Clamp(verticalLookRotation, -20, 6);
             cameraTransform.localEulerAngles = Vector3.left * verticalLookRotation;
+        }
+
+        //STUNNED BILLBOARD
+        if(Input.GetKeyDown(KeyCode.I))
+        {
+            if(stunnedBillboard.activeSelf == false)
+            {
+                Instantiate(myAlertSound);
+            }
+
+            alertBillboard.SetActive(false);
+            searchBillboard.SetActive(false);
+
+            stunnedBillboard.SetActive(true);
+
+            billboardTime = Time.time + 2f;
+        }
+            
+        //SEARCH BILLBOARD
+        if(Input.GetKeyDown(KeyCode.O))
+        {
+            if(searchBillboard.activeSelf == false)
+            {
+                Instantiate(myAlertSound);
+            }
+
+            alertBillboard.SetActive(false);
+            stunnedBillboard.SetActive(false);
+
+            searchBillboard.SetActive(true);
+
+            billboardTime = Time.time + 2f;
+        }
+
+        //ALERT BILLBOARD
+        if(Input.GetKeyDown(KeyCode.P))
+        {
+            if(alertBillboard.activeSelf == false)
+            {
+                Instantiate(myAlertSound);
+            }
+
+            searchBillboard.SetActive(false);
+            stunnedBillboard.SetActive(false);
+
+            alertBillboard.SetActive(true);
+
+            billboardTime = Time.time + 2f;
+        }
+
+        if(Time.time > billboardTime)
+        {
+            alertBillboard.SetActive(false);
+            searchBillboard.SetActive(false);
+            stunnedBillboard.SetActive(false);
         }
 
         //ALTERNATE 3RD PERSON CAMERA
