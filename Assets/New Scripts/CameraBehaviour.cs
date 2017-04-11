@@ -20,16 +20,6 @@ public class CameraBehaviour : MonoBehaviour
 
     public GameObject crossHair;
 
-	float yaw, pitch;
-	float mouseSensitivity = 4;
-	public Transform target;
-	float distanceFromTarget = 15;
-	Vector2 pitchMinMax = new Vector2 (-40, 85);
-	float rotationSmoothTime = .15f;
-	Vector3 rotationSmoothVelocity;
-	Vector3 currentRotation;
-
-
 	// Use this for initialization
 	void Start () 
     {
@@ -40,21 +30,7 @@ public class CameraBehaviour : MonoBehaviour
         soundPlayed = false;
         buttonPressed = false;
 	}
-
-	void LateUpdate()
-	{
-		yaw += Input.GetAxis ("Mouse X") * mouseSensitivity;
-		pitch -= Input.GetAxis ("Mouse Y") * mouseSensitivity;
-		pitch = Mathf.Clamp (pitch, pitchMinMax.x, pitchMinMax.y);
-
-		currentRotation = Vector3.SmoothDamp (currentRotation, new Vector3 (pitch, yaw), ref rotationSmoothVelocity, rotationSmoothTime);
-
-		transform.eulerAngles = currentRotation;
-
-		transform.position = target.position - transform.forward * distanceFromTarget;
-
-	}
-
+	
 	// Update is called once per frame
 	void Update () 
     {
