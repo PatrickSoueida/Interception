@@ -8,12 +8,15 @@ public class MainMenu : MonoBehaviour
     public bool isStart;
     public bool isQuit;
 
+    public GameObject mainLoadScreen;
     public AudioSource menuSelectionSound;
     AudioSource myMenuSelectionSound;
 
     void Start()
     {
         myMenuSelectionSound = menuSelectionSound.GetComponent<AudioSource>();
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
     void OnMouseUp()
@@ -21,7 +24,10 @@ public class MainMenu : MonoBehaviour
         if (isStart)
         {
             Instantiate(myMenuSelectionSound);
-            Invoke("LoadMain", 1.5f);
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            //Invoke("LoadMain", 2f);
+            LoadMain();
         }
         if (isQuit)
         {
@@ -31,6 +37,7 @@ public class MainMenu : MonoBehaviour
 
     void LoadMain()
     {
-        SceneManager.LoadScene("Main");
+        //SceneManager.LoadScene("Main");
+        mainLoadScreen.SetActive(true);
     }
 }
