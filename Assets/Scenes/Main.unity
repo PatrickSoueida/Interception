@@ -14493,7 +14493,7 @@ Prefab:
     - target: {fileID: 224592848536708638, guid: 2879ecebe7801fc4a9b3160d61290aab,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: -5
+      value: -5.5
       objectReference: {fileID: 0}
     - target: {fileID: 224592848536708638, guid: 2879ecebe7801fc4a9b3160d61290aab,
         type: 2}
@@ -15778,6 +15778,18 @@ Prefab:
       propertyPath: returnPoint
       value: 
       objectReference: {fileID: 1727026066}
+    - target: {fileID: 13615390, guid: 8d01a2cd828ae08408faebbee93d97f4, type: 2}
+      propertyPath: m_Radius
+      value: 0.4975226
+      objectReference: {fileID: 0}
+    - target: {fileID: 13615390, guid: 8d01a2cd828ae08408faebbee93d97f4, type: 2}
+      propertyPath: m_Height
+      value: 1.5964522
+      objectReference: {fileID: 0}
+    - target: {fileID: 1165961769460410, guid: 8d01a2cd828ae08408faebbee93d97f4, type: 2}
+      propertyPath: m_TagString
+      value: Enemy Cam
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8d01a2cd828ae08408faebbee93d97f4, type: 2}
   m_IsPrefabParent: 0
