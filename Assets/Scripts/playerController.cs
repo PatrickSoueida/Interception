@@ -543,10 +543,10 @@ public class playerController : MonoBehaviour
             //Destroy(GameObject.Find("menuOpenCloseSound(Clone)"));
         }
 
-        if(obj.tag == "Enemy")
+        /*if(obj.tag == "Enemy")
         {
             Respawn();
-        }
+        }*/
 
         if(obj.tag == "Switch1")
         {
