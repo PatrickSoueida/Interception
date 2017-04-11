@@ -23,6 +23,7 @@ public class CameraBehaviour : MonoBehaviour
 	// Use this for initialization
 	void Start () 
     {
+		GetComponent<Camera> ().enabled = true;
         crossHair.SetActive(false);
         soundPlayed2 = false;
         myAimingSound = aimingSound.GetComponent<AudioSource>();
@@ -67,4 +68,9 @@ public class CameraBehaviour : MonoBehaviour
             //transform.rotation = Quaternion.Slerp(transform.rotation, initialRotation.rotation, Time.deltaTime * smoothFactor); 
         }
 	}
+
+    public bool GetButtonPressed()
+    {
+        return buttonPressed;
+    }
 }

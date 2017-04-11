@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class quitScript : MonoBehaviour 
 {
-    //public GameObject menuLoadScreen;
+    public GameObject menuLoadScreen;
     public AudioSource menuSelectionSound;
     AudioSource myMenuSelectionSound;
 
@@ -16,13 +16,16 @@ public class quitScript : MonoBehaviour
     public void play()
     {
         Instantiate(myMenuSelectionSound);
-        //menuLoadScreen.SetActive(true);
         Time.timeScale = 1;
-        Invoke("LoadMainMenu", 1.5f);
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        //Invoke("LoadMainMenu", 2f);
+        LoadMainMenu();
     }
 
     void LoadMainMenu()
     {
-        SceneManager.LoadScene("MainMenu");
+        //SceneManager.LoadScene("MainMenu");
+        menuLoadScreen.SetActive(true);
     }
 }
