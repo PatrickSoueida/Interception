@@ -15988,13 +15988,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 666684022}
-  m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: -121.83, y: 145.17, z: -55.17}
+  m_LocalRotation: {x: 0.27059805, y: 0.6532815, z: -0.27059805, w: 0.6532815}
+  m_LocalPosition: {x: 114.8, y: 88.368, z: 84.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 45, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 45, y: 90, z: 0}
 --- !u!1 &669787979
 GameObject:
   m_ObjectHideFlags: 0
@@ -27886,7 +27886,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 486224, guid: 8c0350d346a88814680aa3b5ab1e0c6d, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 186.1946
+      value: 139
       objectReference: {fileID: 0}
     - target: {fileID: 486224, guid: 8c0350d346a88814680aa3b5ab1e0c6d, type: 2}
       propertyPath: m_LocalPosition.y
@@ -27894,7 +27894,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 486224, guid: 8c0350d346a88814680aa3b5ab1e0c6d, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -178.98686
+      value: -128.2
       objectReference: {fileID: 0}
     - target: {fileID: 486224, guid: 8c0350d346a88814680aa3b5ab1e0c6d, type: 2}
       propertyPath: m_LocalRotation.x
@@ -36066,12 +36066,12 @@ GameObject:
   - component: {fileID: 1394584062}
   - component: {fileID: 1394584061}
   m_Layer: 0
-  m_Name: Camera
+  m_Name: Cutscene
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1394584061
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36087,7 +36087,7 @@ MonoBehaviour:
   mapVantagePoint: {fileID: 229422373}
   characterVantagePoint: {fileID: 791491747}
   keyVantagePoint: {fileID: 1876458537}
-  gateVantagePoint: {fileID: 0}
+  gateVantagePoint: {fileID: 1691230263}
   enemyVantagePoint: {fileID: 666684023}
   characterCameraPoint: {fileID: 0}
   smoothFactor: 5
@@ -43712,6 +43712,34 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1688275498}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1691230262
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1691230263}
+  m_Layer: 0
+  m_Name: GateVantagePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1691230263
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1691230262}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -408.6, y: 211.41, z: 44.01}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 17
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1001 &1693896431
 Prefab:
   m_ObjectHideFlags: 0
@@ -49454,13 +49482,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1876458536}
-  m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: -34.8, y: 121, z: -67.7}
+  m_LocalRotation: {x: 0.27059805, y: -0.6532815, z: 0.27059805, w: 0.6532815}
+  m_LocalPosition: {x: -183.24, y: 84.474, z: 14.44}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: 45, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 45, y: -90, z: 0}
 --- !u!1 &1878223832
 GameObject:
   m_ObjectHideFlags: 0
