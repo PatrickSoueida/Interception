@@ -17,6 +17,7 @@ TagManager:
   - Portal
   - Switch1
   - Enemy
+  - Bolt
   layers:
   - Default
   - TransparentFX
