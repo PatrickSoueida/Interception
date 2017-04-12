@@ -65907,8 +65907,21 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "You are a computer virus\n\nstuck in the dark web.\n\nActivate all 4 terminals
-    \n\nin order to compromise\n\nthe host computer!"
+  m_Text: 'Game Complete!
+
+
+    Credits:
+
+
+    Jordan Orsini
+
+    Patrick Soueida
+
+    Matthew Verrucci
+
+    Majed Alkhouri
+
+    Alec Nepute'
 --- !u!222 &1900928525
 CanvasRenderer:
   m_ObjectHideFlags: 0
