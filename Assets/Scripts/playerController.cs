@@ -173,8 +173,8 @@ public class playerController : MonoBehaviour
         isShooting = false;
 
         myRigidbody = GetComponent<Rigidbody>();
-        sprintSpeed = 2250f;
-        movementSpeed = 1500f;
+        sprintSpeed = 1800f;
+        movementSpeed = 1100f;
         crouchSpeed = 750f;
         myAnimator = GetComponent<Animator>();
 
