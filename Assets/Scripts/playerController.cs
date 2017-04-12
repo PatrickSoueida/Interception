@@ -6,6 +6,13 @@ using UnityEngine.SceneManagement;
 
 public class playerController : MonoBehaviour 
 {
+    public GameObject alertBillboard;
+    public GameObject searchBillboard;
+    public GameObject stunnedBillboard;
+    float billboardTime = 0f;
+    public AudioSource alertSound;
+    AudioSource myAlertSound;
+
     public GameObject outroText;
 
     public GameObject switchController;
@@ -106,11 +113,19 @@ public class playerController : MonoBehaviour
 
     bool startedRecharge;
 
+    //camera stuff
+    
+    CameraBehaviour camScript;
+
 	void Start () 
     {
         //Debug.Log(transform.position);
         //Debug.Log(transform.rotation);
+        camScript = cameraTransform.GetComponent<CameraBehaviour>();
+       
+       
 
+        myAlertSound = alertSound.GetComponent<AudioSource>();
         isPunching = false;
         myOpenCloseMenuSound = openCloseMenuSound.GetComponent<AudioSource>();
         jumpDelay = 0f;
@@ -177,7 +192,7 @@ public class playerController : MonoBehaviour
 	
 	void Update () 
     {
-       
+        //Debug.DrawLine(transform.position + Vector3.up * 8, camScript.targetPosition.localPosition, Color.red);
 
         CheckGrounded();
 
@@ -310,6 +325,61 @@ public class playerController : MonoBehaviour
             verticalLookRotation += Input.GetAxis("Mouse Y") * mouseSensitivityY;
             verticalLookRotation = Mathf.Clamp(verticalLookRotation, -20, 6);
             cameraTransform.localEulerAngles = Vector3.left * verticalLookRotation;
+        }
+
+        //STUNNED BILLBOARD
+        if(Input.GetKeyDown(KeyCode.I))
+        {
+            if(stunnedBillboard.activeSelf == false)
+            {
+                Instantiate(myAlertSound);
+            }
+
+            alertBillboard.SetActive(false);
+            searchBillboard.SetActive(false);
+
+            stunnedBillboard.SetActive(true);
+
+            billboardTime = Time.time + 2f;
+        }
+            
+        //SEARCH BILLBOARD
+        if(Input.GetKeyDown(KeyCode.O))
+        {
+            if(searchBillboard.activeSelf == false)
+            {
+                Instantiate(myAlertSound);
+            }
+
+            alertBillboard.SetActive(false);
+            stunnedBillboard.SetActive(false);
+
+            searchBillboard.SetActive(true);
+
+            billboardTime = Time.time + 2f;
+        }
+
+        //ALERT BILLBOARD
+        if(Input.GetKeyDown(KeyCode.P))
+        {
+            if(alertBillboard.activeSelf == false)
+            {
+                Instantiate(myAlertSound);
+            }
+
+            searchBillboard.SetActive(false);
+            stunnedBillboard.SetActive(false);
+
+            alertBillboard.SetActive(true);
+
+            billboardTime = Time.time + 2f;
+        }
+
+        if(Time.time > billboardTime)
+        {
+            alertBillboard.SetActive(false);
+            searchBillboard.SetActive(false);
+            stunnedBillboard.SetActive(false);
         }
 
         //ALTERNATE 3RD PERSON CAMERA
@@ -541,8 +611,24 @@ public class playerController : MonoBehaviour
 			    currentColor = "BLACK";
             }
         }
-
+        adjustCamera();
 	}
+
+    void adjustCamera()
+    {
+        float dist = 10f;
+        Ray ray = new Ray(transform.position + Vector3.up * 8, camScript.initialPosition.position - (transform.position + Vector3.up * 8));
+        RaycastHit info;
+        Debug.DrawRay(transform.position + Vector3.up * 8, camScript.initialPosition.position - (transform.position + Vector3.up * 8), Color.red);
+
+        if (Physics.Raycast(ray, out info, dist))
+        {
+            //print("obstructed by "+info.collider.name);
+            //cameraTransform.position = Vector3.Lerp(cameraTransform.position, camScript.targetPosition.position)
+            camScript.obstructed = true;
+        }
+        else camScript.obstructed = false;
+    }
 
     void CheckGrounded()
     {

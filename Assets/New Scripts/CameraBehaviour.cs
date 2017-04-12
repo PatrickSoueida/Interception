@@ -14,9 +14,12 @@ public class CameraBehaviour : MonoBehaviour
      bool buttonPressed;
      bool soundPlayed;
      bool soundPlayed2;
+     public bool obstructed;
+     float obstTime = 0;
 
     public AudioSource aimingSound;
     AudioSource myAimingSound;
+    float timeToMove = 0.1f;
 
     public GameObject crossHair;
 
@@ -29,11 +32,13 @@ public class CameraBehaviour : MonoBehaviour
         myAimingSound = aimingSound.GetComponent<AudioSource>();
         soundPlayed = false;
         buttonPressed = false;
+        obstructed = false;
 	}
 	
 	// Update is called once per frame
 	void Update () 
     {
+        
         if (Input.GetMouseButtonDown(1))
         {
             if(soundPlayed == false)
@@ -55,12 +60,19 @@ public class CameraBehaviour : MonoBehaviour
             soundPlayed = false;
         }
 
-        if (buttonPressed == true) 
-        { 
-            crossHair.SetActive(true); 
-            transform.position = Vector3.Lerp(transform.position, targetPosition.position, Time.deltaTime * smoothFactor);
-             //transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation.rotation, Time.deltaTime * smoothFactor);
+        if (obstructed)
+        {
+            obstTime += Time.deltaTime;
+            transform.position = Vector3.Lerp(transform.position, targetPosition.position, obstTime/timeToMove);
         }
+        else obstTime = 0f;
+        if (buttonPressed == true)
+        {
+            crossHair.SetActive(true);
+            transform.position = Vector3.Lerp(transform.position, targetPosition.position, Time.deltaTime * smoothFactor);
+            //transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation.rotation, Time.deltaTime * smoothFactor);
+        }
+
         if (buttonPressed == false)
         {
             crossHair.SetActive(false);
