@@ -288,19 +288,21 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 		void OnTriggerEnter(Collider coll){
 			if (coll.gameObject.tag == "Player") {
 				SetState ("PATROL");
-			}
-
-			if (coll.tag == "Bolt") {
-				Debug.Log ("You shot the AI!");
-				lastState = GetState ();
-				Destroy (coll.gameObject);
-				SetState ("STUNNED");
+			} else {
+				if (coll.tag == "Bolt") {
+					Debug.Log ("You shot the AI!");
+					lastState = GetState ();
+					Destroy (coll.gameObject);
+					SetState ("STUNNED");
+				}
 			}
 		}
 
 		void CheckForPlayer(){
             RaycastHit hit;
 			Debug.DrawRay (AICam.transform.position, transform.forward * sightDist, Color.yellow);
+			Debug.DrawRay (AICam.transform.position, transform.right * sightDist, Color.yellow);
+			Debug.DrawRay (AICam.transform.position, -transform.right * sightDist, Color.yellow);
 			Debug.DrawRay (AICam.transform.position, (transform.forward + transform.right).normalized * sightDist, Color.yellow);
 			Debug.DrawRay (AICam.transform.position, (transform.forward - transform.right).normalized * sightDist, Color.yellow);
 			Debug.DrawRay (AICam.transform.position, (transform.forward + (transform.forward + transform.right)).normalized * sightDist, Color.yellow);
@@ -312,6 +314,22 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 			Debug.DrawRay (AICam.transform.position, (transform.forward + (transform.right/2)).normalized * sightDist, Color.yellow);
 			Debug.DrawRay (AICam.transform.position, (transform.forward - (transform.right/2)).normalized * sightDist, Color.yellow);
 			if (Physics.Raycast (AICam.transform.position, transform.forward, out hit, sightDist)) {
+				if (hit.collider.gameObject.tag == "Player") {
+					if (state != AICameraScript.State.STUNNED) {
+						state = AICameraScript.State.CHASE;
+						target = hit.collider.gameObject;
+					}
+				}
+			}
+			if (Physics.Raycast (AICam.transform.position, transform.right, out hit, sightDist)) {
+				if (hit.collider.gameObject.tag == "Player") {
+					if (state != AICameraScript.State.STUNNED) {
+						state = AICameraScript.State.CHASE;
+						target = hit.collider.gameObject;
+					}
+				}
+			}
+			if (Physics.Raycast (AICam.transform.position, -transform.right, out hit, sightDist)) {
 				if (hit.collider.gameObject.tag == "Player") {
 					if (state != AICameraScript.State.STUNNED) {
 						state = AICameraScript.State.CHASE;
