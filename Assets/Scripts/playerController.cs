@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class playerController : MonoBehaviour 
+public class playerController : MonoBehaviour
 {
     public GameObject billboard;
     float billboardTime;
@@ -66,9 +66,9 @@ public class playerController : MonoBehaviour
     public Material green;
     public Material blue;
     public Material black;
-	public string currentColor;
+    public string currentColor;
 
-	public bool camouflaged;
+    public bool camouflaged;
 
     Animator myAnimator;
 
@@ -103,6 +103,17 @@ public class playerController : MonoBehaviour
 
     float energy;
 
+    //Alec's smooth drain variables: will clear other stuff once done
+    enum state {full, draining, delay, regen };
+    state curState;
+    float curEnergy;
+    const float maxEnergy = 100f;
+    float drainRate = 20f;
+    float rechargeRate = 15f;
+    float regenDelay = 10f;
+    float delayTime;
+    //end energy stuff
+
     bool camoEnabled;
 
     float camoDrainTime;
@@ -124,8 +135,9 @@ public class playerController : MonoBehaviour
         //Debug.Log(transform.position);
         //Debug.Log(transform.rotation);
         camScript = cameraTransform.GetComponent<CameraBehaviour>();
-       
-       
+        curState = state.full;
+        curEnergy = maxEnergy;
+        delayTime = 0;
 
         billboardTime = 0f;
         mySearchSound = searchSound.GetComponent<AudioSource>();
@@ -200,6 +212,166 @@ public class playerController : MonoBehaviour
     {
         //Debug.DrawLine(transform.position + Vector3.up * 8, camScript.targetPosition.localPosition, Color.red);
 
+        /*if(curState == state.full)
+        {
+            
+
+            if (camoEnabled)
+            {
+                curState = state.draining;
+            }
+            
+        }
+
+        else if(curState == state.delay)
+        {
+            if (delayTime >= regenDelay)
+            {
+                delayTime = 0;
+                Instantiate(myRechargeSound);
+                curState = state.regen;
+            }
+            else delayTime += Time.deltaTime;
+
+            if (camoEnabled) //condition only met when energy is non-empty
+            {
+                curState = state.draining;
+            }
+        }
+
+        else if(curState == state.draining)
+        {
+            if (curEnergy <= 0)
+            {
+                curEnergy = 0;
+                camoEnabled = false;
+                Instantiate(myCamoOffSound);
+                GetComponentInChildren<Renderer>().material = black;
+                currentColor = "BLACK";
+                curState = state.delay;
+            }
+            else curEnergy -= Time.deltaTime * drainRate;
+        }
+        else //regen
+        {
+            if (curEnergy >= maxEnergy)
+            {
+                curEnergy = maxEnergy;
+                curState = state.full;
+            }
+            else curEnergy += Time.deltaTime * rechargeRate;
+        }
+
+        //END OF ENERGY STATE BEHAVIOR~~~~~~~~~~~~~~~~~~
+
+        if (Input.GetMouseButtonDown(0) && pauseScreen.activeSelf == false && outroText.activeSelf == false)
+        {
+            if (curState == state.full)
+            {
+                if (alreadyFired == false)
+                {
+                    curEnergy = 0;
+                    curState = state.delay;
+
+                    Instantiate(myShootSound);
+                    isShooting = true;
+                    alreadyFired = true;
+                    //currentTime = Time.time + 1f;
+                }
+            }
+            else
+            {
+                Instantiate(myEmptySound);
+            }
+        }
+
+        //RED
+        if (Input.GetKeyDown(KeyCode.Alpha1) && pauseScreen.activeSelf == false && outroText.activeSelf == false)
+        {
+            if (!currentColor.Equals("RED"))
+            {
+                if (curEnergy > 0)
+                {
+                    camoEnabled = true;
+                    //startedRecharge = false;
+                    //UpdateEnergy(energy - drainPerSecond);
+                    //rechargeDelayTime = Time.time + rechargeDelay;
+                    //camoDrainTime = Time.time + 1f;
+
+                    Instantiate(myCamoSound);
+                    GetComponentInChildren<Renderer>().material = red;
+                    currentColor = "RED";
+                }
+                else
+                {
+                    Instantiate(myEmptySound);
+                }
+            }
+        }
+
+        //GREEN
+        if (Input.GetKeyDown(KeyCode.Alpha2) && pauseScreen.activeSelf == false && outroText.activeSelf == false)
+        {
+            if (!currentColor.Equals("GREEN"))
+            {
+                if (curEnergy > 0)
+                {
+                    camoEnabled = true;
+                    //startedRecharge = false;
+                    //UpdateEnergy(energy - drainPerSecond);
+                    //rechargeDelayTime = Time.time + rechargeDelay;
+                    //camoDrainTime = Time.time + 1f;
+
+                    Instantiate(myCamoSound);
+                    GetComponentInChildren<Renderer>().material = green;
+                    currentColor = "GREEN";
+                }
+                else
+                {
+                    Instantiate(myEmptySound);
+                }
+            }
+        }
+
+        //BLUE
+        if (Input.GetKeyDown(KeyCode.Alpha3) && pauseScreen.activeSelf == false && outroText.activeSelf == false)
+        {
+            if (!currentColor.Equals("BLUE"))
+            {
+                if (curEnergy > 0)
+                {
+                    camoEnabled = true;
+                    //startedRecharge = false;
+                    //UpdateEnergy(energy - drainPerSecond);
+                    //rechargeDelayTime = Time.time + rechargeDelay;
+                    //camoDrainTime = Time.time + 1f;
+
+                    Instantiate(myCamoSound);
+                    GetComponentInChildren<Renderer>().material = blue;
+                    currentColor = "BLUE";
+                }
+                else
+                {
+                    Instantiate(myEmptySound);
+                }
+            }
+        }
+
+        //RESET
+        if (Input.GetKeyDown(KeyCode.Tab) && pauseScreen.activeSelf == false && outroText.activeSelf == false)
+        {
+            if (!currentColor.Equals("BLACK"))
+            {
+                curState = state.delay;
+                camoEnabled = false;
+                Instantiate(myCamoOffSound);
+                GetComponentInChildren<Renderer>().material = black;
+                currentColor = "BLACK";
+            }
+        }*/
+
+        //end of Alec's stuff~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
         CheckGrounded();
 
         myAnimator.SetBool("isGrounded", isGrounded);
@@ -225,7 +397,7 @@ public class playerController : MonoBehaviour
         {
             isPunching = false;
         }
-
+        
         if(camoEnabled == true)
         {
             if(Time.time > camoDrainTime)
@@ -528,11 +700,12 @@ public class playerController : MonoBehaviour
             }
         }
 
-       /* if(Input.GetKeyDown(KeyCode.E))
+        if(Input.GetKeyDown(KeyCode.E))
         {
             isPunching = true;
-        }*/
+        }
 
+        
         //RED
         if(Input.GetKeyDown(KeyCode.Alpha1) && pauseScreen.activeSelf == false && outroText.activeSelf == false)
         {
@@ -728,6 +901,7 @@ public class playerController : MonoBehaviour
     public void UpdateEnergy(float newEnergy)
     {
         energy = newEnergy;
+        //curEnergy = newEnergy;
         energyBar.GetComponent<Text>().text = "Energy: "  + energy.ToString();
         energyGauge.sizeDelta = new Vector2(energy * 2, energyGauge.sizeDelta.y);
     }
