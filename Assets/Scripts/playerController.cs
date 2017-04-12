@@ -6,12 +6,14 @@ using UnityEngine.SceneManagement;
 
 public class playerController : MonoBehaviour 
 {
-    public GameObject alertBillboard;
-    public GameObject searchBillboard;
-    public GameObject stunnedBillboard;
-    float billboardTime = 0f;
+    public GameObject billboard;
+    float billboardTime;
     public AudioSource alertSound;
     AudioSource myAlertSound;
+    public AudioSource searchSound;
+    AudioSource mySearchSound;
+    public AudioSource stunSound;
+    AudioSource myStunSound;
 
     public GameObject outroText;
 
@@ -118,7 +120,11 @@ public class playerController : MonoBehaviour
         //Debug.Log(transform.position);
         //Debug.Log(transform.rotation);
 
+        billboardTime = 0f;
+        mySearchSound = searchSound.GetComponent<AudioSource>();
+        myStunSound = stunSound.GetComponent<AudioSource>();
         myAlertSound = alertSound.GetComponent<AudioSource>();
+
         isPunching = false;
         myOpenCloseMenuSound = openCloseMenuSound.GetComponent<AudioSource>();
         jumpDelay = 0f;
@@ -323,56 +329,55 @@ public class playerController : MonoBehaviour
         //STUNNED BILLBOARD
         if(Input.GetKeyDown(KeyCode.I))
         {
-            if(stunnedBillboard.activeSelf == false)
+            if(billboard.transform.GetChild(2).gameObject.activeSelf == false)
             {
-                Instantiate(myAlertSound);
+                Instantiate(myStunSound);
+                billboard.transform.GetChild(0).gameObject.SetActive(false);
+                billboard.transform.GetChild(1).gameObject.SetActive(false);
+
+                billboard.transform.GetChild(2).gameObject.SetActive(true);
+
+                billboardTime = Time.time + 2f;
             }
-
-            alertBillboard.SetActive(false);
-            searchBillboard.SetActive(false);
-
-            stunnedBillboard.SetActive(true);
-
-            billboardTime = Time.time + 2f;
         }
             
         //SEARCH BILLBOARD
         if(Input.GetKeyDown(KeyCode.O))
         {
-            if(searchBillboard.activeSelf == false)
+            if(billboard.transform.GetChild(1).gameObject.activeSelf == false)
             {
-                Instantiate(myAlertSound);
+                Instantiate(mySearchSound);
+
+                billboard.transform.GetChild(0).gameObject.SetActive(false);
+                billboard.transform.GetChild(2).gameObject.SetActive(false);
+
+                billboard.transform.GetChild(1).gameObject.SetActive(true);
+
+                billboardTime = Time.time + 2f;
             }
-
-            alertBillboard.SetActive(false);
-            stunnedBillboard.SetActive(false);
-
-            searchBillboard.SetActive(true);
-
-            billboardTime = Time.time + 2f;
         }
 
         //ALERT BILLBOARD
         if(Input.GetKeyDown(KeyCode.P))
         {
-            if(alertBillboard.activeSelf == false)
+            if(billboard.transform.GetChild(0).gameObject.activeSelf == false)
             {
                 Instantiate(myAlertSound);
+
+                billboard.transform.GetChild(1).gameObject.SetActive(false);
+                billboard.transform.GetChild(2).gameObject.SetActive(false);
+
+                billboard.transform.GetChild(0).gameObject.SetActive(true);
+
+                billboardTime = Time.time + 2f;
             }
-
-            searchBillboard.SetActive(false);
-            stunnedBillboard.SetActive(false);
-
-            alertBillboard.SetActive(true);
-
-            billboardTime = Time.time + 2f;
         }
 
         if(Time.time > billboardTime)
         {
-            alertBillboard.SetActive(false);
-            searchBillboard.SetActive(false);
-            stunnedBillboard.SetActive(false);
+            billboard.transform.GetChild(0).gameObject.SetActive(false);
+            billboard.transform.GetChild(1).gameObject.SetActive(false);
+            billboard.transform.GetChild(2).gameObject.SetActive(false);
         }
 
         //ALTERNATE 3RD PERSON CAMERA
