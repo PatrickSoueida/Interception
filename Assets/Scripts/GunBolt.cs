@@ -9,8 +9,7 @@ public class GunBolt : MonoBehaviour
     Rigidbody rbRef;
     public float speed;
     Vector3 dir;
-    float lifeTime = 5f;
-    float flyTime = 0f;
+    float flyTime;
 
 	// Use this for initialization
 	void Awake () 
@@ -20,20 +19,16 @@ public class GunBolt : MonoBehaviour
         
         rbRef.velocity = transform.forward * speed;
 
+        flyTime = Time.time + 2f;
 	}
 	
 	// Update is called once per frame
 	void Update () 
     {
-        if (flyTime >= lifeTime)
+        if (Time.time > flyTime)
         {
             Destroy(gameObject);
-        }
-        else
-        {
-            flyTime += Time.deltaTime;
-        }
-            
+        }      
     }
 
     public void setDir(Vector3 d)
@@ -42,13 +37,14 @@ public class GunBolt : MonoBehaviour
         rbRef.velocity = dir * speed;
     }
 
-    void OnCollisionEnter(Collision col)
+    /*void OnCollisionEnter(Collision col)
     {
         GameObject obj = col.gameObject;
         //GameObject eff = Instantiate(impactRef, transform.position, transform.rotation);
+
         if(obj.tag == "Enemy")
         {
             Destroy(gameObject);
 		}
-    }
+    }*/
 }
