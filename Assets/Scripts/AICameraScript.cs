@@ -39,7 +39,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 
 		public State state;
 		private bool alive;
-		private int totalNumOfAI = 3;
+		private int totalNumOfAI = 14;
 		private int lastState;
 
 		//public bool sawPlayer;
