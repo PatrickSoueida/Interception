@@ -22,6 +22,7 @@ TagManager:
   - Switch4
   - Bolt
   - Enemy Cam
+  - OuterWall
   layers:
   - Default
   - TransparentFX
