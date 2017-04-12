@@ -6,15 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class playerController : MonoBehaviour 
 {
-    public GameObject billboard;
-    float billboardTime;
-    public AudioSource alertSound;
-    AudioSource myAlertSound;
-    public AudioSource searchSound;
-    AudioSource mySearchSound;
-    public AudioSource stunSound;
-    AudioSource myStunSound;
-
     public GameObject outroText;
 
     public GameObject switchController;
@@ -124,13 +115,6 @@ public class playerController : MonoBehaviour
         //Debug.Log(transform.position);
         //Debug.Log(transform.rotation);
         camScript = cameraTransform.GetComponent<CameraBehaviour>();
-       
-       
-
-        billboardTime = 0f;
-        mySearchSound = searchSound.GetComponent<AudioSource>();
-        myStunSound = stunSound.GetComponent<AudioSource>();
-        myAlertSound = alertSound.GetComponent<AudioSource>();
 
         isPunching = false;
         myOpenCloseMenuSound = openCloseMenuSound.GetComponent<AudioSource>();
@@ -332,71 +316,7 @@ public class playerController : MonoBehaviour
             verticalLookRotation = Mathf.Clamp(verticalLookRotation, -20, 6);
             cameraTransform.localEulerAngles = Vector3.left * verticalLookRotation;
         }
-
-        //STUNNED BILLBOARD
-        if(Input.GetKeyDown(KeyCode.I))
-        {
-            if(billboard.transform.GetChild(2).gameObject.activeSelf == false)
-            {
-                Instantiate(myStunSound);
-                billboard.transform.GetChild(0).gameObject.SetActive(false);
-                billboard.transform.GetChild(1).gameObject.SetActive(false);
-
-                billboard.transform.GetChild(2).gameObject.SetActive(true);
-
-                billboardTime = Time.time + 2f;
-            }
-        }
             
-        //SEARCH BILLBOARD
-        if(Input.GetKeyDown(KeyCode.O))
-        {
-            if(billboard.transform.GetChild(1).gameObject.activeSelf == false)
-            {
-                Instantiate(mySearchSound);
-
-                billboard.transform.GetChild(0).gameObject.SetActive(false);
-                billboard.transform.GetChild(2).gameObject.SetActive(false);
-
-                billboard.transform.GetChild(1).gameObject.SetActive(true);
-
-                billboardTime = Time.time + 2f;
-            }
-        }
-
-        //ALERT BILLBOARD
-        if(Input.GetKeyDown(KeyCode.P))
-        {
-            if(billboard.transform.GetChild(0).gameObject.activeSelf == false)
-            {
-                Instantiate(myAlertSound);
-
-                billboard.transform.GetChild(1).gameObject.SetActive(false);
-                billboard.transform.GetChild(2).gameObject.SetActive(false);
-
-                billboard.transform.GetChild(0).gameObject.SetActive(true);
-
-                billboardTime = Time.time + 2f;
-            }
-        }
-
-        if(Time.time > billboardTime)
-        {
-            billboard.transform.GetChild(0).gameObject.SetActive(false);
-            billboard.transform.GetChild(1).gameObject.SetActive(false);
-            billboard.transform.GetChild(2).gameObject.SetActive(false);
-        }
-
-        //ALTERNATE 3RD PERSON CAMERA
-        /*Vector2 input = new Vector2 (Input.GetAxisRaw ("Horizontal"), Input.GetAxisRaw ("Vertical"));
-        Vector2 inputDir = input.normalized;
-
-        if (inputDir != Vector2.zero) {
-            float targetRotation = Mathf.Atan2 (inputDir.x, inputDir.y) * Mathf.Rad2Deg + cameraT.eulerAngles.y;
-            transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref turnSmoothVelocity, 0.2f);
-        }*/
-
-
         //UP
         if(Input.GetKey(KeyCode.W) && pauseScreen.activeSelf == false && outroText.activeSelf == false)
         {
@@ -743,6 +663,7 @@ public class playerController : MonoBehaviour
     public void Respawn()
     {
         Instantiate(myDeathSound);
+        UpdateEnergy(100);
 
         transform.position = new Vector3(186.2f, 67.2f, -179f);
         transform.rotation = new Quaternion(0f, -0.4f, 0f, 0.9f);

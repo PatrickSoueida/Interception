@@ -28,6 +28,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
         bool searching;
         bool stunned;
 
+        Animator myAnimator;
+
 		public enum State{
 			PATROL,
 			CHASE,
@@ -62,6 +64,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 
 		void Start () 
         {
+            myAnimator = GetComponent<Animator>();
+
             alert = false;
             searching = true;
             stunned = false;
@@ -225,21 +229,23 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 
             agent.speed = 0f;
 			character.Move (Vector3.zero, false, false);
-			gameObject.GetComponentInChildren<Camera> ().enabled = false;
+			//gameObject.GetComponentInChildren<Camera> ().enabled = false;
 			Debug.Log ("AI is stunned!");
 			yield return new WaitForSeconds(3.5f);
 			if (lastState == 1) {
-				gameObject.GetComponentInChildren<Camera> ().enabled = true;
+				//gameObject.GetComponentInChildren<Camera> ().enabled = true;
 				SetState ("CHASE");
 			} else {
-				gameObject.GetComponentInChildren<Camera> ().enabled = true;
+				//gameObject.GetComponentInChildren<Camera> ().enabled = true;
 				SetState ("PATROL");
 			}
 		}
 
 		void Update ()
 		{
-			//Memo's Code
+            myAnimator.SetBool("isStunned", stunned);
+
+            //Memo's Code
 			/*Vector3 targetDir = target.transform.position - transform.position;
             float angle = Vector3.Angle(targetDir, transform.forward);
             if (angle < 5.0f)
