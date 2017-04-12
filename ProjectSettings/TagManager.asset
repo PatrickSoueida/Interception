@@ -23,7 +23,28 @@ TagManager:
   - Bolt
   - Enemy Cam
   - OuterWall
-  - SwitchController
+  - AI 4
+  - AI 5
+  - AI 6
+  - AI 7
+  - AI 8
+  - AI 9
+  - AI 10
+  - AI 11
+  - AI 12
+  - AI 13
+  - AI 14
+  - Waypoint Set 4
+  - Waypoint Set 5
+  - Waypoint Set 6
+  - Waypoint Set 7
+  - Waypoint Set 8
+  - Waypoint Set 9
+  - Waypoint Set 10
+  - Waypoint Set 11
+  - Waypoint Set 12
+  - Waypoint Set 13
+  - Waypoint Set 14
   layers:
   - Default
   - TransparentFX
