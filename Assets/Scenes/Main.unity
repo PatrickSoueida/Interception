@@ -6010,6 +6010,34 @@ Prefab:
 Transform:
   m_PrefabParentObject: {fileID: 477184, guid: c7d22fc12cae83042ac0423933ae67d8, type: 2}
   m_PrefabInternal: {fileID: 270634281}
+--- !u!1 &271889232
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 271889233}
+  m_Layer: 0
+  m_Name: CamoVantagePointOne
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &271889233
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 271889232}
+  m_LocalRotation: {x: 0.5, y: 0.5, z: -0.5, w: 0.5}
+  m_LocalPosition: {x: 144.87, y: 56.28, z: 59}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 20
+  m_LocalEulerAnglesHint: {x: 90, y: 90, z: 0}
 --- !u!1 &272629439
 GameObject:
   m_ObjectHideFlags: 0
@@ -20589,6 +20617,34 @@ Prefab:
 Transform:
   m_PrefabParentObject: {fileID: 471638, guid: 08e81e8bf090e534994ec20efd2d97ef, type: 2}
   m_PrefabInternal: {fileID: 837313855}
+--- !u!1 &838648081
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 838648082}
+  m_Layer: 0
+  m_Name: CamoVantagePointThree
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &838648082
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 838648081}
+  m_LocalRotation: {x: 0.5, y: 0.5, z: -0.5, w: 0.5}
+  m_LocalPosition: {x: -72.33, y: 55.51, z: 84.0948}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 22
+  m_LocalEulerAnglesHint: {x: 90, y: 90, z: 0}
 --- !u!1 &841496533
 GameObject:
   m_ObjectHideFlags: 0
@@ -36194,7 +36250,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1394584061
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36206,13 +36262,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 597e5be24a9494c4db6934228c78c081, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  time: 15
+  time: 25
   mapVantagePoint: {fileID: 229422373}
   characterVantagePoint: {fileID: 791491747}
   keyVantagePoint: {fileID: 1876458537}
   gateVantagePoint: {fileID: 1691230263}
   enemyVantagePoint: {fileID: 666684023}
-  characterCameraPoint: {fileID: 0}
+  camoVantagePointOne: {fileID: 271889233}
+  camoVantagePointTwo: {fileID: 1748896142}
+  camoVantagePointThree: {fileID: 838648082}
   smoothFactor: 5
   camera: {fileID: 0}
   destroy: 0
@@ -45345,6 +45403,34 @@ Prefab:
 Transform:
   m_PrefabParentObject: {fileID: 460694, guid: 04104ed0d4a582c4e9cdb8cd62b92221, type: 2}
   m_PrefabInternal: {fileID: 1747630457}
+--- !u!1 &1748896141
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1748896142}
+  m_Layer: 0
+  m_Name: CamoVantagePointTwo
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1748896142
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1748896141}
+  m_LocalRotation: {x: 0.5, y: 0.5, z: -0.5, w: 0.5}
+  m_LocalPosition: {x: -61.47, y: 96.76, z: 2.39}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 21
+  m_LocalEulerAnglesHint: {x: 90, y: 90, z: 0}
 --- !u!1001 &1755955358
 Prefab:
   m_ObjectHideFlags: 0
