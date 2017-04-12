@@ -64,7 +64,6 @@ public class CameraBehaviour : MonoBehaviour
         {
             obstTime += Time.deltaTime;
             transform.position = Vector3.Lerp(transform.position, targetPosition.position, obstTime/timeToMove);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetPosition.rotation, obstTime / timeToMove);
         }
         else obstTime = 0f;
         if (buttonPressed == true)
