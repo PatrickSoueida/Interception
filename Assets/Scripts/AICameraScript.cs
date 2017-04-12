@@ -7,9 +7,26 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 
 	public class AICameraScript : MonoBehaviour {
 
-		public NavMeshAgent agent;
+        public GameObject billboard;
+
+        float billboardTime;
+
+        public AudioSource alertSound;
+        AudioSource myAlertSound;
+
+        public AudioSource searchSound;
+        AudioSource mySearchSound;
+
+        public AudioSource stunSound;
+        AudioSource myStunSound;
+
+        public NavMeshAgent agent;
 		public ThirdPersonCharacter character;
 		public playerController Player;
+
+        bool alert;
+        bool searching;
+        bool stunned;
 
 		public enum State{
 			PATROL,
@@ -43,9 +60,18 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 		public float chaseSpeed = 1f;
 		public GameObject target;
 
-		void Start () {
+		void Start () 
+        {
+            alert = false;
+            searching = true;
+            stunned = false;
 
-			agent = GetComponent<NavMeshAgent> ();
+            mySearchSound = searchSound.GetComponent<AudioSource>();
+            myStunSound = stunSound.GetComponent<AudioSource>();
+            myAlertSound = alertSound.GetComponent<AudioSource>();
+            billboardTime = 0f;
+
+            agent = GetComponent<NavMeshAgent> ();
 			character = GetComponent<ThirdPersonCharacter> ();
 			GetComponent<Rigidbody> ().freezeRotation = true;
 
@@ -100,7 +126,25 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 
 		void Patrol()
 		{
-				agent.speed = patrolSpeed;
+            alert = false;
+            stunned = false;
+            //question mark
+
+            if(billboard.transform.GetChild(1).gameObject.activeSelf == false && searching == false)
+            {
+                searching = true;
+
+                Instantiate(mySearchSound);
+
+                billboard.transform.GetChild(0).gameObject.SetActive(false);
+                billboard.transform.GetChild(2).gameObject.SetActive(false);
+
+                billboard.transform.GetChild(1).gameObject.SetActive(true);
+
+                billboardTime = Time.time + 2f;
+            }	
+
+            agent.speed = patrolSpeed;
 				float tempY = transform.rotation.y;
 				transform.Rotate (0, tempY, 0);
 				if (Vector3.Distance (this.transform.position, waypoints [waypointIndex].transform.position) >= 2) {
@@ -115,8 +159,22 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 
 		void Chase()
 		{
+            searching = false;
+            stunned = false;
 
 			//Display Exclamation Mark Above Head?
+            if(billboard.transform.GetChild(0).gameObject.activeSelf == false && alert == false)
+            {
+                alert = true;
+                Instantiate(myAlertSound);
+
+                billboard.transform.GetChild(1).gameObject.SetActive(false);
+                billboard.transform.GetChild(2).gameObject.SetActive(false);
+
+                billboard.transform.GetChild(0).gameObject.SetActive(true);
+
+                billboardTime = Time.time + 2f;
+            }
 
 			//Matt's Code
 			float tempY = transform.rotation.y;
@@ -136,7 +194,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 			
 		void Return(){
 
-			agent.speed = patrolSpeed;
+            agent.speed = patrolSpeed;
 			agent.SetDestination (returnPoint.position);
 			character.Move (agent.desiredVelocity, false, false);
 			SetState ("PATROL");
@@ -148,7 +206,22 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 		}
 
 		IEnumerator Stun(){
-			//stunned 
+
+            alert = false;
+            searching = false;
+            //stunned 
+            if(billboard.transform.GetChild(2).gameObject.activeSelf == false && stunned == false)
+            {
+                stunned = true;
+
+                Instantiate(myStunSound);
+                billboard.transform.GetChild(0).gameObject.SetActive(false);
+                billboard.transform.GetChild(1).gameObject.SetActive(false);
+
+                billboard.transform.GetChild(2).gameObject.SetActive(true);
+
+                billboardTime = Time.time + 2f;
+            }
 
             agent.speed = 0f;
 			character.Move (Vector3.zero, false, false);
@@ -177,6 +250,13 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 
             if (sawPlayer == true)
                 Chase();*/
+
+            if(Time.time > billboardTime)
+            {
+                billboard.transform.GetChild(0).gameObject.SetActive(false);
+                billboard.transform.GetChild(1).gameObject.SetActive(false);
+                billboard.transform.GetChild(2).gameObject.SetActive(false);
+            }
 
 			if (Player.GetCrouched ()) {
 				playerColl = Player.GetComponent<BoxCollider> ();
@@ -213,7 +293,6 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 		}
 
 		void CheckForPlayer(){
-			//question mark
 
             RaycastHit hit;
 			Debug.DrawRay (AICam.transform.position, transform.forward * sightDist, Color.yellow);
