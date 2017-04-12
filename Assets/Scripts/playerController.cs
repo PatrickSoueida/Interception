@@ -6,6 +6,15 @@ using UnityEngine.SceneManagement;
 
 public class playerController : MonoBehaviour 
 {
+    public GameObject billboard;
+    float billboardTime;
+    public AudioSource alertSound;
+    AudioSource myAlertSound;
+    public AudioSource searchSound;
+    AudioSource mySearchSound;
+    public AudioSource stunSound;
+    AudioSource myStunSound;
+
     public GameObject outroText;
 
     public GameObject switchController;
@@ -106,10 +115,22 @@ public class playerController : MonoBehaviour
 
     bool startedRecharge;
 
+    //camera stuff
+    
+    CameraBehaviour camScript;
+
 	void Start () 
     {
         //Debug.Log(transform.position);
         //Debug.Log(transform.rotation);
+        camScript = cameraTransform.GetComponent<CameraBehaviour>();
+       
+       
+
+        billboardTime = 0f;
+        mySearchSound = searchSound.GetComponent<AudioSource>();
+        myStunSound = stunSound.GetComponent<AudioSource>();
+        myAlertSound = alertSound.GetComponent<AudioSource>();
 
         isPunching = false;
         myOpenCloseMenuSound = openCloseMenuSound.GetComponent<AudioSource>();
@@ -177,7 +198,7 @@ public class playerController : MonoBehaviour
 	
 	void Update () 
     {
-       
+        //Debug.DrawLine(transform.position + Vector3.up * 8, camScript.targetPosition.localPosition, Color.red);
 
         CheckGrounded();
 
@@ -312,6 +333,60 @@ public class playerController : MonoBehaviour
             cameraTransform.localEulerAngles = Vector3.left * verticalLookRotation;
         }
 
+        //STUNNED BILLBOARD
+        if(Input.GetKeyDown(KeyCode.I))
+        {
+            if(billboard.transform.GetChild(2).gameObject.activeSelf == false)
+            {
+                Instantiate(myStunSound);
+                billboard.transform.GetChild(0).gameObject.SetActive(false);
+                billboard.transform.GetChild(1).gameObject.SetActive(false);
+
+                billboard.transform.GetChild(2).gameObject.SetActive(true);
+
+                billboardTime = Time.time + 2f;
+            }
+        }
+            
+        //SEARCH BILLBOARD
+        if(Input.GetKeyDown(KeyCode.O))
+        {
+            if(billboard.transform.GetChild(1).gameObject.activeSelf == false)
+            {
+                Instantiate(mySearchSound);
+
+                billboard.transform.GetChild(0).gameObject.SetActive(false);
+                billboard.transform.GetChild(2).gameObject.SetActive(false);
+
+                billboard.transform.GetChild(1).gameObject.SetActive(true);
+
+                billboardTime = Time.time + 2f;
+            }
+        }
+
+        //ALERT BILLBOARD
+        if(Input.GetKeyDown(KeyCode.P))
+        {
+            if(billboard.transform.GetChild(0).gameObject.activeSelf == false)
+            {
+                Instantiate(myAlertSound);
+
+                billboard.transform.GetChild(1).gameObject.SetActive(false);
+                billboard.transform.GetChild(2).gameObject.SetActive(false);
+
+                billboard.transform.GetChild(0).gameObject.SetActive(true);
+
+                billboardTime = Time.time + 2f;
+            }
+        }
+
+        if(Time.time > billboardTime)
+        {
+            billboard.transform.GetChild(0).gameObject.SetActive(false);
+            billboard.transform.GetChild(1).gameObject.SetActive(false);
+            billboard.transform.GetChild(2).gameObject.SetActive(false);
+        }
+
         //ALTERNATE 3RD PERSON CAMERA
         /*Vector2 input = new Vector2 (Input.GetAxisRaw ("Horizontal"), Input.GetAxisRaw ("Vertical"));
         Vector2 inputDir = input.normalized;
@@ -382,6 +457,8 @@ public class playerController : MonoBehaviour
                     Instantiate(myCrouchSound);
                 }
                 isCrouching = false;
+				gameObject.GetComponent<CapsuleCollider> ().enabled = true;
+				gameObject.GetComponent<BoxCollider> ().enabled = false;
             }
             else if(isCrouching == false && isGrounded == true)
             {
@@ -390,6 +467,8 @@ public class playerController : MonoBehaviour
                     Instantiate(myCrouchSound);
                 }
                 isCrouching = true;
+				gameObject.GetComponent<CapsuleCollider> ().enabled = false;
+				gameObject.GetComponent<BoxCollider> ().enabled = true;
             }
         }
         /*if(Input.GetKeyUp(KeyCode.LeftControl))
@@ -404,6 +483,8 @@ public class playerController : MonoBehaviour
             {
                 isCrouching = false;
                 isRunning = true;
+				gameObject.GetComponent<CapsuleCollider> ().enabled = true;
+				gameObject.GetComponent<BoxCollider> ().enabled = false;
             }
         }
         if(Input.GetKeyUp(KeyCode.LeftShift) || isWalking == false || isCrouching == true)
@@ -420,6 +501,8 @@ public class playerController : MonoBehaviour
                 myRigidbody.AddForce(0,2750,0);
                 Instantiate(myJumpSound);
                 jumpDelay = Time.time + 1f;
+				gameObject.GetComponent<CapsuleCollider> ().enabled = true;
+				gameObject.GetComponent<BoxCollider> ().enabled = false;
             }
         }
 
@@ -533,8 +616,24 @@ public class playerController : MonoBehaviour
 			    currentColor = "BLACK";
             }
         }
-
+        adjustCamera();
 	}
+
+    void adjustCamera()
+    {
+        float dist = 10f;
+        Ray ray = new Ray(transform.position + Vector3.up * 8, camScript.initialPosition.position - (transform.position + Vector3.up * 8));
+        RaycastHit info;
+        Debug.DrawRay(transform.position + Vector3.up * 8, camScript.initialPosition.position - (transform.position + Vector3.up * 8), Color.red);
+
+        if (Physics.Raycast(ray, out info, dist))
+        {
+            //print("obstructed by "+info.collider.name);
+            //cameraTransform.position = Vector3.Lerp(cameraTransform.position, camScript.targetPosition.position)
+            camScript.obstructed = true;
+        }
+        else camScript.obstructed = false;
+    }
 
     void CheckGrounded()
     {
@@ -635,6 +734,10 @@ public class playerController : MonoBehaviour
 
 	public bool GetGrounded(){
 		return isGrounded;
+	}
+
+	public bool GetCrouched(){
+		return isCrouching;
 	}
 
     public void Respawn()

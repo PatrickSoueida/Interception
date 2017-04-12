@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GunBolt : MonoBehaviour {
+public class GunBolt : MonoBehaviour 
+{
 
     GameObject impactRef;
     Rigidbody rbRef;
@@ -12,7 +13,8 @@ public class GunBolt : MonoBehaviour {
     float flyTime = 0f;
 
 	// Use this for initialization
-	void Awake () {
+	void Awake () 
+    {
         rbRef = GetComponent<Rigidbody>();
         dir = Vector3.forward;
         
@@ -21,9 +23,12 @@ public class GunBolt : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update () 
+    {
         if (flyTime >= lifeTime)
+        {
             Destroy(gameObject);
+        }
         else
         {
             flyTime += Time.deltaTime;
@@ -39,8 +44,11 @@ public class GunBolt : MonoBehaviour {
 
     void OnCollisionEnter(Collision col)
     {
+        GameObject obj = col.gameObject;
         //GameObject eff = Instantiate(impactRef, transform.position, transform.rotation);
-        if(!col.gameObject.CompareTag("Player"))
+        if(obj.tag == "Enemy")
+        {
             Destroy(gameObject);
+		}
     }
 }

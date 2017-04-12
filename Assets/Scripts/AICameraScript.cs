@@ -7,19 +7,38 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 
 	public class AICameraScript : MonoBehaviour {
 
-		public NavMeshAgent agent;
+        public GameObject billboard;
+
+        float billboardTime;
+
+        public AudioSource alertSound;
+        AudioSource myAlertSound;
+
+        public AudioSource searchSound;
+        AudioSource mySearchSound;
+
+        public AudioSource stunSound;
+        AudioSource myStunSound;
+
+        public NavMeshAgent agent;
 		public ThirdPersonCharacter character;
 		public playerController Player;
+
+        bool alert;
+        bool searching;
+        bool stunned;
 
 		public enum State{
 			PATROL,
 			CHASE,
-			RETURN
+			RETURN,
+			STUNNED
 		}
 
 		public State state;
 		private bool alive;
 		private int totalNumOfAI = 3;
+		private int lastState;
 
 		//public bool sawPlayer;
 
@@ -41,9 +60,18 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 		public float chaseSpeed = 1f;
 		public GameObject target;
 
-		void Start () {
+		void Start () 
+        {
+            alert = false;
+            searching = true;
+            stunned = false;
 
-			agent = GetComponent<NavMeshAgent> ();
+            mySearchSound = searchSound.GetComponent<AudioSource>();
+            myStunSound = stunSound.GetComponent<AudioSource>();
+            myAlertSound = alertSound.GetComponent<AudioSource>();
+            billboardTime = 0f;
+
+            agent = GetComponent<NavMeshAgent> ();
 			character = GetComponent<ThirdPersonCharacter> ();
 			GetComponent<Rigidbody> ().freezeRotation = true;
 
@@ -64,7 +92,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 				}
 			}
 
-			playerColl = Player.GetComponent<Collider> ();
+			playerColl = Player.GetComponent<CapsuleCollider> ();
 
 			state = AICameraScript.State.PATROL;
 			alive = true;
@@ -86,6 +114,9 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 				case State.RETURN:
 					Return ();
 					break;
+				case State.STUNNED:
+					Stunned ();
+					break;
 				}
 
 				yield return null;
@@ -95,7 +126,25 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 
 		void Patrol()
 		{
-				agent.speed = patrolSpeed;
+            alert = false;
+            stunned = false;
+            //question mark
+
+            if(billboard.transform.GetChild(1).gameObject.activeSelf == false && searching == false)
+            {
+                searching = true;
+
+                Instantiate(mySearchSound);
+
+                billboard.transform.GetChild(0).gameObject.SetActive(false);
+                billboard.transform.GetChild(2).gameObject.SetActive(false);
+
+                billboard.transform.GetChild(1).gameObject.SetActive(true);
+
+                billboardTime = Time.time + 2f;
+            }	
+
+            agent.speed = patrolSpeed;
 				float tempY = transform.rotation.y;
 				transform.Rotate (0, tempY, 0);
 				if (Vector3.Distance (this.transform.position, waypoints [waypointIndex].transform.position) >= 2) {
@@ -110,8 +159,22 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 
 		void Chase()
 		{
+            searching = false;
+            stunned = false;
 
 			//Display Exclamation Mark Above Head?
+            if(billboard.transform.GetChild(0).gameObject.activeSelf == false && alert == false)
+            {
+                alert = true;
+                Instantiate(myAlertSound);
+
+                billboard.transform.GetChild(1).gameObject.SetActive(false);
+                billboard.transform.GetChild(2).gameObject.SetActive(false);
+
+                billboard.transform.GetChild(0).gameObject.SetActive(true);
+
+                billboardTime = Time.time + 2f;
+            }
 
 			//Matt's Code
 			float tempY = transform.rotation.y;
@@ -131,20 +194,51 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 			
 		void Return(){
 
-			agent.speed = patrolSpeed;
+            agent.speed = patrolSpeed;
 			agent.SetDestination (returnPoint.position);
 			character.Move (agent.desiredVelocity, false, false);
 			SetState ("PATROL");
 
 		}
 
+		void Stunned(){
+			StartCoroutine(Stun ());
+		}
+
+		IEnumerator Stun(){
+
+            alert = false;
+            searching = false;
+            //stunned 
+            if(billboard.transform.GetChild(2).gameObject.activeSelf == false && stunned == false)
+            {
+                stunned = true;
+
+                Instantiate(myStunSound);
+                billboard.transform.GetChild(0).gameObject.SetActive(false);
+                billboard.transform.GetChild(1).gameObject.SetActive(false);
+
+                billboard.transform.GetChild(2).gameObject.SetActive(true);
+
+                billboardTime = Time.time + 2f;
+            }
+
+            agent.speed = 0f;
+			character.Move (Vector3.zero, false, false);
+			gameObject.GetComponentInChildren<Camera> ().enabled = false;
+			Debug.Log ("AI is stunned!");
+			yield return new WaitForSeconds(10.0f);
+			if (lastState == 1) {
+				gameObject.GetComponentInChildren<Camera> ().enabled = true;
+				SetState ("CHASE");
+			} else {
+				gameObject.GetComponentInChildren<Camera> ().enabled = true;
+				SetState ("PATROL");
+			}
+		}
+
 		void Update ()
 		{
-
-			if (Player.GetCamo ()) {
-				SetState ("RETURN");
-			}
-
 			//Memo's Code
 			/*Vector3 targetDir = target.transform.position - transform.position;
             float angle = Vector3.Angle(targetDir, transform.forward);
@@ -156,6 +250,21 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 
             if (sawPlayer == true)
                 Chase();*/
+
+            if(Time.time > billboardTime)
+            {
+                billboard.transform.GetChild(0).gameObject.SetActive(false);
+                billboard.transform.GetChild(1).gameObject.SetActive(false);
+                billboard.transform.GetChild(2).gameObject.SetActive(false);
+            }
+
+			if (Player.GetCrouched ()) {
+				playerColl = Player.GetComponent<BoxCollider> ();
+			} else {
+				playerColl = Player.GetComponent<CapsuleCollider> ();
+			}
+
+			if (!Player.GetCamo ()) {
 				planes = GeometryUtility.CalculateFrustumPlanes (AICam);
 				if (GeometryUtility.TestPlanesAABB (planes, playerColl.bounds)) {
 					Debug.Log ("Player Sighted");
@@ -163,19 +272,34 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 				} 
 				else {
 				}
+
+			} else {
+				SetState ("PATROL");
+			}
+
 		}
 
 		void OnTriggerEnter(Collider coll){
 			if (coll.gameObject.tag == "Player") {
 				SetState ("PATROL");
 			}
+
+			if (coll.tag == "Bolt") {
+				Debug.Log ("You shot the AI!");
+				lastState = GetState ();
+				Destroy (coll.gameObject);
+				SetState ("STUNNED");
+			}
 		}
 
 		void CheckForPlayer(){
-			RaycastHit hit;
+
+            RaycastHit hit;
 			Debug.DrawRay (AICam.transform.position, transform.forward * sightDist, Color.yellow);
 			Debug.DrawRay (AICam.transform.position, (transform.forward + transform.right).normalized * sightDist, Color.yellow);
 			Debug.DrawRay (AICam.transform.position, (transform.forward - transform.right).normalized * sightDist, Color.yellow);
+			Debug.DrawRay (AICam.transform.position, (transform.forward + (transform.forward + transform.right)).normalized * sightDist, Color.yellow);
+			Debug.DrawRay (AICam.transform.position, (transform.forward + (transform.forward - transform.right)).normalized * sightDist, Color.yellow);
 			if (Physics.Raycast (AICam.transform.position, transform.forward, out hit, sightDist)) {
 				if (hit.collider.gameObject.tag == "Player") {
 					state = AICameraScript.State.CHASE;
@@ -184,14 +308,34 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 			}
 			if (Physics.Raycast (AICam.transform.position, (transform.forward + transform.right).normalized, out hit, sightDist)) {
 				if (hit.collider.gameObject.tag == "Player") {
-					state = AICameraScript.State.CHASE;
-					target = hit.collider.gameObject;
+					if (state != AICameraScript.State.STUNNED) {
+						state = AICameraScript.State.CHASE;
+						target = hit.collider.gameObject;
+					}
 				}
 			}
 			if (Physics.Raycast (AICam.transform.position, (transform.forward - transform.right).normalized, out hit, sightDist)) {
 				if (hit.collider.gameObject.tag == "Player") {
-					state = AICameraScript.State.CHASE;
-					target = hit.collider.gameObject;
+					if (state != AICameraScript.State.STUNNED) {
+						state = AICameraScript.State.CHASE;
+						target = hit.collider.gameObject;
+					}
+				}
+			}
+			if (Physics.Raycast (AICam.transform.position, (transform.forward + (transform.forward + transform.right)).normalized, out hit, sightDist)) {
+				if (hit.collider.gameObject.tag == "Player") {
+					if (state != AICameraScript.State.STUNNED) {
+						state = AICameraScript.State.CHASE;
+						target = hit.collider.gameObject;
+					}
+				}
+			}
+			if (Physics.Raycast (AICam.transform.position, (transform.forward + (transform.forward - transform.right)).normalized, out hit, sightDist)) {
+				if (hit.collider.gameObject.tag == "Player") {
+					if (state != AICameraScript.State.STUNNED) {
+						state = AICameraScript.State.CHASE;
+						target = hit.collider.gameObject;
+					}
 				}
 			}
 		}
@@ -205,6 +349,9 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 			}
 			if (newState == "RETURN") {
 				state = AICameraScript.State.RETURN;
+			}
+			if (newState == "STUNNED") {
+				state = AICameraScript.State.STUNNED;
 			}
 		}
 
