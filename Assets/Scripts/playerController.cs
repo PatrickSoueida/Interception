@@ -624,7 +624,7 @@ public class playerController : MonoBehaviour
         float dist = 10f;
         Ray ray = new Ray(transform.position + Vector3.up * 8, camScript.initialPosition.position - (transform.position + Vector3.up * 8));
         RaycastHit info;
-        Debug.DrawRay(transform.position + Vector3.up * 8, camScript.initialPosition.position - (transform.position + Vector3.up * 8), Color.red);
+        //Debug.DrawRay(transform.position + Vector3.up * 8, camScript.initialPosition.position - (transform.position + Vector3.up * 8), Color.red);
 
         if (Physics.Raycast(ray, out info, dist))
         {

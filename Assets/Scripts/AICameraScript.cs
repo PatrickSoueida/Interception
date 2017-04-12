@@ -220,14 +220,14 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 
                 billboard.transform.GetChild(2).gameObject.SetActive(true);
 
-                billboardTime = Time.time + 2f;
+                billboardTime = Time.time + 3.5f;
             }
 
             agent.speed = 0f;
 			character.Move (Vector3.zero, false, false);
 			gameObject.GetComponentInChildren<Camera> ().enabled = false;
 			Debug.Log ("AI is stunned!");
-			yield return new WaitForSeconds(10.0f);
+			yield return new WaitForSeconds(3.5f);
 			if (lastState == 1) {
 				gameObject.GetComponentInChildren<Camera> ().enabled = true;
 				SetState ("CHASE");
@@ -302,8 +302,10 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 			Debug.DrawRay (AICam.transform.position, (transform.forward + (transform.forward - transform.right)).normalized * sightDist, Color.yellow);
 			if (Physics.Raycast (AICam.transform.position, transform.forward, out hit, sightDist)) {
 				if (hit.collider.gameObject.tag == "Player") {
-					state = AICameraScript.State.CHASE;
-					target = hit.collider.gameObject;
+					if (state != AICameraScript.State.STUNNED) {
+						state = AICameraScript.State.CHASE;
+						target = hit.collider.gameObject;
+					}
 				}
 			}
 			if (Physics.Raycast (AICam.transform.position, (transform.forward + transform.right).normalized, out hit, sightDist)) {
