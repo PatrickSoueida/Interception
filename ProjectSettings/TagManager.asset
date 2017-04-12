@@ -23,6 +23,7 @@ TagManager:
   - Bolt
   - Enemy Cam
   - OuterWall
+  - SwitchController
   layers:
   - Default
   - TransparentFX

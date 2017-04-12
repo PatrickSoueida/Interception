@@ -23,6 +23,7 @@ public class switchScript : MonoBehaviour
     bool portalActive;
 
     GameObject[] possibleSpawns;
+    public List<GameObject> finalPickedSwitches;
     public GameObject spawn1;
     public GameObject spawn2;
     public GameObject spawn3;
@@ -46,6 +47,7 @@ public class switchScript : MonoBehaviour
         alreadyPicked = false;
         picked = new int[4];
         possibleSpawns = new GameObject[]{spawn1, spawn2, spawn3, spawn4, spawn5, spawn6, spawn7, spawn8, spawn9};
+        
 
         while(instantiated < 4)
         {
@@ -67,6 +69,7 @@ public class switchScript : MonoBehaviour
                 picked[instantiated] = randomNumber;
                 possibleSpawns[randomNumber-1].SetActive(true);
                 possibleSpawns[randomNumber-1].tag = "Switch" + (instantiated + 1);
+                finalPickedSwitches.Add(possibleSpawns[randomNumber - 1]);
                 instantiated++;
             }
         }
