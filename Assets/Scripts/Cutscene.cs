@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Cutscene : MonoBehaviour 
 {
+
+    public GameObject Player;
     public float time = 25.0f;
     public Transform mapVantagePoint, characterVantagePoint, keyVantagePoint, gateVantagePoint, enemyVantagePoint, camoVantagePointOne, camoVantagePointTwo, camoVantagePointThree;
     public float smoothFactor;
@@ -23,7 +25,7 @@ public class Cutscene : MonoBehaviour
 	// Use this for initialization
 	void Start () 
     {
-        GameObject.FindGameObjectWithTag("Player").GetComponent<playerController>().enabled = false;
+        Player.GetComponent<playerController>().enabled = false;
 	}
 
     void OnGUI()
@@ -91,9 +93,9 @@ public class Cutscene : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, camoVantagePointThree.rotation, timeEight / timeToMove);
         }
 
-        if (time <= -4.0f)
+        if (time <= -4.0f || Input.GetKeyDown(KeyCode.Space))
         {
-            //GameObject.FindGameObjectWithTag("Player").GetComponent<playerController>().enabled = true;
+            Player.GetComponent<playerController>().enabled = true;
             Destroy(this.gameObject);
         }
 
