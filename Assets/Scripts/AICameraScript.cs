@@ -7,6 +7,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 
 	public class AICameraScript : MonoBehaviour {
 
+        public LayerMask playerMask;
+
         public GameObject billboard;
 
         float billboardTime;
@@ -313,7 +315,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 			Debug.DrawRay (AICam.transform.position, (transform.forward + (transform.forward + (transform.forward + (transform.forward + transform.right)))).normalized * sightDist, Color.yellow);
 			Debug.DrawRay (AICam.transform.position, (transform.forward + (transform.right/2)).normalized * sightDist, Color.yellow);
 			Debug.DrawRay (AICam.transform.position, (transform.forward - (transform.right/2)).normalized * sightDist, Color.yellow);
-			if (Physics.Raycast (AICam.transform.position, transform.forward, out hit, sightDist)) {
+			if (Physics.Raycast (AICam.transform.position, transform.forward, out hit, sightDist, playerMask)) {
 				if (hit.collider.gameObject.tag == "Player") {
 					if (state != AICameraScript.State.STUNNED) {
 						state = AICameraScript.State.CHASE;
@@ -321,7 +323,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 					}
 				}
 			}
-			if (Physics.Raycast (AICam.transform.position, transform.right, out hit, sightDist)) {
+			if (Physics.Raycast (AICam.transform.position, transform.right, out hit, sightDist, playerMask)) {
 				if (hit.collider.gameObject.tag == "Player") {
 					if (state != AICameraScript.State.STUNNED) {
 						state = AICameraScript.State.CHASE;
@@ -329,7 +331,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 					}
 				}
 			}
-			if (Physics.Raycast (AICam.transform.position, -transform.right, out hit, sightDist)) {
+			if (Physics.Raycast (AICam.transform.position, -transform.right, out hit, sightDist, playerMask)) {
 				if (hit.collider.gameObject.tag == "Player") {
 					if (state != AICameraScript.State.STUNNED) {
 						state = AICameraScript.State.CHASE;
@@ -337,7 +339,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 					}
 				}
 			}
-			if (Physics.Raycast (AICam.transform.position, (transform.forward + transform.right).normalized, out hit, sightDist)) {
+			if (Physics.Raycast (AICam.transform.position, (transform.forward + transform.right).normalized, out hit, sightDist, playerMask)) {
 				if (hit.collider.gameObject.tag == "Player") {
 					if (state != AICameraScript.State.STUNNED) {
 						state = AICameraScript.State.CHASE;
@@ -345,7 +347,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 					}
 				}
 			}
-			if (Physics.Raycast (AICam.transform.position, (transform.forward - transform.right).normalized, out hit, sightDist)) {
+			if (Physics.Raycast (AICam.transform.position, (transform.forward - transform.right).normalized, out hit, sightDist, playerMask)) {
 				if (hit.collider.gameObject.tag == "Player") {
 					if (state != AICameraScript.State.STUNNED) {
 						state = AICameraScript.State.CHASE;
@@ -353,7 +355,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 					}
 				}
 			}
-			if (Physics.Raycast (AICam.transform.position, (transform.forward + (transform.forward + transform.right)).normalized, out hit, sightDist)) {
+			if (Physics.Raycast (AICam.transform.position, (transform.forward + (transform.forward + transform.right)).normalized, out hit, sightDist, playerMask)) {
 				if (hit.collider.gameObject.tag == "Player") {
 					if (state != AICameraScript.State.STUNNED) {
 						state = AICameraScript.State.CHASE;
@@ -361,7 +363,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 					}
 				}
 			}
-			if (Physics.Raycast (AICam.transform.position, (transform.forward + (transform.forward - transform.right)).normalized, out hit, sightDist)) {
+			if (Physics.Raycast (AICam.transform.position, (transform.forward + (transform.forward - transform.right)).normalized, out hit, sightDist, playerMask)) {
 				if (hit.collider.gameObject.tag == "Player") {
 					if (state != AICameraScript.State.STUNNED) {
 						state = AICameraScript.State.CHASE;
@@ -369,7 +371,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 					}
 				}
 			}
-			if (Physics.Raycast (AICam.transform.position, (transform.forward + (transform.forward + (transform.forward - transform.right))).normalized, out hit, sightDist)) {
+			if (Physics.Raycast (AICam.transform.position, (transform.forward + (transform.forward + (transform.forward - transform.right))).normalized, out hit, sightDist, playerMask)) {
 				if (hit.collider.gameObject.tag == "Player") {
 					if (state != AICameraScript.State.STUNNED) {
 						state = AICameraScript.State.CHASE;
@@ -377,7 +379,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 					}
 				}
 			}
-			if (Physics.Raycast (AICam.transform.position, (transform.forward + (transform.forward + (transform.forward + transform.right))).normalized, out hit, sightDist)) {
+			if (Physics.Raycast (AICam.transform.position, (transform.forward + (transform.forward + (transform.forward + transform.right))).normalized, out hit, sightDist, playerMask)) {
 				if (hit.collider.gameObject.tag == "Player") {
 					if (state != AICameraScript.State.STUNNED) {
 						state = AICameraScript.State.CHASE;
@@ -385,7 +387,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 					}
 				}
 			}
-			if (Physics.Raycast (AICam.transform.position, (transform.forward + (transform.forward + (transform.forward + (transform.forward - transform.right)))).normalized, out hit, sightDist)) {
+			if (Physics.Raycast (AICam.transform.position, (transform.forward + (transform.forward + (transform.forward + (transform.forward - transform.right)))).normalized, out hit, sightDist, playerMask)) {
 				if (hit.collider.gameObject.tag == "Player") {
 					if (state != AICameraScript.State.STUNNED) {
 						state = AICameraScript.State.CHASE;
@@ -393,7 +395,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 					}
 				}
 			}
-			if (Physics.Raycast (AICam.transform.position, (transform.forward + (transform.forward + (transform.forward + (transform.forward + transform.right)))).normalized, out hit, sightDist)) {
+			if (Physics.Raycast (AICam.transform.position, (transform.forward + (transform.forward + (transform.forward + (transform.forward + transform.right)))).normalized, out hit, sightDist, playerMask)) {
 				if (hit.collider.gameObject.tag == "Player") {
 					if (state != AICameraScript.State.STUNNED) {
 						state = AICameraScript.State.CHASE;
@@ -401,7 +403,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 					}
 				}
 			}
-			if (Physics.Raycast (AICam.transform.position, (transform.forward + (transform.right/2)).normalized, out hit, sightDist)) {
+			if (Physics.Raycast (AICam.transform.position, (transform.forward + (transform.right/2)).normalized, out hit, sightDist, playerMask)) {
 				if (hit.collider.gameObject.tag == "Player") {
 					if (state != AICameraScript.State.STUNNED) {
 						state = AICameraScript.State.CHASE;
@@ -409,7 +411,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 					}
 				}
 			}
-			if (Physics.Raycast (AICam.transform.position, (transform.forward - (transform.right/2)).normalized, out hit, sightDist)) {
+			if (Physics.Raycast (AICam.transform.position, (transform.forward - (transform.right/2)).normalized, out hit, sightDist, playerMask)) {
 				if (hit.collider.gameObject.tag == "Player") {
 					if (state != AICameraScript.State.STUNNED) {
 						state = AICameraScript.State.CHASE;

@@ -663,7 +663,24 @@ public class playerController : MonoBehaviour
     public void Respawn()
     {
         Instantiate(myDeathSound);
+
+        //reset energy
         UpdateEnergy(100);
+
+        //reset crouch
+        isCrouching = false;
+
+        //reset jump
+        isGrounded = true;
+
+        //reset shoot
+        alreadyFired = false;
+        Destroy(GameObject.Find("shootSound(Clone)"));
+
+        //reset camo
+        camoEnabled = false;
+        GetComponentInChildren<Renderer>().material = black;
+        currentColor = "BLACK";
 
         transform.position = new Vector3(186.2f, 67.2f, -179f);
         transform.rotation = new Quaternion(0f, -0.4f, 0f, 0.9f);
