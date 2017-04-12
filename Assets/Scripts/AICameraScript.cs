@@ -39,7 +39,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 
 		public State state;
 		private bool alive;
-		private int totalNumOfAI = 14;
+		private int totalNumOfAI = 37;
 		private int lastState;
 
 		//public bool sawPlayer;
@@ -230,15 +230,9 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
             agent.speed = 0f;
 			character.Move (Vector3.zero, false, false);
 			//gameObject.GetComponentInChildren<Camera> ().enabled = false;
-			Debug.Log ("AI is stunned!");
+			//Debug.Log ("AI is stunned!");
 			yield return new WaitForSeconds(3.5f);
-			if (lastState == 1) {
-				//gameObject.GetComponentInChildren<Camera> ().enabled = true;
-				SetState ("CHASE");
-			} else {
-				//gameObject.GetComponentInChildren<Camera> ().enabled = true;
-				SetState ("PATROL");
-			}
+			SetState ("PATROL");
 		}
 
 		void Update ()
@@ -273,7 +267,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 			if (!Player.GetCamo ()) {
 				planes = GeometryUtility.CalculateFrustumPlanes (AICam);
 				if (GeometryUtility.TestPlanesAABB (planes, playerColl.bounds)) {
-					Debug.Log ("Player Sighted");
+					//Debug.Log ("Player Sighted");
 					CheckForPlayer ();
 				} 
 				else {
@@ -290,7 +284,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 				SetState ("PATROL");
 			} else {
 				if (coll.tag == "Bolt") {
-					Debug.Log ("You shot the AI!");
+					//Debug.Log ("You shot the AI!");
 					lastState = GetState ();
 					Destroy (coll.gameObject);
 					SetState ("STUNNED");
