@@ -27915,7 +27915,7 @@ CapsuleCollider:
   m_Radius: 0.4
   m_Height: 1.25
   m_Direction: 1
-  m_Center: {x: 0, y: 0.6, z: 0}
+  m_Center: {x: 0, y: 0.7, z: 0}
 --- !u!4 &752233362 stripped
 Transform:
   m_PrefabParentObject: {fileID: 486224, guid: 8c0350d346a88814680aa3b5ab1e0c6d, type: 2}
