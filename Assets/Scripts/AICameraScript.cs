@@ -39,7 +39,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 
 		public State state;
 		private bool alive;
-		private int totalNumOfAI = 37;
+		private int totalNumOfAI = 41;
 		private int lastState;
 
 		//public bool sawPlayer;
@@ -307,6 +307,11 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 			Debug.DrawRay (AICam.transform.position, (transform.forward + (transform.forward + (transform.forward + (transform.forward + transform.right)))).normalized * sightDist, Color.yellow);
 			Debug.DrawRay (AICam.transform.position, (transform.forward + (transform.right/2)).normalized * sightDist, Color.yellow);
 			Debug.DrawRay (AICam.transform.position, (transform.forward - (transform.right/2)).normalized * sightDist, Color.yellow);
+			Debug.DrawRay (AICam.transform.position, (transform.forward + transform.up).normalized * sightDist, Color.yellow);
+			Debug.DrawRay (AICam.transform.position, ((transform.forward + transform.up) + transform.right).normalized * sightDist, Color.yellow);
+			Debug.DrawRay (AICam.transform.position, ((transform.forward + transform.up) - transform.right).normalized * sightDist, Color.yellow);
+			Debug.DrawRay (AICam.transform.position, ((transform.forward + transform.up) + transform.forward + transform.right).normalized * sightDist, Color.yellow);
+			Debug.DrawRay (AICam.transform.position, ((transform.forward + transform.up) + transform.forward - transform.right).normalized * sightDist, Color.yellow);
 			if (Physics.Raycast (AICam.transform.position, transform.forward, out hit, sightDist)) {
 				if (hit.collider.gameObject.tag == "Player") {
 					if (state != AICameraScript.State.STUNNED) {
@@ -404,6 +409,46 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 				}
 			}
 			if (Physics.Raycast (AICam.transform.position, (transform.forward - (transform.right/2)).normalized, out hit, sightDist)) {
+				if (hit.collider.gameObject.tag == "Player") {
+					if (state != AICameraScript.State.STUNNED) {
+						state = AICameraScript.State.CHASE;
+						target = hit.collider.gameObject;
+					}
+				}
+			}
+			if (Physics.Raycast (AICam.transform.position, (transform.forward + transform.up).normalized, out hit, sightDist)) {
+				if (hit.collider.gameObject.tag == "Player") {
+					if (state != AICameraScript.State.STUNNED) {
+						state = AICameraScript.State.CHASE;
+						target = hit.collider.gameObject;
+					}
+				}
+			}
+			if (Physics.Raycast (AICam.transform.position, ((transform.forward + transform.up) + transform.right).normalized, out hit, sightDist)) {
+				if (hit.collider.gameObject.tag == "Player") {
+					if (state != AICameraScript.State.STUNNED) {
+						state = AICameraScript.State.CHASE;
+						target = hit.collider.gameObject;
+					}
+				}
+			}
+			if (Physics.Raycast (AICam.transform.position, ((transform.forward + transform.up) - transform.right).normalized, out hit, sightDist)) {
+				if (hit.collider.gameObject.tag == "Player") {
+					if (state != AICameraScript.State.STUNNED) {
+						state = AICameraScript.State.CHASE;
+						target = hit.collider.gameObject;
+					}
+				}
+			}
+			if (Physics.Raycast (AICam.transform.position, ((transform.forward + transform.up) + transform.forward + transform.right).normalized, out hit, sightDist)) {
+				if (hit.collider.gameObject.tag == "Player") {
+					if (state != AICameraScript.State.STUNNED) {
+						state = AICameraScript.State.CHASE;
+						target = hit.collider.gameObject;
+					}
+				}
+			}
+			if (Physics.Raycast (AICam.transform.position, ((transform.forward + transform.up) + transform.forward - transform.right).normalized, out hit, sightDist)) {
 				if (hit.collider.gameObject.tag == "Player") {
 					if (state != AICameraScript.State.STUNNED) {
 						state = AICameraScript.State.CHASE;
