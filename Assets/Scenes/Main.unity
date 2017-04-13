@@ -54209,6 +54209,8 @@ MonoBehaviour:
   keyVantagePointFour: {fileID: 0}
   smoothFactor: 5
   camera: {fileID: 1792009678}
+  menuSound: {fileID: 82316518908561896, guid: 162dad0e1e982483b815880bfe73b55e, type: 2}
+  myUI: {fileID: 1854783446}
   destroy: 0
 --- !u!81 &1394584062
 AudioListener:
@@ -54216,7 +54218,7 @@ AudioListener:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1394584060}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!92 &1394584063
 Behaviour:
   m_ObjectHideFlags: 0
@@ -71655,7 +71657,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1854783447
 MonoBehaviour:
   m_ObjectHideFlags: 0
