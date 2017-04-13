@@ -19,7 +19,7 @@ public class GunBolt : MonoBehaviour
         
         rbRef.velocity = transform.forward * speed;
 
-        flyTime = Time.time + 2f;
+        flyTime = Time.time + 1f;
 	}
 	
 	// Update is called once per frame
