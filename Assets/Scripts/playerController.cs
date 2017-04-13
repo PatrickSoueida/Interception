@@ -110,6 +110,8 @@ public class playerController : MonoBehaviour
     
     CameraBehaviour camScript;
 
+	private int totalNumOfAIs = 37;
+
 	void Start () 
     {
         //Debug.Log(transform.position);
@@ -171,8 +173,8 @@ public class playerController : MonoBehaviour
         isShooting = false;
 
         myRigidbody = GetComponent<Rigidbody>();
-        sprintSpeed = 2250f;
-        movementSpeed = 1500f;
+        sprintSpeed = 1800f;
+        movementSpeed = 1100f;
         crouchSpeed = 750f;
         myAnimator = GetComponent<Animator>();
 
@@ -663,9 +665,35 @@ public class playerController : MonoBehaviour
     public void Respawn()
     {
         Instantiate(myDeathSound);
+
+        //reset energy
         UpdateEnergy(100);
+
+        //reset crouch
+        isCrouching = false;
+
+        //reset jump
+        isGrounded = true;
+
+        //reset shoot
+        alreadyFired = false;
+        Destroy(GameObject.Find("shootSound(Clone)"));
+
+        //reset camo
+        camoEnabled = false;
+        GetComponentInChildren<Renderer>().material = black;
+        currentColor = "BLACK";
 
         transform.position = new Vector3(186.2f, 67.2f, -179f);
         transform.rotation = new Quaternion(0f, -0.4f, 0f, 0.9f);
+
+		for (int i = 1; i <= totalNumOfAIs; i++) {
+			if (i == 1) {
+				GameObject.FindWithTag ("AI").GetComponent<UnityStandardAssets.Characters.ThirdPerson.AICameraScript> ().SetState ("PATROL");
+			} 
+			else {
+				GameObject.FindWithTag ("AI " + i).GetComponent<UnityStandardAssets.Characters.ThirdPerson.AICameraScript> ().SetState ("PATROL");
+			}
+		}
     }
 }

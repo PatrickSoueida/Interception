@@ -14,7 +14,7 @@ public class Respawn : MonoBehaviour {
 	void OnTriggerEnter (Collider col) {
 
 		if (col.gameObject.CompareTag ("Player")) {
-			Debug.Log ("You have been caught!");
+			//Debug.Log ("You have been caught!");
 			Player.Respawn ();
 		}
 
