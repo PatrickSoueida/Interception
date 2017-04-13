@@ -86,6 +86,9 @@ public class playerController : MonoBehaviour
     public GameObject bulletRef;
     public GameObject gunRef;
 
+	public CapsuleCollider collider1;
+	public CapsuleCollider collider2;
+
     bool alreadyFired;
     bool fireRecovery;
     float currentTime;
@@ -379,8 +382,10 @@ public class playerController : MonoBehaviour
                     Instantiate(myCrouchSound);
                 }
                 isCrouching = false;
-				gameObject.GetComponent<CapsuleCollider> ().enabled = true;
-				gameObject.GetComponent<BoxCollider> ().enabled = false;
+				//gameObject.GetComponent<CapsuleCollider> ().enabled = true;
+				//gameObject.GetComponent<BoxCollider> ().enabled = false;
+				collider1.enabled = true;
+				collider2.enabled = false;
             }
             else if(isCrouching == false && isGrounded == true)
             {
@@ -389,8 +394,10 @@ public class playerController : MonoBehaviour
                     Instantiate(myCrouchSound);
                 }
                 isCrouching = true;
-				gameObject.GetComponent<CapsuleCollider> ().enabled = false;
-				gameObject.GetComponent<BoxCollider> ().enabled = true;
+				//gameObject.GetComponent<CapsuleCollider> ().enabled = false;
+				//gameObject.GetComponent<BoxCollider> ().enabled = true;
+				collider1.enabled = false;
+				collider2.enabled = true;
             }
         }
         /*if(Input.GetKeyUp(KeyCode.LeftControl))
@@ -405,8 +412,10 @@ public class playerController : MonoBehaviour
             {
                 isCrouching = false;
                 isRunning = true;
-				gameObject.GetComponent<CapsuleCollider> ().enabled = true;
-				gameObject.GetComponent<BoxCollider> ().enabled = false;
+				//gameObject.GetComponent<CapsuleCollider> ().enabled = true;
+				//gameObject.GetComponent<BoxCollider> ().enabled = false;
+				collider1.enabled = true;
+				collider2.enabled = false;
             }
         }
         if(Input.GetKeyUp(KeyCode.LeftShift) || isWalking == false || isCrouching == true)
@@ -423,8 +432,10 @@ public class playerController : MonoBehaviour
                 myRigidbody.AddForce(0,2750,0);
                 Instantiate(myJumpSound);
                 jumpDelay = Time.time + 1f;
-				gameObject.GetComponent<CapsuleCollider> ().enabled = true;
-				gameObject.GetComponent<BoxCollider> ().enabled = false;
+				//gameObject.GetComponent<CapsuleCollider> ().enabled = true;
+				//gameObject.GetComponent<BoxCollider> ().enabled = false;
+				collider1.enabled = true;
+				collider2.enabled = false;
             }
         }
 
@@ -696,4 +707,16 @@ public class playerController : MonoBehaviour
 			}
 		}
     }
+
+	public CapsuleCollider GetCollider(int i){
+		if (i == 1) {
+			return collider1;
+		}
+		if (i == 2) {
+			return collider2;
+		} 
+		else {
+			return null;
+		}
+	}
 }

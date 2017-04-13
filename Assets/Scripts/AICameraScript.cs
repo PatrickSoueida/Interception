@@ -259,9 +259,11 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
             }
 
 			if (Player.GetCrouched ()) {
-				playerColl = Player.GetComponent<BoxCollider> ();
+				//playerColl = Player.GetComponent<BoxCollider> ();
+				playerColl = Player.GetCollider (2);
 			} else {
-				playerColl = Player.GetComponent<CapsuleCollider> ();
+				//playerColl = Player.GetComponent<CapsuleCollider> ();
+				playerColl = Player.GetCollider (1);
 			}
 
 			if (!Player.GetCamo ()) {
