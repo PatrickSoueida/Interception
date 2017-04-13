@@ -91,6 +91,15 @@ TagManager:
   - Waypoint Set 36
   - AI 37
   - Waypoint Set 37
+  - SwitchController
+  - AI 38
+  - Waypoint Set 38
+  - AI 39
+  - AI 40
+  - AI 41
+  - Waypoint Set 39
+  - Waypoint Set 40
+  - Waypoint Set 41
   layers:
   - Default
   - TransparentFX
