@@ -6,8 +6,10 @@ public class Cutscene : MonoBehaviour
 {
 
     public GameObject Player;
+    public List<GameObject> finalSwitchesList;
     public float time = 25.0f;
-    public Transform mapVantagePoint, characterVantagePoint, keyVantagePoint, gateVantagePoint, enemyVantagePoint, camoVantagePointOne, camoVantagePointTwo, camoVantagePointThree;
+    public Transform mapVantagePoint, characterVantagePoint, gateVantagePoint, enemyVantagePoint, camoVantagePointOne, camoVantagePointTwo, camoVantagePointThree;
+    Transform keyVantagePointOne, keyVantagePointTwo, keyVantagePointThree, keyVantagePointFour;
     public float smoothFactor;
     public Camera camera;
     float timeOne = 0.0f;
@@ -18,14 +20,30 @@ public class Cutscene : MonoBehaviour
     float timeSix = 0.0f;
     float timeSeven = 0.0f;
     float timeEight = 0.0f;
+    float timeNine = 0.0f;
+    float timeTen = 0.0f;
+    float timeEleven = 0.0f;
+
+
+    Vector3 temp = new Vector3(0.0f, 7.0f, -7.0f);
 
     public bool destroy;
 
-    float timeToMove = 2.0f;
+    float timeToMove = 1.0f;
 	// Use this for initialization
 	void Start () 
     {
+        finalSwitchesList = GameObject.FindGameObjectWithTag("SwitchController").GetComponent<switchScript>().finalPickedSwitches;
         Player.GetComponent<playerController>().enabled = false;
+        keyVantagePointOne.position = finalSwitchesList[0].transform.GetChild(17).gameObject.transform.position;
+        keyVantagePointOne.rotation = finalSwitchesList[0].transform.GetChild(17).gameObject.transform.rotation;
+        keyVantagePointTwo.position = finalSwitchesList[1].transform.GetChild(17).gameObject.transform.position;
+        keyVantagePointTwo.rotation = finalSwitchesList[1].transform.GetChild(17).gameObject.transform.rotation;
+        keyVantagePointThree.position = finalSwitchesList[2].transform.GetChild(17).gameObject.transform.position;
+        keyVantagePointThree.rotation = finalSwitchesList[2].transform.GetChild(17).gameObject.transform.rotation;
+        keyVantagePointFour.position = finalSwitchesList[3].transform.GetChild(17).gameObject.transform.position;
+        keyVantagePointFour.rotation = finalSwitchesList[3].transform.GetChild(17).gameObject.transform.rotation;
+
 	}
 
     void OnGUI()
@@ -54,46 +72,67 @@ public class Cutscene : MonoBehaviour
         if (time <= 17.0f)
         {
             timeThree += Time.deltaTime;
-            transform.position = Vector3.Lerp(transform.position, keyVantagePoint.position,  timeThree / timeToMove);
-            transform.rotation = Quaternion.Slerp(transform.rotation, keyVantagePoint.rotation,  timeThree / timeToMove);
+            transform.position = Vector3.Lerp(transform.position, keyVantagePointOne.position, timeThree / timeToMove);
+            transform.rotation = Quaternion.Slerp(transform.rotation, keyVantagePointOne.rotation, timeThree / timeToMove);
+        }
+
+        if (time <= 15.5f)
+        {
+            timeFour += Time.deltaTime;
+            transform.position = Vector3.Lerp(transform.position, keyVantagePointTwo.position, timeFour / timeToMove);
+            transform.rotation = Quaternion.Slerp(transform.rotation, keyVantagePointTwo.rotation, timeFour / timeToMove);
+        }
+
+        if (time <= 14.0f)
+        {
+            timeFive += Time.deltaTime;
+            transform.position = Vector3.Lerp(transform.position, keyVantagePointThree.position, timeFive / timeToMove);
+            transform.rotation = Quaternion.Slerp(transform.rotation, keyVantagePointThree.rotation, timeFive / timeToMove);
+        }
+
+        if (time <= 17.0f)
+        {
+            timeSix += Time.deltaTime;
+            transform.position = Vector3.Lerp(transform.position, keyVantagePointFour.position, timeSix / timeToMove);
+            transform.rotation = Quaternion.Slerp(transform.rotation, keyVantagePointFour.rotation, timeSix / timeToMove);
         }
 
         if (time <= 13.0f)
         {
-            timeFour += Time.deltaTime;
-            transform.position = Vector3.Lerp(transform.position, gateVantagePoint.position, timeFour / timeToMove);
-            transform.rotation = Quaternion.Slerp(transform.rotation, gateVantagePoint.rotation, timeFour / timeToMove);
+            timeSeven += Time.deltaTime;
+            transform.position = Vector3.Lerp(transform.position, gateVantagePoint.position, timeSeven / timeToMove);
+            transform.rotation = Quaternion.Slerp(transform.rotation, gateVantagePoint.rotation, timeSeven / timeToMove);
         }
 
         if (time <= 9.0f)
         {
-            timeFive += Time.deltaTime;
-            transform.position = Vector3.Lerp(transform.position, enemyVantagePoint.position, timeFive / timeToMove);
-            transform.rotation = Quaternion.Slerp(transform.rotation, enemyVantagePoint.rotation, timeFive / timeToMove);
+            timeEight += Time.deltaTime;
+            transform.position = Vector3.Lerp(transform.position, enemyVantagePoint.position, timeEight / timeToMove);
+            transform.rotation = Quaternion.Slerp(transform.rotation, enemyVantagePoint.rotation, timeEight / timeToMove);
         }
 
         if (time <= 6.0f)
         {
-            timeSix += Time.deltaTime;
-            transform.position = Vector3.Lerp(transform.position, camoVantagePointOne.position, timeSix / timeToMove);
-            transform.rotation = Quaternion.Slerp(transform.rotation, camoVantagePointOne.rotation, timeSix / timeToMove);
+            timeNine += Time.deltaTime;
+            transform.position = Vector3.Lerp(transform.position, camoVantagePointOne.position, timeNine / timeToMove);
+            transform.rotation = Quaternion.Slerp(transform.rotation, camoVantagePointOne.rotation, timeNine / timeToMove);
         }
 
         if (time <= 3.0f)
         {
-            timeSeven += Time.deltaTime;
-            transform.position = Vector3.Lerp(transform.position, camoVantagePointTwo.position, timeSeven / timeToMove);
-            transform.rotation = Quaternion.Slerp(transform.rotation, camoVantagePointTwo.rotation, timeSeven / timeToMove);
+            timeTen += Time.deltaTime;
+            transform.position = Vector3.Lerp(transform.position, camoVantagePointTwo.position, timeTen / timeToMove);
+            transform.rotation = Quaternion.Slerp(transform.rotation, camoVantagePointTwo.rotation, timeTen / timeToMove);
         }
 
         if (time <= 0.0f)
         {
-            timeEight += Time.deltaTime;
-            transform.position = Vector3.Lerp(transform.position, camoVantagePointThree.position, timeEight / timeToMove);
-            transform.rotation = Quaternion.Slerp(transform.rotation, camoVantagePointThree.rotation, timeEight / timeToMove);
+            timeEleven += Time.deltaTime;
+            transform.position = Vector3.Lerp(transform.position, camoVantagePointThree.position, timeEleven / timeToMove);
+            transform.rotation = Quaternion.Slerp(transform.rotation, camoVantagePointThree.rotation, timeEleven / timeToMove);
         }
 
-        if (time <= -4.0f || Input.GetKeyDown(KeyCode.Space))
+        if (time <= -2.0f || Input.GetKeyDown(KeyCode.Space))
         {
             Player.GetComponent<playerController>().enabled = true;
             Destroy(this.gameObject);
