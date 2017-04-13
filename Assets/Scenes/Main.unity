@@ -27255,6 +27255,19 @@ Prefab:
 GameObject:
   m_PrefabParentObject: {fileID: 159642, guid: 8c0350d346a88814680aa3b5ab1e0c6d, type: 2}
   m_PrefabInternal: {fileID: 1094378841}
+--- !u!136 &752233361
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 752233360}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  m_Radius: 0.4
+  m_Height: 1.25
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.6, z: 0}
 --- !u!4 &752233362 stripped
 Transform:
   m_PrefabParentObject: {fileID: 486224, guid: 8c0350d346a88814680aa3b5ab1e0c6d, type: 2}
@@ -27269,8 +27282,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 0
   serializedVersion: 2
-  m_Size: {x: 0.7449669, y: 1.2120075, z: 0.86583805}
-  m_Center: {x: 0.06077671, y: 0.6060028, z: 0.04926442}
+  m_Size: {x: 0.744967, y: 1.2174908, z: 0.7888085}
+  m_Center: {x: 0.06078696, y: 0.6032608, z: 0.010755231}
 --- !u!54 &752233364
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -27330,6 +27343,8 @@ MonoBehaviour:
   camouflaged: 0
   bulletRef: {fileID: 1727148186558494, guid: 2770c1fa94ca7084ab8d24611c641202, type: 2}
   gunRef: {fileID: 908398690}
+  collider1: {fileID: 752233366}
+  collider2: {fileID: 752233361}
 --- !u!136 &752233366
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -27339,8 +27354,8 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.40007192
-  m_Height: 1.9465436
+  m_Radius: 0.4
+  m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0.9, z: 0}
 --- !u!1 &753259788
