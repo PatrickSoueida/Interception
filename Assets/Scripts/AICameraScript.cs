@@ -205,12 +205,12 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 
 		}
 
-		void Stunned(){
-			StartCoroutine(Stun ());
-		}
+		//void Stunned(){
+		//	StartCoroutine(Stun ());
+		//}
 
-		IEnumerator Stun(){
-
+		//IEnumerator Stun(){
+        void Stunned(){
             alert = false;
             searching = false;
             //stunned 
@@ -231,8 +231,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
 			character.Move (Vector3.zero, false, false);
 			//gameObject.GetComponentInChildren<Camera> ().enabled = false;
 			//Debug.Log ("AI is stunned!");
-			yield return new WaitForSeconds(3.5f);
-			SetState ("PATROL");
+			//yield return new WaitForSeconds(3.5f);
+			//SetState ("PATROL");
 		}
 
 		void Update ()
@@ -255,13 +255,20 @@ namespace UnityStandardAssets.Characters.ThirdPerson{
             {
                 billboard.transform.GetChild(0).gameObject.SetActive(false);
                 billboard.transform.GetChild(1).gameObject.SetActive(false);
-                billboard.transform.GetChild(2).gameObject.SetActive(false);
+
+                if(billboard.transform.GetChild(2).gameObject.activeSelf == true)
+                {
+                    SetState ("PATROL");
+                    billboard.transform.GetChild(2).gameObject.SetActive(false);
+                }
             }
 
 			if (Player.GetCrouched ()) {
-				playerColl = Player.GetComponent<BoxCollider> ();
+				//playerColl = Player.GetComponent<BoxCollider> ();
+				playerColl = Player.GetCollider (2);
 			} else {
-				playerColl = Player.GetComponent<CapsuleCollider> ();
+				//playerColl = Player.GetComponent<CapsuleCollider> ();
+				playerColl = Player.GetCollider (1);
 			}
 
 			if (!Player.GetCamo ()) {
