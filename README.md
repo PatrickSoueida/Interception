@@ -6,6 +6,7 @@ OVERVIEW -
 You play as a virus in the deep web, who must override 4 different terminals in order to infect the host computer. The host computer is, of course, guarded by anti-virus guards. You must navigate your way around using 3 different camouflaging colours: Red, Green and Blue. To camouflage, you must stand on a corresponding floor colour before using that colour key. For example, if you’re standing on a red floor, the red colour camouflages you. Using the red colour on a blue floor will not camouflage you!  Camouflaging drains your energy bar rather quickly. But, you also have a gun! Here’s the catch though, we designed it to be intended for use in last-minute situations only, as one shot drains your bar COMPLETELY. 
 
 
+
 MANUAL -
 
 WSAD: Movements
@@ -15,9 +16,11 @@ Right click + Left click: Fire
 1, 2, 3: Changes to Red, Green, or Blue (respectively)
 Shift + W: Run
 
+https://user-images.githubusercontent.com/5374699/32476142-892fc280-c343-11e7-810e-02109b2f25bd.png
+To begin the game, click Start Game. You can also hang around for a while to catch some awesome heavy metal intro music.
 
-To begin the game, click Start Game. You can also hang around for a while to catch some awesome heavy metal intro music. 
-![alt text](~/Desktop/menu.png)
+ 
+
 As explained above, you must navigate 4 different terminals! 
 
 Here’s the map of the host computer we want to infect.
