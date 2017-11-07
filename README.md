@@ -10,10 +10,15 @@ You play as a virus in the deep web, who must override 4 different terminals in 
 MANUAL -
 
 WSAD: Movements
+
 CTRL: Crouch
+
 Right click: Aim
+
 Right click + Left click: Fire
+
 1, 2, 3: Changes to Red, Green, or Blue (respectively)
+
 Shift + W: Run
 
 
