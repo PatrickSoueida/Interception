@@ -17,7 +17,7 @@ Shift + W: Run
 
 
 To begin the game, click Start Game. You can also hang around for a while to catch some awesome heavy metal intro music. 
-
+![alt text](~/Desktop/menu.png)
 As explained above, you must navigate 4 different terminals! 
 
 Here’s the map of the host computer we want to infect.
