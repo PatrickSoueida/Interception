@@ -1,6 +1,5 @@
 # Interception
-
-Reb00t documentation:  Hello all, and thank you for your interest in Interception! This is your guide to playing the game:
+Hello all, and thank you for your interest in Interception! This is your guide to playing the game:
 
 OVERVIEW -
 
