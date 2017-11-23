@@ -21,6 +21,8 @@ Right click + Left click: Fire
 
 Shift + W: Run
 
+E: Activate switch
+
 
 To begin the game, click Start Game. You can also hang around for a while to catch some awesome heavy metal intro music:
 
