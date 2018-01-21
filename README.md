@@ -1,4 +1,4 @@
-# Interception
+# reb00t
 Hello all, and thank you for your interest in Interception! This is your guide to playing the game:
 
 OVERVIEW -
