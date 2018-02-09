@@ -98,41 +98,6 @@ public class Cutscene : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, keyVantagePointFour.transform.rotation, timeSix / timeToMove);
         }
 
-        /*if (time <= 10.0f)
-        {
-            timeSeven += Time.deltaTime;
-            transform.position = Vector3.Lerp(transform.position, gateVantagePoint.position, timeSeven / timeToMove);
-            transform.rotation = Quaternion.Slerp(transform.rotation, gateVantagePoint.rotation, timeSeven / timeToMove);
-        }*/
-
-        /*if (time <= 6.0f)
-        {
-            timeEight += Time.deltaTime;
-            transform.position = Vector3.Lerp(transform.position, enemyVantagePoint.position, timeEight / timeToMove);
-            transform.rotation = Quaternion.Slerp(transform.rotation, enemyVantagePoint.rotation, timeEight / timeToMove);
-        }*/
-
-        /*if (time <= 2.0f)
-        {
-            timeNine += Time.deltaTime;
-            transform.position = Vector3.Lerp(transform.position, camoVantagePointOne.position, timeNine / timeToMove);
-            transform.rotation = Quaternion.Slerp(transform.rotation, camoVantagePointOne.rotation, timeNine / timeToMove);
-        }*/
-
-        /* if (time <= -2.0f)
-        {
-            timeTen += Time.deltaTime;
-            transform.position = Vector3.Lerp(transform.position, camoVantagePointTwo.position, timeTen / timeToMove);
-            transform.rotation = Quaternion.Slerp(transform.rotation, camoVantagePointTwo.rotation, timeTen / timeToMove);
-        }*/
-
-        /*if (time <= -6.0f)
-        {
-            timeEleven += Time.deltaTime;
-            transform.position = Vector3.Lerp(transform.position, camoVantagePointThree.position, timeEleven / timeToMove);
-            transform.rotation = Quaternion.Slerp(transform.rotation, camoVantagePointThree.rotation, timeEleven / timeToMove);
-        }*/
-
         if (time <= 15.0f || Input.GetKeyDown(KeyCode.Space))
         {
             Player.GetComponent<playerController>().enabled = true;
