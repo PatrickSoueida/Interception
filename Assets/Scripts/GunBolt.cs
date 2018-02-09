@@ -37,14 +37,4 @@ public class GunBolt : MonoBehaviour
         rbRef.velocity = dir * speed;
     }
 
-    /*void OnCollisionEnter(Collision col)
-    {
-        GameObject obj = col.gameObject;
-        //GameObject eff = Instantiate(impactRef, transform.position, transform.rotation);
-
-        if(obj.tag == "Enemy")
-        {
-            Destroy(gameObject);
-		}
-    }*/
 }
